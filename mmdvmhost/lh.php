@@ -150,11 +150,66 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 		}
 
 		echo "<td align=\"left\">".str_replace('Slot ', 'TS', $listElem[1])."</td>";
-		if (strlen($listElem[4]) == 1) { $listElem[4] = str_pad($listElem[4], 8, " ", STR_PAD_LEFT); }
-		if ( substr($listElem[4], 0, 6) === 'CQCQCQ' ) {
-		    echo "<td align=\"left\">$listElem[4]</td>";
+
+		if (file_exists("/etc/.TGNAMES")) {
+		    if ($listElem[8] == null) {
+			$ber = "&nbsp;";
+		    } else {
+			$mode = $listElem[8];
+		    }
+		    if ($listElem[1] == null) {
+			$ber = "&nbsp;";
+		    } else {
+			$mode = $listElem[1];
+		    }
+
+		    if ( substr($listElem[4], 0, 6) === 'CQCQCQ' ) {
+			$target = $listElem[4];
+		    } else {
+			$target = str_replace(" ","&nbsp;", $listElem[4]);
+		    }
+		    $target = preg_replace('/TG /', '', $listElem[4]);
+		    if (strlen($target) >= 2) {
+		    	if (strpos($mode, 'DMR') !== false) {
+			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
+			    if (!empty($target_lookup)) {
+			        $target = $target_lookup;
+			        $stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
+			        $target = preg_replace($stupid_bm, "", $target); // strip stupid fucking comments from BM admins in TG names. Idiots.
+				$target = explode(": ", $target);
+			        $target = "TG $target[0] <span class='noMob'style='float:right';>($target[1])</span>";
+			    } else {
+			        $target = "TG $target";
+			    }
+			} else if (strpos($mode, 'NXDN') !== false) {
+			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
+			    if (!empty($target_lookup)) {
+				$target = "TG $target <span class='noMob'style='float:right';>($target_lookup)</span>";
+			    }
+			} else if (strpos($mode, 'P25') !== false) {
+			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_P25.txt | awk -F';' '{print $2}'");
+			    if (!empty($target_lookup)) {
+				$target = "TG $target <span class='noMob'style='float:right';>($target_lookup)</span>";
+			    }
+			} else {
+			    $target = $target;
+			}
+		    } else {
+			$modeArray = array('DMR', 'NXDN', 'P25');
+			if (strpos($mode, $modeArray[0]) !== false) {
+			    $target = "TG $target";
+			} else {
+			    $target = $target;
+			}
+		    }
+		    echo "<td align=\"left\">$target</td>";
 		} else {
-		    echo "<td align=\"left\">".str_replace(" ","&nbsp;", $listElem[4])."</td>";
+		    if (strlen($listElem[4]) == 1) { $listElem[4] = str_pad($listElem[4], 8, " ", STR_PAD_LEFT); }
+		    if ( substr($listElem[4], 0, 6) === 'CQCQCQ' ) {
+			echo "<td align=\"left\">$listElem[4]</td>";
+		    } else {
+			echo "<td align=\"left\">".str_replace(" ","&nbsp;", $listElem[4])."</td>";
+		    }
 		}
 
 		if ($listElem[5] == "RF") {
