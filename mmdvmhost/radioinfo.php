@@ -19,6 +19,9 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/config/ircddblocal.php');
 
 if (isset($_SESSION['CSSConfigs']['Background']['TableRowBgEvenColor'])) {
     $tableRowEvenBg = $_SESSION['CSSConfigs']['Background']['TableRowBgEvenColor'];
+    $backgroundModeCellActiveColor = $_SESSION['CSSConfigs']['Background']['ModeCellActiveColor'];
+    $backgroundModeCellPausedColor = $_SESSION['CSSConfigs']['Background']['ModeCellPausedColor'];
+    $backgroundModeCellInactiveColor = $_SESSION['CSSConfigs']['Background']['ModeCellInactiveColor'];
 } else {
     $tableRowEvenBg = "inherit";
 }
@@ -119,8 +122,8 @@ if (isset($_SESSION['CSSConfigs']['Background']['TableRowBgEvenColor'])) {
             echo "<div class=\"divTableCell middle cell_content\" style=\"font-weight:bold;padding:2px;\">IDLE</div>\n";
         }
         ?>
-      <div class="divTableCell cell_content middle" style="background: <?php echo $tableRowEvenBg; ?>;"><?php echo getMHZ(getConfigItem("Info", "TXFrequency", $_SESSION['MMDVMHostConfigs'])); ?></div>
-      <div class="divTableCell cell_content middle" style="background: <?php echo $tableRowEvenBg; ?>;"><?php echo getMHZ(getConfigItem("Info", "RXFrequency", $_SESSION['MMDVMHostConfigs'])); ?></div>
+      <div class="divTableCell cell_content middle" style="color: <?php echo $backgroundModeCellInactiveColor; ?>;background: <?php echo $tableRowEvenBg; ?>;font-weight:bold;"><?php echo getMHZ(getConfigItem("Info", "TXFrequency", $_SESSION['MMDVMHostConfigs'])); ?></div>
+      <div class="divTableCell cell_content middle" style="color: <?php echo $backgroundModeCellActiveColor; ?>;background: <?php echo $tableRowEvenBg; ?>;font-weight:bold;"><?php echo getMHZ(getConfigItem("Info", "RXFrequency", $_SESSION['MMDVMHostConfigs'])); ?></div>
       <div class="divTableCell cell_content middle" style="background: <?php echo $tableRowEvenBg; ?>;"><?php if(getConfigItem("General", "Duplex", $_SESSION['MMDVMHostConfigs']) == "1") { echo "Duplex"; } else { echo "Simplex"; } ?></div>
       <div class="divTableCell cell_content middle" style="background: <?php echo $tableRowEvenBg; ?>;"><?php echo $_SESSION['DvModemFWVersion']; ?></div>
       <div class="divTableCell cell_content middle" style="background: <?php echo $tableRowEvenBg; ?>;"><?php echo $_SESSION['DvModemTCXOFreq']; ?></div>
