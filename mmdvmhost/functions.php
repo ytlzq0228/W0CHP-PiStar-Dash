@@ -587,13 +587,13 @@ function getM17GatewayLog() {
 	$logLines2 = array();
     if (file_exists("/var/log/pi-star/M17Gateway-".gmdate("Y-m-d").".log")) {
 		$logPath1 = "/var/log/pi-star/M17Gateway-".gmdate("Y-m-d").".log";
-		$logLines1 = preg_split('/\r\n|\r|\n/', `egrep -h "ink|Starting|witched" $logPath1 | cut -d" " -f2- | tail -1`);
+		$logLines1 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(ink|Starting|witched)" $logPath1 | cut -d" " -f2- | tail -1`);
     }
 	$logLines1 = array_filter($logLines1);
     if (sizeof($logLines1) == 0) {
         if (file_exists("/var/log/pi-star/M17Gateway-".gmdate("Y-m-d", time() - 86340).".log")) {
     		$logPath2 = "/var/log/pi-star/M17Gateway-".gmdate("Y-m-d", time() - 86340).".log";
-			$logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "ink|Starting|witched" $logPath2 | cut -d" " -f2- | tail -1`);
+			$logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(ink|Starting|witched)" $logPath2 | cut -d" " -f2- | tail -1`);
         }
 		$logLines2 = array_filter($logLines2);
    }
@@ -637,13 +637,13 @@ function getDGIdGatewayLog() {
 	$logLines2 = array();
     if (file_exists("/var/log/pi-star/DGIdGateway-".gmdate("Y-m-d").".log")) {
 		$logPath1 = "/var/log/pi-star/DGIdGateway-".gmdate("Y-m-d").".log";
-		$logLines1 = preg_split('/\r\n|\r|\n/', `egrep -h "linked|Added|via" $logPath1 | cut -d" " -f2- | tail -1`);
+		$logLines1 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(linked|Added|via)" $logPath1 | cut -d" " -f2- | tail -1`);
     }
 	$logLines1 = array_filter($logLines1);
     if (sizeof($logLines1) == 0) {
         if (file_exists("/var/log/pi-star/DGiDGateway-".gmdate("Y-m-d", time() - 86340).".log")) {
     		$logPath2 = "/var/log/pi-star/DGIdGateway-".gmdate("Y-m-d", time() - 86340).".log";
-			$logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "linked|Added|via" $logPath2 | cut -d" " -f2- | tail -1`);
+			$logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(linked|Added|via)" $logPath2 | cut -d" " -f2- | tail -1`);
         }
 		$logLines2 = array_filter($logLines2);
    }
@@ -849,24 +849,24 @@ function getMMDVMLog() {
         if (!$file = array_shift($fileList)) { // no caller names/last caller selected
 	    if(isset($_SESSION['PiStarRelease']['Pi-Star']['ProcNum']) && ($_SESSION['PiStarRelease']['Pi-Star']['ProcNum'] >= 4)) { // multi-core
 		if ($_SESSION['CSSConfigs']['ExtraSettings']['LastHeardRows'] > 40 ) { // more than 40 rows selected
-		    $logLines1 = explode("\n", `egrep -h "from|end|watchdog|lost|Alias|0000" $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d'`); // search entire log
+		    $logLines1 = explode("\n", `egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)" $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d'`); // search entire log
 	        } else {
-		    $logLines1 = explode("\n", `tail -1500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "from|end|watchdog|lost|Alias|0000"`);  // 40 or less rows selected
+		    $logLines1 = explode("\n", `tail -1500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`);  // 40 or less rows selected
 	        }
 	    } else { 
-		$logLines1 = explode("\n", `tail -250 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "from|end|watchdog|lost|Alias|0000"`); // single-core crap
+		$logLines1 = explode("\n", `tail -250 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`); // single-core crap
 	    }
             $lineNos = sizeof($logLines1);
             $logLines1 = array_slice($logLines1, -1500);
         } else { // caller names/last caller selected! keep perf. in check..
 	    if(isset($_SESSION['PiStarRelease']['Pi-Star']['ProcNum']) && ($_SESSION['PiStarRelease']['Pi-Star']['ProcNum'] >= 4)) { // multi-core
 		if ($_SESSION['CSSConfigs']['ExtraSettings']['LastHeardRows'] > 40 ) {  // more than 40 rows selected
-		    $logLines1 = explode("\n", `tail -1500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "from|end|watchdog|lost|Alias|0000"`); // search last 500 lines
+		    $logLines1 = explode("\n", `tail -1500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`); // search last 500 lines
 		} else {
-		    $logLines1 = explode("\n", `tail -500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "from|end|watchdog|lost|Alias|0000"`); // 40 or less rows selected
+		    $logLines1 = explode("\n", `tail -500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`); // 40 or less rows selected
 		}
 	    } else {
-		$logLines1 = explode("\n", `tail -250 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "from|end|watchdog|lost|Alias|0000"`); // single-core crap
+		$logLines1 = explode("\n", `tail -250 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`); // single-core crap
 	    }
             $lineNos = sizeof($logLines1);
             $logLines1 = array_slice($logLines1, -1500);
@@ -878,9 +878,9 @@ function getMMDVMLog() {
         if (file_exists(MMDVMLOGPATH."/".MMDVMLOGPREFIX."-".gmdate("Y-m-d", time() - 86340).".log")) {
 	    $logPath = MMDVMLOGPATH."/".MMDVMLOGPREFIX."-".gmdate("Y-m-d", time() - 86340).".log";
 	    if(isset($_SESSION['PiStarRelease']['Pi-Star']['ProcNum']) && ($_SESSION['PiStarRelease']['Pi-Star']['ProcNum'] >= 4)) { // multi-core
-		$logLines2 = explode("\n", `tail -1500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "from|end|watchdog|lost|Alias|0000"`);
+		$logLines2 = explode("\n", `tail -1500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`);
 	    } else {
-		$logLines2 = explode("\n", `tail -250 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "from|end|watchdog|lost|Alias|0000"`); // single-core crap
+		$logLines2 = explode("\n", `tail -250 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`); // single-core crap
 	    }
 	    $logLines2 = array_slice($logLines2, -1500);
         }
@@ -958,13 +958,13 @@ function getNXDNGatewayLog() {
     $logLines2 = array();
     if (file_exists("/var/log/pi-star/NXDNGateway-".gmdate("Y-m-d").".log")) {
 	$logPath1 = "/var/log/pi-star/NXDNGateway-".gmdate("Y-m-d").".log";
-    $logLines1 = preg_split('/\r\n|\r|\n/', `egrep -h "ink|itched|Starting" $logPath1 | cut -d" " -f2- | tail -1`);
+    $logLines1 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(ink|itched|Starting)" $logPath1 | cut -d" " -f2- | tail -1`);
     }
     $logLines1 = array_filter($logLines1);
     if (sizeof($logLines1) == 0) {
         if (file_exists("/var/log/pi-star/NXDNGateway-".gmdate("Y-m-d", time() - 86340).".log")) {
 	    $logPath2 = "/var/log/pi-star/NXDNGateway-".gmdate("Y-m-d", time() - 86340).".log";
-        $logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "ink|itched|Starting" $logPath2 | cut -d" " -f2- | tail -1`);
+        $logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(ink|itched|Starting)" $logPath2 | cut -d" " -f2- | tail -1`);
         }
 	$logLines2 = array_filter($logLines2);
     }
@@ -985,7 +985,7 @@ function getDAPNETGatewayLog($myRIC) {
     
     if (file_exists("/var/log/pi-star/DAPNETGateway-".gmdate("Y-m-d").".log")) {
 	$logPath1 = "/var/log/pi-star/DAPNETGateway-".gmdate("Y-m-d").".log";
-	$logLines1 = preg_split('/\r\n|\r|\n/', `egrep -h "Sending message" $logPath1 | cut -d" " -f2- | tail -n 200 | tac`);
+	$logLines1 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(Sending message)" $logPath1 | cut -d" " -f2- | tail -n 200 | tac`);
     }
     
     $logLines1 = array_filter($logLines1);
@@ -993,7 +993,7 @@ function getDAPNETGatewayLog($myRIC) {
     if (sizeof($logLines1) == 0) {
         if (file_exists("/var/log/pi-star/DAPNETGateway-".gmdate("Y-m-d", time() - 86340).".log")) {
             $logPath2 = "/var/log/pi-star/DAPNETGateway-".gmdate("Y-m-d", time() - 86340).".log";
-            $logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "Sending message" $logPath2 | cut -d" " -f2- | tail -n 200 | tac`);
+            $logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(Sending message)" $logPath2 | cut -d" " -f2- | tail -n 200 | tac`);
         }
 	
         $logLines2 = array_filter($logLines2);
