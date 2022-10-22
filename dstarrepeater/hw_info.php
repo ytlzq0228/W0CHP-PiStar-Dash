@@ -86,14 +86,14 @@ if (empty($VNStatGetData) == false) {
       <div class="divTableHeadCell"><a class="tooltip" href="#"><?php echo $lang['cpu_temp'];?><span><strong>CPU Temp</strong></a><span></div>
       <div class="divTableHeadCell"><a class="tooltip" href="#">Memory Usage<span><strong>Memory Usage</strong></a></span></div>
       <div class="divTableHeadCell"><a class="tooltip" href="#">Disk Usage<span><strong>Disk Usage</strong></a></span></div>
-      <div class="divTableHeadCell"><a class="tooltip" href="#">Network Traffic<span><strong>Total Network Traffic Today</strong><br />(Interface: <?php echo($iface); ?>)</a></span></div>
+      <div class="divTableHeadCell"><a class="tooltip" href="#">Network Traffic<span><strong>Total Network Traffic Today</strong></a></span></div>
     </div>
     <div class="divTableRow">
       <div class="divTableCell cell_content middle"><a class="tooltip" href="#" style="border-bottom:1px solid; color:<?php echo $textContent; ?>;"><?php echo $load; ?>%<span><strong>Platform:</strong> <?php echo $_SESSION['PiStarRelease']['Pi-Star']['Platform'];?><br /><strong>Linux Kernel:</strong> <?php echo php_uname('r');?><br /><strong>Uptime:</strong> <?php  echo(str_replace("up", "", exec('uptime -p')));?></a></span></div>
       <?php echo $cpuTempHTML; ?>
       <div class="divTableCell cell_content middle"><?php echo $ramDeetz;?></div>
       <div class="divTableCell cell_content middle;"><?php echo $rootfs_used;?></div>
-      <div class="divTableCell cell_content middle;"><a class="tooltip" href="#" style="border-bottom:1px dotted;color: <?php echo $textContent; ?>;"><?php echo $NetworkTraffic;?><span><strong>Total Combined Network Traffic Today</strong><br /><?php echo $NetTrafficTotal;?></a></span></div>
+      <div class="divTableCell cell_content middle;"><a class="tooltip" href="#" style="border-bottom:1px dotted;color: <?php echo $textContent; ?>;"><?php echo $NetworkTraffic;?><span><strong>Total Combined Network Traffic Today</strong><br /><?php echo $NetTrafficTotal;?> (Interface: <?php echo($iface); ?>)</a></span></div>
     </div>
   </div>
 </div>
