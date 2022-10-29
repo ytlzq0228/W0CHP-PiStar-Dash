@@ -874,7 +874,7 @@ function getMMDVMLog() {
     }
 
     // current log is less than 150 lines; check previous log...
-    if ($lineNos < 500) {
+    if ($lineNos < 150) {
         if (file_exists(MMDVMLOGPATH."/".MMDVMLOGPREFIX."-".gmdate("Y-m-d", time() - 86340).".log")) {
 	    $logPath = MMDVMLOGPATH."/".MMDVMLOGPREFIX."-".gmdate("Y-m-d", time() - 86340).".log";
 	    if(isset($_SESSION['PiStarRelease']['Pi-Star']['ProcNum']) && ($_SESSION['PiStarRelease']['Pi-Star']['ProcNum'] >= 4)) { // multi-core
@@ -885,7 +885,7 @@ function getMMDVMLog() {
 	    $logLines2 = array_slice($logLines2, -1500);
         }
     }
-    if ($lineNos < 500) {
+    if ($lineNos < 150) {
         $logLines = $logLines1 + $logLines2;
     } else {
         $logLines = $logLines1;
