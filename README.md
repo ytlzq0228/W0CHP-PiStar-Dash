@@ -254,6 +254,9 @@ Credit must also be given to to Kim Heinz Hübel, `DG9VH`, who arguably created
 the very first MMDVMHost dashboard, of which, spawned the entire Pi-Star
 concept.
 
+The very cool and welcome MMDVMhost log backup/restore and re-application on 
+reboot code, is courtesy of Mark, `KNTOD`.
+
 Lastly, but certainly not least; I owe an *enormous* amount of gratitude toward
 a true gentleman, scholar and incredibly talented hacker...Jonathan Naylor,
 `G4KLX`; for the suite of MMDVM and related client tools. Pi-Star would have
