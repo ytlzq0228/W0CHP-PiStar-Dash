@@ -255,7 +255,7 @@ the very first MMDVMHost dashboard, of which, spawned the entire Pi-Star
 concept.
 
 The very cool and welcome MMDVMhost log backup/restore and re-application on 
-reboot code, is courtesy of Mark, `KNTOD`.
+reboot code, is courtesy of Mark, `KN2TOD`.
 
 Lastly, but certainly not least; I owe an *enormous* amount of gratitude toward
 a true gentleman, scholar and incredibly talented hacker...Jonathan Naylor,
