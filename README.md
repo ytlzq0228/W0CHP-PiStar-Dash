@@ -91,13 +91,13 @@ However, you had better be damn-well familiar working with `xz` decompression,
 disk imaging, and setting up Pi-Star from scratch; because I will not cover any
 of that here.
 
-**Note:  You will need an SD card of at least 4GB to install this disk image!**
+The Bullseye disk image is ready-to-go; with Pi-Star 4.1.6 and `W0CHP-PiStar-Dash` installed.
 
-* Disk Image Download: [<code>WPSD_Latest.img.xz</code>](https://w0chp.net/WPSD_Latest.img.xz) (671MB)
+**Notes: This disk image is for Raspberry Pi-based platforms. You will need an
+SD card of at least 4GB to install this disk image.**
 
-After decompressing `WPSD_Latest.img.xz`, you should have a disk image file
-`WPSD_Latest.img` 2.3GB in size, with an MD5SUM of: <br />
-[<code>77e0f4d5ec5210fee839605dc6e1c182</code>](https://w0chp.net/WPSD_Latest.img.MD5).
+* Disk Image Download: [<code>WPSD_Latest.img.xz</code>](https://w0chp.net/WPSD_Latest.img.xz) (664MB compressed; 2.3GB decompressed)
+* MD5 Checksums: [<code>WPSD_Latest_MD5.txt</code>](https://w0chp.net/WPSD_Latest_MD5.txt)
 
 ## Uninstalling `W0CHP-PiStar-Dash`
 
