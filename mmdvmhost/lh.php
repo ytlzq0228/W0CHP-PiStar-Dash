@@ -163,7 +163,7 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 			$mode = $listElem[1];
 		    }
                     if (strpos($listElem[4], "via ")) {
-                        $target = preg_replace("/via (.*)/", "<span class='noMob'>via $1</span>", $listElem[4]);
+                        $listElem[4] = preg_replace("/via (.*)/", "<span class='noMob'>via $1</span>", $listElem[4]);
                     }
 		    if ( substr($listElem[4], 0, 6) === 'CQCQCQ' ) {
 			$target = $listElem[4];
