@@ -1357,7 +1357,6 @@ function getHeardList($logLines) {
 	// Handle more verbose logging from MMDVMHost
         if (strpos($target,",") !== 'false') {
 	    $target = explode(",", $target)[0];
-	    $target = preg_replace("/via (.*)/", "<span class='noMob'>via $1</span>", $target);
 	}
 	
 	$source = "RF";

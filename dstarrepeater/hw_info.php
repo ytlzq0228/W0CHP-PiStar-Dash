@@ -75,8 +75,8 @@ if (empty($VNStatGetData) == false) {
     $NetworkTraffic = "$Data[0] $Data[1] &darr; / $Data[2] $Data[3] &uarr; <small>($Data[6] $Data[7] avg. rate)</small>";
     $NetTrafficTotal = "$Data[4] $Data[5]";
 } else {
-    $NetworkTraffic = "(Collecting data, please wait.)";
-    $NetTrafficTotal = "(Collecting data, please wait.)";
+    $NetworkTraffic = "Collecting data, please wait.";
+    $NetTrafficTotal = "Collecting data, please wait.";
 }
 ?>
 <div class="divTable" id="hwInfoTable">
@@ -93,7 +93,9 @@ if (empty($VNStatGetData) == false) {
       <?php echo $cpuTempHTML; ?>
       <div class="divTableCell cell_content middle"><?php echo $ramDeetz;?></div>
       <div class="divTableCell cell_content middle;"><?php echo $rootfs_used;?></div>
-      <div class="divTableCell cell_content middle;"><a class="tooltip" href="#" style="border-bottom:1px dotted;color: <?php echo $textContent; ?>;"><?php echo $NetworkTraffic;?><span><strong>Total Combined Network Traffic Today</strong><br /><?php echo $NetTrafficTotal;?> (Interface: <?php echo($iface); ?>)</a></span></div>
+      <div class="divTableCell cell_content middle;"><a class="tooltip"
+href="#" style="border-bottom:1px dotted;color: <?php echo $textContent;
+?>;"><?php echo $NetworkTraffic;?><span><strong>Total Combined Network Traffic Today</strong><br /><?php echo $NetTrafficTotal;?><br />(Interface: <?php echo($iface); ?>)</a></span></div>
     </div>
   </div>
 </div>
