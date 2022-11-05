@@ -72,7 +72,7 @@ $iface = $_SESSION['PiStarRelease']['Pi-Star']['iface'];
 $VNStatGetData = exec("vnstat -i $iface | grep today | sed 's/today//g' | awk '{print $1\" \"$2\" \"$4\" \"$5\" \"$7\" \"$8\" \"$10\" \"$11}'"); // fields: rx[0] unit[1] tx[2] unit[3] total[4] unit[5] rate[6] unit[7]
 if (empty($VNStatGetData) == false) {
     $Data = explode(" ", $VNStatGetData);
-    $NetworkTraffic = "$Data[0] $Data[1] &darr; / $Data[2] $Data[3] &uarr; <small>($Data[6] $Data[7] avg. rate)</small>";
+    $NetworkTraffic = "$Data[0] $Data[1] &darr; / $Data[2] $Data[3]";
     $NetTrafficTotal = "$Data[4] $Data[5]";
 } else {
     $NetworkTraffic = "Collecting data, please wait.";
@@ -95,7 +95,7 @@ if (empty($VNStatGetData) == false) {
       <div class="divTableCell cell_content middle;"><?php echo $rootfs_used;?></div>
       <div class="divTableCell cell_content middle;"><a class="tooltip"
 href="#" style="border-bottom:1px dotted;color: <?php echo $textContent;
-?>;"><?php echo $NetworkTraffic;?><span><strong>Total Combined Network Traffic Today</strong><br /><?php echo $NetTrafficTotal;?><br />(Interface: <?php echo($iface); ?>)</a></span></div>
+?>;"><?php echo $NetworkTraffic;?><span><strong>Total Network Traffic</strong><br /><?php echo "$NetTrafficTotal" . " combined<br />" . "$Data[6] $Data[7]" . " avg. rate<br />"; ?>(Interface: <?php echo($iface); ?>)</a></span></div>
     </div>
   </div>
 </div>
