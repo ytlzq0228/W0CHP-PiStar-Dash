@@ -144,6 +144,7 @@
 			<li class="subs"><a href="jitter_test.php">DMR Jitter Test</a></li>
 			<li class="subs"><a href="calibration.php">MMDVM Calibration</a></li>
 			<li class="subs"><a href="config_manager.php">Config Manager</a></li>
+			<li class="subs"><a href="log_manager.php">Log Manager</a></li>
 			<li class="subs"><a href="filemanager.php">File Manager</a></li>
 			<li class="subs"><a href="/config/changelog.php">ChangeLog</a></li>
 		    </ul>
