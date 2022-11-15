@@ -252,7 +252,7 @@ a.tooltip:hover span {
     white-space: nowrap;
     border: none;
     color: #e9e9e9;
-    background: rgba(0, 0, 0, .8);
+    background: rgba(0, 0, 0, .9);
     padding: 8px;
 }
 
@@ -303,7 +303,7 @@ a.tooltip2:hover span {
     white-space: normal;
     border: none;
     color: #e9e9e9;
-    background: rgba(0, 0, 0, .8);
+    background: rgba(0, 0, 0, .9);
     padding: 8px;
 }
 

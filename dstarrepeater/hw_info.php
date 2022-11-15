@@ -46,7 +46,8 @@ function formatSize( $bytes ) {
 $diskUsed = @exec("df --block-size=1 / | tail -1 | awk {'print $3'}");
 $diskTotal = @exec("df --block-size=1 / | tail -1 | awk {'print $2'}");
 $diskPercent = sprintf('%.2f',($diskUsed / $diskTotal) * 100);
-$rootfs_used = formatSize($diskUsed). " of " .formatSize($diskTotal). " ($diskPercent% used)" ;
+$rootfs_free = $diskTotal - $diskUsed;
+$rootfs_stats = formatSize($diskUsed). " of " .formatSize($diskTotal). " <small>($diskPercent% used / ".formatSize($rootfs_free)." free)</small>" ;
 
 // Get the CPU temp and colour the box accordingly...
 // Values/thresholds gathered from: 
@@ -65,7 +66,7 @@ $load = number_format(round($loads[0]/($core_nums + 1)*100, 2));
 // get ram
 $sysRamUsed = $system['mem_info']['MemTotal'] - $system['mem_info']['MemFree'] - $system['mem_info']['Buffers'] - $system['mem_info']['Cached'];
 $sysRamPercent = sprintf('%.2f',($sysRamUsed / $system['mem_info']['MemTotal']) * 100); 
-$ramDeetz = formatSize($sysRamUsed). " of ".formatSize($system['mem_info']['MemTotal']). " ($sysRamPercent% used)";
+$ramDeetz = formatSize($sysRamUsed). " of ".formatSize($system['mem_info']['MemTotal']). " <small>($sysRamPercent% used / ".formatSize($system['mem_info']['MemTotal'] - $sysRamUsed)." free)</small>";
 
 // inet traffic
 $iface = $_SESSION['PiStarRelease']['Pi-Star']['iface'];
@@ -92,7 +93,7 @@ if (empty($VNStatGetData) == false) {
       <div class="divTableCell cell_content middle"><a class="tooltip" href="#" style="border-bottom:1px solid; color:<?php echo $textContent; ?>;"><?php echo $load; ?>%<span><strong>Platform:</strong> <?php echo $_SESSION['PiStarRelease']['Pi-Star']['Platform'];?><br /><strong>Linux Kernel:</strong> <?php echo php_uname('r');?><br /><strong>Uptime:</strong> <?php  echo(str_replace("up", "", exec('uptime -p')));?></a></span></div>
       <?php echo $cpuTempHTML; ?>
       <div class="divTableCell cell_content middle"><?php echo $ramDeetz;?></div>
-      <div class="divTableCell cell_content middle;"><?php echo $rootfs_used;?></div>
+      <div class="divTableCell cell_content middle;"><?php echo $rootfs_stats;?></div>
       <div class="divTableCell cell_content middle;"><a class="tooltip"
 href="#" style="border-bottom:1px dotted;color: <?php echo $textContent;
 ?>;"><?php echo $NetworkTraffic;?><span><strong>Total Network Traffic</strong><br /><?php echo "$NetTrafficTotal" . " combined<br />" . "$Data[6] $Data[7]" . " avg. rate<br />"; ?>(Interface: <?php echo($iface); ?>)</a></span></div>
