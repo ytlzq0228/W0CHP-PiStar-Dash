@@ -4627,10 +4627,10 @@ fclose($dmrMasterFile);
     </td>
     </tr>
     <tr>
-    <th align="left" colspan="4">DMR+ Network Settings</th>
+    <th align="left" colspan="4">DMR+ / FreeDMR / HBlink Network Settings</th>
     </tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['dmr_plus_master'];?>:<span><b>DMR+ Master</b>Set your preferred DMR master here</span></a></td>
+    <td align="left"><a class="tooltip2" href="#">DMR+ / FreeDMR / HBlink Master:<span><b>DMR+ / FreeDMR / HBlink Master</b>Set your preferred DMR master here</span></a></td>
     <td style="text-align: left;" colspan="3"><select name="dmrMasterHost2" class="dmrMasterHost2">
 <?php
 	$dmrMasterFile2 = fopen("/usr/local/etc/DMR_Hosts.txt", "r");
@@ -4639,7 +4639,7 @@ fclose($dmrMasterFile);
 	while (!feof($dmrMasterFile2)) {
 		$dmrMasterLine2 = fgets($dmrMasterFile2);
                 $dmrMasterHost2 = preg_split('/\s+/', $dmrMasterLine2);
-                if ((strpos($dmrMasterHost2[0], '#') === FALSE ) && (substr($dmrMasterHost2[0], 0, 4) == "DMR+") && ($dmrMasterHost2[0] != '')) {
+                if ((strpos($dmrMasterHost2[0], '#') === FALSE ) && (substr($dmrMasterHost2[0], 0, 4) == "DMR+") || (substr($dmrMasterHost2[0], 0, 7) == "FreeDMR") || (substr($dmrMasterHost2[0], 0, 3) == "FD_") || (substr($dmrMasterHost2[0], 0, 3) == "HB_") && ($dmrMasterHost2[0] != '')) {
                         if (($testMMDVMdmrMaster2 == $dmrMasterHost2[2]) && ($testMMDVMdmrMaster2Port == $dmrMasterHost2[4])) { echo "      <option value=\"$dmrMasterHost2[2],$dmrMasterHost2[3],$dmrMasterHost2[4],$dmrMasterHost2[0]\" selected=\"selected\">$dmrMasterHost2[0]</option>\n"; }
                         else { echo "      <option value=\"$dmrMasterHost2[2],$dmrMasterHost2[3],$dmrMasterHost2[4],$dmrMasterHost2[0]\">$dmrMasterHost2[0]</option>\n"; }
                 }
@@ -4648,13 +4648,13 @@ fclose($dmrMasterFile);
 ?>
     </select></td></tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['dmr_plus_network'];?>:<span><b>DMR+ Network</b>Set your options= for DMR+ here</span></a></td>
+    <td align="left"><a class="tooltip2" href="#">Network Options:<span><b>DMR+ / FreeDMR / HBlink Network</b>Set your options= for DMR+ / FreeDMR / HBlink here</span></a></td>
     <td align="left" colspan="3">
     Options=<input type="text" name="dmrNetworkOptions" size="85" maxlength="250" value="<?php if (isset($configdmrgateway['DMR Network 2']['Options'])) { echo $configdmrgateway['DMR Network 2']['Options']; } ?>" />
     </td>
     </tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['dmr_plus_network'];?> ESSID:<span><b>DMR Plus Extended ID</b>This is the extended ID, to make your DMR ID 8 digits long</span></a></td>
+    <td align="left"><a class="tooltip2" href="#">ESSID:<span><b>DMR+ / FreeDMR / HBlink Extended ID</b>This is the extended ID, to make your DMR ID 8 digits long</span></a></td>
     <td align="left" colspan="3">
 <?php
 	if (isset($configdmrgateway['DMR Network 2']['Id'])) {
@@ -4690,10 +4690,10 @@ fclose($dmrMasterFile);
 ?>
     </td></tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['dmr_plus_network'];?> Enable:<span><b>DMR+ Network Enable</b></span></a></td>
+    <td align="left"><a class="tooltip2" href="#">DMR+ / FreeDMR / HBlink Enable:<span><b>DMR+ / FreeDMR / HBlink Network Enable</b></span></a></td>
     <td align="left" colspan="3">
-    <?php if ($configdmrgateway['DMR Network 2']['Enabled'] == 1) { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet2En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet2En\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet2EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet2En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable DMR+\" aria-checked=\"true\" onKeyPress=\"toggleDmrGatewayNet2EnCheckbox()\" onclick=\"toggleDmrGatewayNet2EnCheckbox()\" for=\"toggle-dmrGatewayNet2En\"><font style=\"font-size:0px\">Enable DMR+</font></label></div>\n"; }
-    else { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet2En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet2En\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet2EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet2En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable DMR+\" aria-checked=\"false\" onKeyPress=\"toggleDmrGatewayNet2EnCheckbox()\" onclick=\"toggleDmrGatewayNet2EnCheckbox()\" for=\"toggle-dmrGatewayNet2En\"><font style=\"font-size:0px\">Enable DMR+</font></label></div>\n"; } ?>
+    <?php if ($configdmrgateway['DMR Network 2']['Enabled'] == 1) { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet2En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet2En\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet2EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet2En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable DMR+ / FreeDMR / HBlink\" aria-checked=\"true\" onKeyPress=\"toggleDmrGatewayNet2EnCheckbox()\" onclick=\"toggleDmrGatewayNet2EnCheckbox()\" for=\"toggle-dmrGatewayNet2En\"><font style=\"font-size:0px\">Enable DMR+ / FreeDMR / HBlink</font></label></div>\n"; }
+    else { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet2En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet2En\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet2EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet2En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable DMR+ / FreeDMR / HBlink\" aria-checked=\"false\" onKeyPress=\"toggleDmrGatewayNet2EnCheckbox()\" onclick=\"toggleDmrGatewayNet2EnCheckbox()\" for=\"toggle-dmrGatewayNet2En\"><font style=\"font-size:0px\">Enable DMR+ / FreeDMR / HBlink</font></label></div>\n"; } ?>
     </td>
     </tr>
     <tr>
