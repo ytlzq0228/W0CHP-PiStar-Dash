@@ -361,7 +361,10 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
 		    $xlxMasterHost1 = "";
 		}
 		$dmrMasterHost1 = $_SESSION['DMRGatewayConfigs']['DMR Network 1']['Address'];
-		$dmrMasterHost2 = $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Address'];
+		$dmrMasterHost2 = $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'];
+		if (isset($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'])) {
+		    $dmrMasterHost2 = str_replace('_', ' ', $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name']);
+		}
 		$dmrMasterHost3 = str_replace('_', ' ', $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name']);
 		if (isset($_SESSION['DMRGatewayConfigs']['DMR Network 4']['Name'])) {
 		    $dmrMasterHost4 = str_replace('_', ' ', $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Name']);
@@ -403,28 +406,28 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
             $dmrMasterHost6Tooltip = $dmrMasterHost6;
         }
 		if (strlen($xlxMasterHost1) > 20) {
-		    $xlxMasterHost1 = substr($xlxMasterHost1, 0, 15) . '...';
+		    $xlxMasterHost1 = substr($xlxMasterHost1, 0, 17) . '...';
 		}
 		if (strlen($dmrMasterHost1) > 20) {
-		    $dmrMasterHost1 = substr($dmrMasterHost1, 0, 15) . '...';
+		    $dmrMasterHost1 = substr($dmrMasterHost1, 0, 17) . '...';
 		}
 		if (strlen($dmrMasterHost2) > 20) {
-		    $dmrMasterHost2 = substr($dmrMasterHost2, 0, 15) . '...';
+		    $dmrMasterHost2 = substr($dmrMasterHost2, 0, 17) . '...';
 		}
 		if (strlen($dmrMasterHost3) > 20) {
-		    $dmrMasterHost3 = substr($dmrMasterHost3, 0, 15) . '...';
+		    $dmrMasterHost3 = substr($dmrMasterHost3, 0, 17) . '...';
 		}
 		if (isset($dmrMasterHost4)) {
 		    if (strlen($dmrMasterHost4) > 20) {
-			    $dmrMasterHost4 = substr($dmrMasterHost4, 0, 15) . '...';
+			    $dmrMasterHost4 = substr($dmrMasterHost4, 0, 17) . '...';
 		    }
 		}
 		if (isset($dmrMasterHost5)) {
 		    if (strlen($dmrMasterHost5) > 20) {
-			    $dmrMasterHost5 = substr($dmrMasterHost5, 0, 15) . '...';
+			    $dmrMasterHost5 = substr($dmrMasterHost5, 0, 17) . '...';
 		    }
 		}
-        if (isset($dmrMasterHost6)) { if (strlen($dmrMasterHost6) > 20) { $dmrMasterHost6 = substr($dmrMasterHost6, 0, 15) . '...'; } }
+        if (isset($dmrMasterHost6)) { if (strlen($dmrMasterHost6) > 20) { $dmrMasterHost6 = substr($dmrMasterHost6, 0, 17) . '...'; } }
 	    }
 	    else {
 		while (!feof($dmrMasterFile)) {
