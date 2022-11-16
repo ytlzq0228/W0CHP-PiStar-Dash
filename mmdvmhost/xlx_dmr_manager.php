@@ -33,11 +33,11 @@
 	    $xlxLinkHost = $_POST['xlxLinkHost'];
 	    $startupModule = $_POST['dmrMasterHost3StartupModule'];
 	    $xlxLinkToHost = "";
- 	    if ($xlxLinkHost != "None" && $startupModule == "@") { // Unlinking
-		$remoteCommand = 'sudo mount -o remount,rw / ; sudo sed -i "/Module=/c\\Module=@" /etc/dmrgateway ; sudo systemctl restart dmrgateway.service ; sudo touch /etc/.XLX_paused';
+ 	    if ($xlxLinkHost == "None") { // Unlinking
+		$remoteCommand = 'sudo mount -o remount,rw / ; sudo sed -i "/Startup=/c\\Startup=None" /etc/dmrgateway ; sudo systemctl restart dmrgateway.service ; sudo touch /etc/.XLX_paused';
 		$xlxLinkToHost = "Unlinking";
-	    } elseif ($xlxLinkHost != "None" && $startupModule != "@") {
-	        $remoteCommand = 'sudo mount -o remount,rw / ; sudo sed -i "/Module=/c\\Module='.$startupModule.'" /etc/dmrgateway ; sudo sed -i "/Startup=/c\\Startup='.$xlxLinkHost.'" /etc/dmrgateway ; sudo systemctl restart dmrgateway.service ; sudo rm /etc/.XLX_paused';
+	    } elseif ($xlxLinkHost != "None") {
+	        $remoteCommand = 'sudo mount -o remount,rw / ; sudo sed -i "/Startup=/c\\Startup='.$xlxLinkHost.'" /etc/dmrgateway ; sudo systemctl restart dmrgateway.service ; sudo rm /etc/.XLX_paused';
 		$xlxLinkToHost = "Link set to XLX-".$xlxLinkHost.", Module ".$startupModule."";
 	    }
 	else {
@@ -81,7 +81,7 @@
 		    <table>
 			<tr>
 			    <th width="150"><a class="tooltip" href="#">Select Reflector<span><b>Select Reflector</b></span></a></th>
-			    <th width="150"><a class="tooltip" href="#">Module<span><b>Module</b></span></a></th>
+			    <th><a class="tooltip" href="#">Module<span><b>Module</b></span></a></th>
 			    <th width="150"><a class="tooltip" href="#">Current Link<span><b>Current Link</b></span></a></th>
 			    <th width="150"><a class="tooltip" href="#">Action<span><b>Action</b></span></a></th>
 			    <th></th>
@@ -91,7 +91,13 @@
 			    <?php
 	$configdmrgateway = $_SESSION['DMRGatewayConfigs'];
 	$dmrMasterFile3 = fopen("/usr/local/etc/DMR_Hosts.txt", "r");
-	if (isset($configdmrgateway['XLX Network']['Startup'])) { $testMMDVMdmrMaster3= $configdmrgateway['XLX Network']['Startup']; }
+	if (isset($configdmrgateway['XLX Network']['Startup'])) { $testMMDVMdmrMaster3 = $configdmrgateway['XLX Network']['Startup']; }
+	if (isset($configdmrgateway['XLX Network']['Startup'])) {
+		echo '      <option value="None">None</option>'."\n";
+	}
+	else {
+		echo '      <option value="None" selected="selected">None</option>'."\n";
+	}
 	while (!feof($dmrMasterFile3)) {
 		$dmrMasterLine3 = fgets($dmrMasterFile3);
                 $dmrMasterHost3 = preg_split('/\s+/', $dmrMasterLine3);
@@ -109,14 +115,6 @@
 <?php
        if ((isset($configdmrgateway['XLX Network']['Module'])) && ($configdmrgateway['XLX Network']['Module'] != "@")) {                                                 
                 echo '        <option value="'.$configdmrgateway['XLX Network']['Module'].'" selected="selected">'.$configdmrgateway['XLX Network']['Module'].'</option>'."\n";
-                echo '        <option value="Default">Default</option>'."\n";
-                echo '        <option value="@">Unlink</option>'."\n";
-        } elseif ((isset($configdmrgateway['XLX Network']['Module'])) && ($configdmrgateway['XLX Network']['Module'] == "@")) {                                           
-                echo '        <option value="Default">Default</option>'."\n";
-                echo '        <option value="@" selected="selected">Unlink</option>'."\n";                                                                                  
-        } else {
-                echo '        <option value="Default" selected="selected">Default</option>'."\n";                                                                         
-                echo '        <option value=" ">Unlink</option>'."\n";
         }
 ?>
 	<option value="A">A</option>
@@ -157,12 +155,16 @@ $target = `cd /var/log/pi-star; /usr/local/bin/RemoteCommand 7643 hosts | egrep 
                 },3000);
             });
 </script>
+			    <?php if (!empty($target)) { ?>
 			    <td><strong class="CheckLink"><?php echo $target; ?></strong></td>
+			    <?php } else { ?>
+			    <td><strong class="CheckLink">Unlinked</strong></td>
+			    <?php } ?>
 			    <td>
 				<input type="hidden" name="Link" value="LINK" />
 				<input type="submit" name="xlxMgrSubmit" value="Request Change" />
 			    </td>
-        		    <td style="white-space:normal;padding: 3px;">Select the "Unlink" module to pause XLX DMR traffic, yet remain connected to the XLX Reflector.</td>
+        		    <td style="white-space:normal;padding: 3px;">Select reflector "None" to pause all XLX DMR traffic.</td>
 			</tr>
                         <tr>
                           <td colspan="5" style="white-space:normal;padding: 3px;">
