@@ -91,7 +91,7 @@ if (empty($VNStatGetData) == false) {
       <div class="divTableHeadCell"><a class="tooltip" href="#">Network Traffic<span><strong>Total Network Traffic Today</strong></a></span></div>
     </div>
     <div class="divTableRow">
-      <div class="divTableCell cell_content middle"><a class="tooltip" href="#" style="border-bottom:1px solid; color:<?php echo $textContent; ?>;"><?php echo $load; ?>%<span><strong>Platform:</strong> <?php echo $_SESSION['PiStarRelease']['Pi-Star']['Platform'];?><br /><?php echo 'OS' . $system['os']; ?><br /><strong>Linux Kernel:</strong> <?php echo php_uname('r');?><br /><?php echo $os; ?><br /><strong>Uptime:</strong> <?php  echo(str_replace("up", "", exec('uptime -p')));?></a></span></div>
+      <div class="divTableCell cell_content middle"><a class="tooltip" href="#" style="border-bottom:1px solid; color:<?php echo $textContent; ?>;"><?php echo $load; ?>%<span><strong>Platform:</strong> <?php echo $_SESSION['PiStarRelease']['Pi-Star']['Platform'];?><br /><?php echo 'OS: ' . $system['os']; ?><br /><strong>Linux Kernel:</strong> <?php echo php_uname('r');?><br /><?php echo $os; ?><br /><strong>Uptime:</strong> <?php  echo(str_replace("up", "", exec('uptime -p')));?></a></span></div>
       <?php echo $cpuTempHTML; ?>
       <div class="divTableCell cell_content middle"><?php echo $ramDeetz;?></div>
       <div class="divTableCell cell_content middle;"><?php echo $rootfs_stats;?></div>
