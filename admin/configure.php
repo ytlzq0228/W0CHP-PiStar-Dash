@@ -1854,6 +1854,7 @@ if (!empty($_POST)):
 	// Set Standard IP/Port for DStarRepeater/MMDVMHost
 	$rollRepeaterAddress1 = 'sudo sed -i "/repeaterAddress1=/c\\repeaterAddress1=127.0.0.1" /etc/ircddbgateway';
 	$rollRepeaterPort1 = 'sudo sed -i "/repeaterPort1=/c\\repeaterPort1=20011" /etc/ircddbgateway';
+	$configmmdvm['Modem']['UARTSpeed'] = $confHardwareSpeed;
 
 	  if ( $confHardware == 'idrp2c' ) {
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=1" /etc/ircddbgateway';
