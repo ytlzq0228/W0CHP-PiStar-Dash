@@ -317,7 +317,7 @@ if (!isset($configmmdvm['Modem']['Protocol']) ||
 !isset($configmmdvm['Modem']['UARTSpeed'])) {
     $configmmdvm['Modem']['Protocol'] = "uart";
     $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
-    $configmmdvm['Modem']['UARTSpeed'] = $confHardwareSpeed;
+    $configmmdvm['Modem']['UARTSpeed'] = 115200;
 }
 
 // Convert [aprs.fi] sections to new [APRS] format
@@ -3231,7 +3231,7 @@ if (!empty($_POST)):
 	if (!isset($configysfgateway['APRS']['Enable'])) { $configysfgateway['APRS']['Enable'] = "0"; }
 	if (!isset($configysfgateway['APRS']['Address'])) { $configysfgateway['APRS']['Address'] = "127.0.0.1"; }
 	if (!isset($configysfgateway['APRS']['Port'])) { $configysfgateway['APRS']['Port'] = "8673"; }
-	if (!isset($configysfgateway['APRS']['Description'])) { $configysfgateway['APRS']['Description'] = "APRS for YSFGateway"; }
+	if (isset($configysfgateway['APRS']['Description'])) { $configysfgateway['APRS']['Description'] = "APRS for YSFGateway"; }
 	if (!isset($configysfgateway['APRS']['Suffix'])) { $configysfgateway['APRS']['Suffix'] = "Y"; }
 	if (isset($configysfgateway['aprs.fi'])) { unset($configysfgateway['aprs.fi']); }
 	if (isset($configysfgateway['APRS']['Enable'])) { $configysfgateway['APRS']['Enable'] = $YSFGatewayAPRS; }
