@@ -32,7 +32,7 @@ function system_information() {
     return array('date' => date('Y-m-d H:i:s T'),
                  'mem_info' => $meminfo,
                  'partitions' => disk_list(),
-                 'os' => trim( str_replace( 'Description:', '', exec( 'lsb_release --description' ) ) ),
+		 'os' => trim( exec( 'lsb_release -sd' ) ),
     );
 }
 
@@ -178,8 +178,6 @@ function formatSize( $bytes ) {
 			echo "  <tr><td align=\"left\">RAM</td><td align=\"left\"><div class='progress progress-info' style='margin-bottom: 0;'><div class='bar' style='width: ".$sysRamPercent."%;'>Used&nbsp;".$sysRamPercent."%</div></div>";
 			echo "  <b>Total:</b> ".formatSize($system['mem_info']['MemTotal'])."<b> Used:</b> ".formatSize($sysRamUsed)."<b> Free:</b> ".formatSize($system['mem_info']['MemTotal'] - $sysRamUsed)."</td></tr>\n";
 		    }
-        echo "<tr><th align='left'>System</th><th align='left'>Version</th></tr>";
-        echo "<tr><td align='left'>Operating System</td><td align='left'>{$system['os']}</td></tr>";
 		    // Filesystem Information
 		    if (count($system['partitions']) > 0) {
 			echo "  <tr><th align='left'>Mountpoint</th><th align='left'>Stats</th></tr>\n";
@@ -195,6 +193,9 @@ function formatSize( $bytes ) {
 			    }
 			}
 		    }
+		    // OS Information
+		    echo "<tr><th align='left'>System</th><th align='left'>Version</th></tr>";
+		    echo "<tr><td align='left'>Operating System</td><td align='left'>{$system['os']}</td></tr>";
 		    // Binary Information
 		    echo "  <tr><th align='left'>Software Binary</th><th align='left'>Version</th></tr>\n";
 		    if (is_executable('/usr/local/bin/MMDVMHost')) {
