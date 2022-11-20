@@ -36,9 +36,6 @@ if ($_SERVER["PHP_SELF"] == "/admin/config_backup.php") {
 	    <meta name="robots" content="follow" />
 	    <meta name="language" content="English" />
 	    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	    <meta name="Author" content="Andrew Taylor (MW0MWZ)" />
-	    <meta name="Description" content="Pi-Star Configuration Backup" />
-	    <meta name="KeyWords" content="MMDVMHost,ircDDBGateway,D-Star,ircDDB,DMRGateway,DMR,YSFGateway,YSF,C4FM,NXDNGateway,NXDN,P25Gateway,P25,Pi-Star,DL5DI,DG9VH,MW0MWZ,F1RMB,W0CHP" />
 	    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	    <meta http-equiv="pragma" content="no-cache" />
 	    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />

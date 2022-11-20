@@ -55,9 +55,6 @@ if(empty($_POST['func'])) {
 	<meta name="robots" content="follow" />
 	<meta name="language" content="English" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<?php echo "<meta name=\"generator\" content=\"$version\" />\n"; ?>
-	<meta name="Description" content="Pi-Star Dashboard" />
-	<meta name="KeyWords" content="MMDVMHost,ircDDBGateway,D-Star,ircDDB,DMRGateway,DMR,YSFGateway,YSF,C4FM,NXDNGateway,NXDN,P25Gateway,P25,Pi-Star,DL5DI,DG9VH,MW0MWZ,W0CHP" />
 	<meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
 	<meta http-equiv="cache-control" content="max-age=0" />
 	<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />

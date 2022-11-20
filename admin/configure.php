@@ -407,10 +407,6 @@ $MYCALL=strtoupper($callsign);
     <meta name="robots" content="follow" />
     <meta name="language" content="English" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <?php echo "<meta name=\"generator\" content=\"$version\" />\n"; ?>
-    <meta name="Author" content="Andrew Taylor (MW0MWZ), Chip Cuccio (W0CHP)" />
-    <meta name="Description" content="Pi-Star Configuration" />
-    <meta name="KeyWords" content="Pi-Star" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="pragma" content="no-cache" />
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />

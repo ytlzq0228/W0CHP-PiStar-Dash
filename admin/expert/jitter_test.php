@@ -105,9 +105,6 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/jitter_test.php") {
     <meta name="robots" content="follow" />
     <meta name="language" content="English" />
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <meta name="Author" content="Andrew Taylor (MW0MWZ), W0CHP" />
-    <meta name="Description" content="Pi-Star Jitter Test" />
-    <meta name="KeyWords" content="Pi-Star" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="pragma" content="no-cache" />
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
