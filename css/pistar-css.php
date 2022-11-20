@@ -83,7 +83,7 @@ body, font {
     text-decoration : none;
     color : <?php echo $textBanners; ?>;
     font-family : 'Source Sans Pro', sans-serif;
-    font-size : 9px;
+    font-size : .8rem;
     text-align : center;
     padding : 10px 0 10px 0;
     clear : both;
