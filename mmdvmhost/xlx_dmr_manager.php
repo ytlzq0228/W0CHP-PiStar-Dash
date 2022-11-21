@@ -34,7 +34,7 @@
 	    $startupModule = $_POST['dmrMasterHost3StartupModule'];
 	    $xlxLinkToHost = "";
  	    if ($xlxLinkHost == "None") { // Unlinking
-		$remoteCommand = 'sudo mount -o remount,rw / ; sudo sed -i "/Startup=/c\\Startup=None" /etc/dmrgateway ; sudo systemctl restart dmrgateway.service ; sudo touch /etc/.XLX_paused';
+		$remoteCommand = 'sudo mount -o remount,rw / ; sudo sed -i "/Startup=/c\\Startup=" /etc/dmrgateway ; sudo systemctl restart dmrgateway.service ; sudo touch /etc/.XLX_paused';
 		$xlxLinkToHost = "Unlinking";
 	    } elseif ($xlxLinkHost != "None") {
 	        $remoteCommand = 'sudo mount -o remount,rw / ; sudo sed -i "/Module=/c\\Module='.$startupModule.'" /etc/dmrgateway; sudo sed -i "/Startup=/c\\Startup='.$xlxLinkHost.'" /etc/dmrgateway ; sudo systemctl restart dmrgateway.service ; sudo rm /etc/.XLX_paused';
@@ -164,7 +164,7 @@ $target = `cd /var/log/pi-star; /usr/local/bin/RemoteCommand 7643 hosts | egrep 
 				<input type="hidden" name="Link" value="LINK" />
 				<input type="submit" name="xlxMgrSubmit" value="Request Change" />
 			    </td>
-        		    <td style="white-space:normal;padding: 3px;">Select reflector "None" to pause all XLX DMR traffic.</td>
+        		    <td style="white-space:normal;padding: 3px;">Select reflector "None" to unlink and pause all XLX DMR traffic.</td>
 			</tr>
                         <tr>
                           <td colspan="5" style="white-space:normal;padding: 3px;">

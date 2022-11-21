@@ -273,8 +273,9 @@ for `W0CHP-PiStar-Dash`, ergo, I am very grateful.
 The excellent country flag images are courtesy of [Hampus Joakim
 Borgos](https://github.com/hampusborgos/country-flags).
 
-Credit must also be given to to Kim Heinz Hübel, `DG9VH`, who arguably created
-the very first MMDVMHost dashboard, of which, spawned the entire Pi-Star
+Credit must also be given to to Kim Heinz Hübel; `DG9VH`, and Hans-Juergen
+Barthen; `DL5DI`, both of whom arguably created the very first MMDVM and
+ircDDBGatweay dashboards (respectively); of which, spawned the entire Pi-Star
 concept.
 
 The very cool and welcome MMDVMhost log backup/restore and re-application on 
