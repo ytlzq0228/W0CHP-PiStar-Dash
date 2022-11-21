@@ -364,9 +364,9 @@ if(empty($_POST['func'])) {
 		if ($_SERVER["PHP_SELF"] == "/admin/index.php" && $_POST["func"] == "bm_man" || $_GET["func"] == "bm_man") { 		// Admin Only Option (BM links )
 		    echo '<script type="text/javascript">'."\n";
         	    echo 'function reloadbmConnections(){'."\n";
-        	    echo '  $("#bmConnects").load("/mmdvmhost/bm_links.php",function(){ setTimeout(reloadbmConnections,10000) });'."\n";
+        	    echo '  $("#bmConnects").load("/mmdvmhost/bm_links.php",function(){ setTimeout(reloadbmConnections,20000) });'."\n";
         	    echo '}'."\n";
-        	    echo 'setTimeout(reloadbmConnections,10000);'."\n";
+        	    echo 'setTimeout(reloadbmConnections,20000);'."\n";
 		    echo '$(window).trigger(\'resize\');'."\n";
         	    echo '</script>'."\n";
         	    echo '<div id="bmConnects">'."\n";

@@ -180,7 +180,7 @@ function formatSize( $bytes ) {
 		    }
 		    // Filesystem Information
 		    if (count($system['partitions']) > 0) {
-			echo "  <tr><th align='left'>Mountpoint</th><th align='left'>Stats</th></tr>\n";
+			echo "  <tr><th align='left'>Filesystem Mountpoints</th><th align='left'>Stats</th></tr>\n";
 			foreach($system['partitions'] as $fs) {
 			    if ($fs['Used']['value'] > 0 && $fs['FileSystem']['text']!= "none" && $fs['FileSystem']['text']!= "udev") {
 				$diskFree = $fs['Free']['value'];
@@ -197,7 +197,7 @@ function formatSize( $bytes ) {
 		    echo "<tr><th align='left'>System</th><th align='left'>Version</th></tr>";
 		    echo "<tr><td align='left'>Operating System</td><td align='left'>{$system['os']}</td></tr>";
 		    // Binary Information
-		    echo "  <tr><th align='left'>Software Binary</th><th align='left'>Version</th></tr>\n";
+		    echo "  <tr><th align='left'>Software Binaries</th><th align='left'>Version</th></tr>\n";
 		    if (is_executable('/usr/local/bin/MMDVMHost')) {
 			$MMDVMHost_Ver = exec('/usr/local/bin/MMDVMHost -v | cut -d\' \' -f 3-');
 			echo "  <tr>";getStatusClass(isProcessRunning("MMDVMHost"), true); echo "MMDVMHost</td><td align=\"left\">".$MMDVMHost_Ver."</td></tr>\n";

@@ -85,7 +85,7 @@ if ( $testMMDVModeDMR == 1 ) {
     if ((substr($dmrMasterHost, 0, 3) == "BM ") && ($bmEnabled == true) && isset($_SESSION['BMAPIKey'])) { 
     $bmAPIkey = $_SESSION['BMAPIKey'];
 	// Use BM API to get information about current TGs
-	$jsonContext = stream_context_create(array('http'=>array('timeout' => 2, 'header' => 'User-Agent: Pi-Star '.$_SESSION['PiStarRelease']['Pi-Star']['Version'].'W0CHP-Dashboard for '.$dmrID) )); // Add Timout and User Agent to include DMRID
+	$jsonContext = stream_context_create(array('http'=>array('timeout' => 2, 'header' => 'User-Agent: Pi-Star '.$_SESSION['PiStarRelease']['Pi-Star']['Version'].' W0CHP-PiStar-Dash for '.$dmrID) )); // Add Timout and User Agent to include DMRID
     if (isset($bmAPIkeyV2)) {
        $json = json_decode(@file_get_contents("https://api.brandmeister.network/v2/device/$dmrID/profile", true, $jsonContext));
      } else {
