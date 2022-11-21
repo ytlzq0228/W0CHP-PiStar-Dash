@@ -66,7 +66,7 @@ if ($listElem[5] == "RF"){
 } else {
 	$source = "<span class='source_other'>$listElem[5]</span>";
 }
-		
+
 if ($listElem[6] == null) {
 	// Live duration
 	$utc_time = $listElem[0];
@@ -78,7 +78,8 @@ if ($listElem[6] == null) {
 	$duration = "<span class='dur_tx'>TX " . $duration_string . " sec</span>";
 	// dynamic TX <title>
 	echo "<script>if(typeof window.original_title === 'undefined'){window.original_title = jQuery('title').text();}</script>";
-	echo $_SESSION['MYCALL'] != $listElem[2] ? "<script>jQuery('title').text('>$listElem[2]<');</script>" : "<script>jQuery('title').text('TX');</script>";
+	echo $_SESSION['MYCALL'] != $listElem[2] ? "<script>jQuery('title').text('>$listElem[2]<');localStorage.setItem(last_caller,'$listElem[2]');jQuery('.last-caller').hide();</script>" : "<script>jQuery('title').text('TX');</script>";
+  
 } else if ($listElem[6] == "DMR Data")
     {
 	$duration =  "<span class='dur_data'>DMR Data</span>";
@@ -91,7 +92,7 @@ if ($listElem[6] == null) {
   $dt = new DateTime($utc_time, $utc_tz);
   $duration = $listElem[6].'s (' . timeago( $dt->getTimestamp(), $now->getTimestamp() ) . ')';
   // dynamic <title> reset
-  echo "<script>if(typeof window.original_title !== 'undefined'){jQuery('title').text(window.original_title)}</script>";
+  echo "<script>if(typeof window.original_title !== 'undefined'){jQuery('title').text(window.original_title)};jQuery('.last-caller').hide();</script>";
 }
 
 if ($listElem[7] == null) {
@@ -295,6 +296,7 @@ if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE || !p
 	  <span class='dc_info_def'>
 	    <?php echo $ber ?>
 	  </span>
+    <span class="last-caller" style="display:none;"><br />Last Caller ID: <span class='dc_info_def'></span></span>
 	</span>
       </div>
     </div>
@@ -333,3 +335,10 @@ if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE || !p
   </div>
 </div>
 
+<?php if ( $listElem[6] == null && $_SESSION['MYCALL'] == $listElem[2] ) : ?>
+<script>
+  if(typeof localStorage.getItem('last_caller') !== 'undefined' ) {
+    jQuery('.last-caller').show().find('span').html(localStorage.getItem('last_caller'));
+  }
+</script>
+<?php endif;
