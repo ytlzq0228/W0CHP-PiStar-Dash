@@ -282,7 +282,8 @@ The very cool and welcome MMDVMhost log backup/restore and re-application on
 reboot code, is courtesy of Mark, `KN2TOD`.
 
 So much credit goes toward the venerable José Uribe ("Andy"), `CA6JAU`, for his
-amazing work and providing the game-changing `MMDVM_HS` hotspot firmware suite.
+amazing work and providing the game-changing `MMDVM_HS` hotspot firmware suite,
+as well as his `MMDVM_CM` cross-mode suite.
 
 Lastly, but certainly not least; I owe an *enormous* amount of gratitude toward
 a true gentleman, scholar and incredibly talented hacker...Jonathan Naylor,
