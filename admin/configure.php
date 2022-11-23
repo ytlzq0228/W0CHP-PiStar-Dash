@@ -472,6 +472,7 @@ $MYCALL=strtoupper($callsign);
           $('.ysf2p25StartupDstId').select2();
           $('.p25StartupHost').select2();
           $('.nxdnStartupHost').select2();
+          $('.systemTimezone').select2();
 	  $(".confDefRef").select2({
 	    tags: true,
 	    dropdownAutoWidth : true,
@@ -4215,7 +4216,7 @@ else:
     </tr>
     <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['timezone'];?>:<span><b>System TimeZone</b>Set the system timezone</span></a></td>
-    <td style="text-align: left;"><select name="systemTimezone">
+    <td style="text-align: left;"><select name="systemTimezone" class="systemTimezone">
 <?php
   exec('timedatectl list-timezones', $tzList);
   if (!in_array("UTC", $tzList)) { array_push($tzList, "UTC"); }
