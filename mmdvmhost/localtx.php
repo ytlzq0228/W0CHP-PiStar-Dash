@@ -21,8 +21,8 @@ if (isset($_SESSION['CSSConfigs']['Background'])) {
       <th><a class="tooltip" href="#"><?php echo $lang['target'];?><span><b>Target, D-Star Reflector, DMR Talk Group etc</b></span></a></th>
       <th><a class="tooltip" href="#"><?php echo $lang['src'];?><span><b>Received from source</b></span></a></th>
       <th><a class="tooltip" href="#"><?php echo $lang['dur'];?>(s)<span><b>Duration in Seconds</b></span></a></th>
-      <th style="min-width:5ch"><a class="tooltip" href="#"><?php echo $lang['ber'];?><span><b>Bit Error Rate</b></span></a></th>
-      <th style="min-width:8ch"><a class="tooltip" href="#">RSSI<span><b>Received Signal Strength Indication</b></span></a></th>
+      <th style="min-width:5ch" class="noMob"><a class="tooltip" href="#"><?php echo $lang['ber'];?><span><b>Bit Error Rate</b></span></a></th>
+      <th style="min-width:8ch" class="noMob"><a class="tooltip" href="#">RSSI<span><b>Received Signal Strength Indication</b></span></a></th>
     </tr>
 <?php
 $counter = 0;
@@ -145,12 +145,12 @@ for ($i = 0; $i < $TXListLim; $i++) {
 				echo "$duration"; //duration
 				
 				// Colour the BER Field
-				if (floatval($listElem[8]) == 0) { echo "<td>$listElem[8]</td>"; }
+				if (floatval($listElem[8]) == 0) { echo "<td class='noMob'>$listElem[8]</td>"; }
 				elseif (floatval($listElem[8]) >= 0.0 && floatval($listElem[8]) <= 1.9) { echo "<td><span style='color:$backgroundModeCellActiveColor;font-weight:bold'>$listElem[8]</span></td>"; }
 				elseif (floatval($listElem[8]) >= 2.0 && floatval($listElem[8]) <= 4.9) { echo "<td><span style='color:$backgroundModeCellPausedColor;font-weight:bold'>$listElem[8]</span></td>"; }
 				else { echo "<td><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>$listElem[8]</span></td>"; }
 
-				echo"<td>$listElem[9]</td>"; //rssi
+				echo"<td class='noMob'>$listElem[9]</td>"; //rssi
 			}
 			echo"</tr>\n";
 			$counter++; }

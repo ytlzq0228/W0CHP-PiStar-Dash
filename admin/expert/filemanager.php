@@ -22,13 +22,13 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';         // Version
 
 
 $tempfile = "/tmp/".md5(gmdate('M d Y')).".tmp";
-$tempauth = "/tmp/".sha1(gmdate('M d Y')).".tmp";
+$tempauth = "/tmp/".md5(gmdate('M d Y')).".tmp";
 
 $fm_config_file = '/etc/tinyfilemanager-config.php';
 $fm_auth_file = '/etc/tinyfilemanager-auth.php';
 
 // Create default config file
-if (file_exists($fm_config_file) == FALSE) {
+if (!file_exists($fm_config_file)) {
     exec('sudo echo "<?php" >' .$tempfile.'');
     exec('sudo echo "//Default Configuration" >>' .$tempfile.'');
     exec('sudo echo "\$CONFIG = \'{\"lang\":\"en\",\"error_reporting\":false,\"show_hidden\":false,\"hide_Cols\":false,\"calc_folder\":false}\';" >>' .$tempfile.'');
@@ -43,12 +43,13 @@ if (file_exists($fm_config_file) == FALSE) {
 }
 
 // Create default auth file
-if (file_exists($fm_auth_file) == FALSE) {
+if (!file_exists($fm_auth_file)) {
     exec('sudo echo "<?php" >' .$tempauth.'');
-    exec('sudo echo "\$auth_users = array(" >> ' .$tempauth.'');
-    exec('sudo echo "\'root\' => \'\$2y\$10\$CyydY39ceRMMAvKRWmidWNZ6]eZ7kXMZpqTjiTb5R.UtFKmruYzwv24yjBw-ZmX4VjpP3HXzu9X,hjHFuV9GXarkHVQxQbfjPVShg5br\', //raspberry" >>' .$tempauth.'');
-    exec('sudo echo "\'pi-star\' => \'\$2y\$10\$CyydY39ceRMMAvKRWmidWNZ6]eZ7kXMZpqTjiTb5R.UtFKmruYzwv24yjBw-ZmX4VjpP3HXzu9X,hjHFuV9GXarkHVQxQbfjPVShg5br\' //raspberry" >>' .$tempauth.'');
-    exec('sudo echo ");" >>' .$tempauth.'');
+    exec('sudo echo "\$use_auth = false;" >> ' .$tempauth.'');
+    #exec('sudo echo "\$auth_users = array(" >> ' .$tempauth.'');
+    #exec('sudo echo "\'root\' => \'\$2y\$10\$CyydY39ceRMMAvKRWmidWNZ6]eZ7kXMZpqTjiTb5R.UtFKmruYzwv24yjBw-ZmX4VjpP3HXzu9X,hjHFuV9GXarkHVQxQbfjPVShg5br\', //raspberry" >>' .$tempauth.'');
+    #exec('sudo echo "\'pi-star\' => \'\$2y\$10\$CyydY39ceRMMAvKRWmidWNZ6]eZ7kXMZpqTjiTb5R.UtFKmruYzwv24yjBw-ZmX4VjpP3HXzu9X,hjHFuV9GXarkHVQxQbfjPVShg5br\' //raspberry" >>' .$tempauth.'');
+    #exec('sudo echo ");" >>' .$tempauth.'');
     exec('sudo echo "?>" >>' .$tempauth.'');
     
     exec('sudo mount -o remount,rw /');
@@ -57,7 +58,6 @@ if (file_exists($fm_auth_file) == FALSE) {
     exec('sudo chmod 664 '.$fm_auth_file.'');
     exec('sudo sync && sudo sync && sudo sync && sudo mount -o remount,ro /');
 }
-
 
 require_once('./tinyfilemanager.php');
 
