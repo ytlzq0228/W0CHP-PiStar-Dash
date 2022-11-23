@@ -213,9 +213,8 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 			    $target = $target;
 			}
 		    }
-
 		    echo "<td align=\"left\">$target</td>";
-
+		} else {
 		    if (strpos($listElem[4], "via ")) {
 		    	$listElem[4] = preg_replace("/via (.*)/", "<span class='noMob'> $1</span>", $listElem[4]);
 		    }
@@ -225,7 +224,7 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 		    } else {
 			echo "<td align=\"left\">".str_replace(" ","&nbsp;", $listElem[4])."</td>";
 		    }
-		    }
+		}
 
 		if ($listElem[5] == "RF") {
 			echo "<td><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>RF</span></td>";
