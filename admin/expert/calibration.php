@@ -1,14 +1,4 @@
 <?php
-if (!isset($_SESSION) || !is_array($_SESSION)) {
-    session_id('pistardashsess');
-    session_start();
-
-    include_once $_SERVER['DOCUMENT_ROOT'].'/config/config.php';          // MMDVMDash Config
-    include_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/tools.php';        // MMDVMDash Tools
-    include_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/functions.php';    // MMDVMDash Functions
-    include_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';        // Translation Code
-    checkSessionValidity();
-}
 
 // Load the language support
 require_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';
@@ -173,8 +163,17 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/calibration.php") {
           if (("\n"+data).includes("Version:")) {
             setTimeout(function(){ sendcmd('e', (~~'<?php echo $RXFrequency; ?>'+rxoffset).toString() ); }, 1000);
           }
-          if (("\n"+data).includes("Complete...")) {
+
+          if (("\n"+data).includes("Starting")) {
             $('#ledStart').attr("class", 'red_dot');
+            $('#ledDMR').attr("class", 'red_dot');
+            $('#ledYSF').attr("class", 'red_dot');
+            $('#ledP25').attr("class", 'red_dot');
+            $('#ledNXDN').attr("class", 'red_dot');
+            document.getElementById("btnStart").disabled = false;
+          }
+
+          if (("\n"+data).includes("Complete...")) {
             $('#ledDStar').attr("class", 'red_dot');
             $('#ledDMR').attr("class", 'red_dot');
             $('#ledYSF').attr("class", 'red_dot');
