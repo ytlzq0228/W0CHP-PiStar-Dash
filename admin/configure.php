@@ -1031,7 +1031,7 @@ if (!empty($_POST)):
 	  $configdmrgateway['Info']['TXFrequency'] = $newFREQtx;
 	  $configm17gateway['Info']['RXFrequency'] = $newFREQrx;
 	  $configm17gateway['Info']['TXFrequency'] = $newFREQtx;
-	  $configm17gateway['General']['Suffix'] = "M";
+	  $configm17gateway['General']['Suffix'] = "H";
 	  $configysfgateway['Info']['RXFrequency'] = $newFREQrx;
 	  $configysfgateway['Info']['TXFrequency'] = $newFREQtx;
 	  $configysfgateway['General']['Suffix'] = "Y";
