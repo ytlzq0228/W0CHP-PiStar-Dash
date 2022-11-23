@@ -180,7 +180,7 @@ table td {
 }
 
 .divTableCellSans {
-    font-size: <?php echo "$contentFontSize"; ?>px;
+    font-size: <?php echo "$mainFontSize"; ?>px;
     color: <?php echo $textContent; ?>;
 }
 

@@ -1801,24 +1801,40 @@ function getActualLink($logLines, $mode) {
                     if (strpos($logLine,"Statically linked to")) {
                         $to = preg_replace('/[^0-9]/', '', substr($logLine, 55, 5));
                         $to = preg_replace('/[^0-9]/', '', $to);
+                        $p25cache = fopen("/tmp/P25Link.txt", "w");
+                        $num = fwrite($p25cache,$to);
+                        fclose($p25cache);
                         return "TG".$to;
-		    }
+		    } else
 		    if (strpos($logLine,"Switched to reflector")) {
 		    	$to = preg_replace('/[^0-9]/', '', substr($logLine, 46, 5));
 		    	$to = preg_replace('/[^0-9]/', '', $to);
+		    	$p25cache = fopen("/tmp/P25Link.txt", "w");
+		    	$num = fwrite($p25cache,$to);
+		    	fclose($p25cache);
 		    	return "TG".$to;
-		    }
+		    } else
 		    if (strpos($logLine,"Starting P25Gateway")) {
 		    	return "<div class='inactive-mode-cell'>Not Linked</div>";
-		    }
+		    } else
 		    if (strpos($logLine,"unlinking")) {
 		    	return "<div class='inactive-mode-cell'>Not Linked</div>";
-		    }
+		    } else
 		    if (strpos($logLine,"Unlinking")) {
 		    	return "<div class='inactive-mode-cell'>Not Linked</div>";
-		    }
+		    } else
 		    if (strpos($logLine,"Unlinked")) {
+		    	$num = 0;
+		    	$p25cache = fopen("/tmp/P25Link.txt", "w");
+		    	$num = fwrite($p25cache,"Not Linked");
+		    	fclose($p25cache);
 		    	return "<div class='inactive-mode-cell'>Not Linked</div>";
+		    } else 
+		    if(!file_exists("/tmp/P25Link.txt")) {
+		    	return "<div class='inactive-mode-cell'>Not Linked</div>";
+		    } else {
+			$to = file_get_contents("/tmp/P25Link.txt");
+			return "TG".$to;
 		    }
 		}
 	    } else {
@@ -1827,7 +1843,6 @@ function getActualLink($logLines, $mode) {
 	    break;
         }
 }
-
 
 function decodeAlias($logLine) {
   if (substr($logLine, 34, 2) !=="04")

@@ -96,11 +96,20 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
                 } else {
                     $local_time = $dt->format('h:i:s A M j');
                 }
-                // malformed calls with a space and freeform text...address these
-                if (preg_match('/ /', $listElem[2])) {
-                    $listElem[2] = preg_replace('/ .*$/', "", $listElem[2]);
-                }
-                // end cheesy hack
+		if ($listElem[1] == "M17") {
+                   if (preg_match('/ /', $listElem[2])) {
+			$listElem[2] = preg_replace('!\s+!', ' ', $listElem[2]);
+		        $callBase = explode(" ", $listElem[2]);
+		        $callPre = $callBase[0];
+		        $callSuff = "/$callBase[1]";
+                    } else {
+		       $callPre = $listElem[2];
+		       $callSuff = "";
+		    }
+		} else {
+		    $callPre = $listElem[2];
+		    $callSuff = "";
+		}
 		// init geo/flag class
 		list ($Flag, $Name) = $Flags->GetFlag($listElem[2]);
 		if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE || !preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $listElem[2])) {
@@ -115,36 +124,36 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 		if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE) {
 		    if (file_exists("/etc/.CALLERDETAILS") && $testMMDVModeDMR == 1 ) {
 			if ($flContent = " " && empty($listElem[11])) {
-			    echo "<td class='noMob' align=\"left\">$listElem[2]</td><td align=\"left\" colspan='2'>&nbsp</td>";
+			    echo "<td class='noMob' align=\"left\">$callPre$callSuff</td><td align=\"left\" colspan='2'>&nbsp</td>";
 			} else {
-                            echo "<td align=\"left\">$listElem[2]</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
+                            echo "<td align=\"left\">$callPre$callSuff</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
 			}
 		    } else {
-                        echo "<td align=\"left\">$listElem[2]</td><td>$flContent</td>";
+                        echo "<td align=\"left\">$callPre$callSuff</td><td>$flContent</td>";
 		    }
 		} elseif (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $listElem[2])) {
 		    if (file_exists("/etc/.CALLERDETAILS") && $testMMDVModeDMR == 1 ) {
 			if ($flContent = " " && empty($listElem[11])) {
-			    echo "<td class='noMob' align=\"left\">$listElem[2]</td><td align=\"left\" colspan='2'>&nbsp</td>";
+			    echo "<td class='noMob' align=\"left\">$callPre$callSuff</td><td align=\"left\" colspan='2'>&nbsp</td>";
 			} else {
-                            echo "<td align=\"left\">$listElem[2]</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
+                            echo "<td align=\"left\">$callPre$callSuff</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
 			}
 		    } else {
-                        echo "<td align=\"left\">$listElem[2]</td><td>$flContent</td>";
+                        echo "<td align=\"left\">$callPre$callSuff</td><td>$flContent</td>";
 		    }
 		} else {
 		    if (strpos($listElem[2],"-") > 0) { $listElem[2] = substr($listElem[2], 0, strpos($listElem[2],"-")); }
 		    if ( $listElem[3] && $listElem[3] != '    ' ) {
 			if (file_exists("/etc/.CALLERDETAILS") && $testMMDVModeDMR == 1 ) {
-			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$listElem[2]\" target=\"_blank\">$listElem[2]</a>/$listElem[3]</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
+			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$callPre\" target=\"_blank\">$listElem[2]</a>/$listElem[3]</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
 			} else {
 			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$listElem[2]\" target=\"_blank\">$listElem[2]</a>/$listElem[3]</td><td>$flContent</td>";
 			}
 		    } else {
 			if (file_exists("/etc/.CALLERDETAILS") && $testMMDVModeDMR == 1 ) {
-			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$listElem[2]\" target=\"_blank\">$listElem[2]</a></td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
+			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$callPre\" target=\"_blank\">$callPre</a>$callSuff</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
 			} else {
-			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$listElem[2]\" target=\"_blank\">$listElem[2]</a></td><td>$flContent</td></td>";
+			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$callPre\" target=\"_blank\">$callPre</a>$callSuff</td><td>$flContent</td></td>";
 			}
 		    }
 		}
@@ -207,17 +216,16 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 
 		    echo "<td align=\"left\">$target</td>";
 
-		} else {
 		    if (strpos($listElem[4], "via ")) {
-			$listElem[4] = preg_replace("/via (.*)/", "<span class='noMob'>via $1</span>", $listElem[4]);
+		    	$listElem[4] = preg_replace("/via (.*)/", "<span class='noMob'> $1</span>", $listElem[4]);
 		    }
 		    if (strlen($listElem[4]) == 1) { $listElem[4] = str_pad($listElem[4], 8, " ", STR_PAD_LEFT); }
 		    if ( substr($listElem[4], 0, 6) === 'CQCQCQ' ) {
-			echo "<td align=\"left\">$listElem[4]</td>";
+		    	echo "<td align=\"left\">$listElem[4]</td>";
 		    } else {
 			echo "<td align=\"left\">".str_replace(" ","&nbsp;", $listElem[4])."</td>";
 		    }
-		}
+		    }
 
 		if ($listElem[5] == "RF") {
 			echo "<td><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>RF</span></td>";
@@ -243,16 +251,20 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 			echo "<td>$listElem[6]</td>";
 
 			// Colour the Loss Field
+			if ($listElem[1] == "M17") { echo "<td class='noMob'>---</td>"; } else {
 			if (floatval($listElem[7]) < 1) { echo "<td class='noMob'>$listElem[7]</td>"; }
 			elseif (floatval($listElem[7]) == 1) { echo "<td class='noMob'><span style='color:$backgroundModeCellActiveColor;font-weight:bold'>$listElem[7]</span></td>"; }
 			elseif (floatval($listElem[7]) > 1 && floatval($listElem[7]) <= 3) { echo "<td class='noMob'><span style='color:$backgroundModeCellPausedColor;font-weight:bold'>$listElem[7]</span></td>"; }
 			else { echo "<td class='noMob'><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>$listElem[7]</span></td>"; }
+			}
 
 			// Colour the BER Field
+			if ($listElem[1] == "M17") { echo "<td class='noMob'>---</td>"; } else {
 			if (floatval($listElem[8]) == 0) { echo "<td class='noMob'>$listElem[8]</td>"; }
 			elseif (floatval($listElem[8]) >= 0.0 && floatval($listElem[8]) <= 1.9) { echo "<td class='noMob'><span style='color:$backgroundModeCellActiveColor;font-weight:bold'>$listElem[8]</span></td>"; }
 			elseif (floatval($listElem[8]) >= 2.0 && floatval($listElem[8]) <= 4.9) { echo "<td class='noMob'><span style='color:$backgroundModeCellPausedColor;font-weight:bold'>$listElem[8]</span></td>"; }
 			else { echo "<td class='noMob'><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>$listElem[8]</span></td>"; }
+			}
 		}
 		echo"</tr>\n";
 		if (!empty($listElem[10] && file_exists("/etc/.SHOWDMRTA")) && (!file_exists('/etc/.CALLERDETAILS'))) {

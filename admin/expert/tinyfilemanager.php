@@ -29,7 +29,7 @@ require($fm_auth_file); // Auth file: /etc/tinyfilemanager-auth.php
  */
 
 //Application Title
-define('APP_TITLE', 'File Manager');
+define('APP_TITLE', 'W0CHP-PiStar-Dash File Manager');
 
 // --- EDIT BELOW CONFIGURATION CAREFULLY ---
 
@@ -37,7 +37,7 @@ define('APP_TITLE', 'File Manager');
 // Auth with login/password 
 // set true/false to enable/disable it
 // Is independent from IP white- and blacklisting
-$use_auth = true;
+$use_auth = false;
 
 // Login user name and password
 // Users: array('Username' => 'Password', 'Username2' => 'Password2', ...)
@@ -2056,9 +2056,9 @@ $all_files_size = 0;
                     <a href="javascript:document.getElementById('a-copy').click();" class="btn btn-small btn-outline-primary btn-2"><i class="fa fa-files-o"></i> <?php echo lng('Copy') ?> </a></li>
             </ul>
         </div>
-        <div class="col-3 d-none d-sm-block"><a href="https://tinyfilemanager.github.io" target="_blank" class="float-right text-muted">Tiny File Manager <?php echo $version; ?></a></div>
+        <div class="col-3 d-none d-sm-block float-right text-muted">Tiny File Manager <?php echo $version; ?></a></div>
         <?php else: ?>
-            <div class="col-12"><a href="https://tinyfilemanager.github.io" target="_blank" class="float-right text-muted">Tiny File Manager <?php echo $version; ?></a></div>
+            <div class="col-12 float-right text-muted">Tiny File Manager <?php echo $version; ?></a></div>
         <?php endif; ?>
     </div>
 
