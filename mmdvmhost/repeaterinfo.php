@@ -748,7 +748,7 @@ if (getServiceEnabled('/etc/dgidgateway') == 1 )  { // Hide DGId GW info when GW
             echo "<div class='divTableCell cell_content'><div style=\"background: $tableRowEvenBg;\" title=\"YSF Mode Paused\">YSF Mode Paused</div></div>\n";
         }
           else if (isProcessRunning("DGIdGateway")) {
-            echo "<div class='divTableCell cell_content'><div style=\"background: $tableRowEvenBg;\" title=\"".getDGIdLinks()."\">".getDGIdLinks()."</div></div>\n";
+            echo "<div class='divTableCell cell_content'><div style=\"background: $tableRowEvenBg;\" title=\"".str_replace("<br />", " ", getDGIdLinks())."\">".getDGIdLinks()."</div></div>\n";
         } else {
             echo "<div class='divTableCell cell_content'><div class='inactive-mode-cell'>Service Not Started</div></div>\n";
         }
