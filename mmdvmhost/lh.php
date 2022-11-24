@@ -193,20 +193,16 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 			echo "<td>$listElem[6]</td>";
 
 			// Colour the Loss Field
-			if ($listElem[1] == "M17") { echo "<td class='noMob'>---</td>"; } else {
 			if (floatval($listElem[7]) < 1) { echo "<td class='noMob'>$listElem[7]</td>"; }
 			elseif (floatval($listElem[7]) == 1) { echo "<td class='noMob'><span style='color:$backgroundModeCellActiveColor;font-weight:bold'>$listElem[7]</span></td>"; }
 			elseif (floatval($listElem[7]) > 1 && floatval($listElem[7]) <= 3) { echo "<td class='noMob'><span style='color:$backgroundModeCellPausedColor;font-weight:bold'>$listElem[7]</span></td>"; }
 			else { echo "<td class='noMob'><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>$listElem[7]</span></td>"; }
-			}
 
 			// Colour the BER Field
-			if ($listElem[1] == "M17") { echo "<td class='noMob'>---</td>"; } else {
 			if (floatval($listElem[8]) == 0) { echo "<td class='noMob'>$listElem[8]</td>"; }
 			elseif (floatval($listElem[8]) >= 0.0 && floatval($listElem[8]) <= 1.9) { echo "<td class='noMob'><span style='color:$backgroundModeCellActiveColor;font-weight:bold'>$listElem[8]</span></td>"; }
 			elseif (floatval($listElem[8]) >= 2.0 && floatval($listElem[8]) <= 4.9) { echo "<td class='noMob'><span style='color:$backgroundModeCellPausedColor;font-weight:bold'>$listElem[8]</span></td>"; }
 			else { echo "<td class='noMob'><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>$listElem[8]</span></td>"; }
-			}
 		}
 		echo"</tr>\n";
 		if (!empty($listElem[10] && file_exists("/etc/.SHOWDMRTA")) && (!file_exists('/etc/.CALLERDETAILS'))) {
