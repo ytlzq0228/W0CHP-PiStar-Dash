@@ -509,6 +509,7 @@ function getDGIdLinks() {
             preg_match('/(?<=to )\S+(.*)/i', $logLine, $match); // find DG-ID # in log line after "set to" string.
             $linkedDGId = str_replace("(", "<br />(", $match[0]); // remove occasional comma
             $linkedDGId = str_replace("via", "<br />via", $linkedDGId); // remove occasional comma
+            $linkedDGId = str_replace("timeout", "inactivity", $linkedDGId); // remove occasional comma
             $linkedDGId = "DG-ID: $linkedDGId";
 	    }
     }
