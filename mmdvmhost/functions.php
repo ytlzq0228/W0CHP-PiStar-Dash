@@ -1103,9 +1103,9 @@ function getHeardList($logLines) {
     $nxdnber	 = "";
     $nxdnrssi	 = "";
     $m17duration = "";
-    $m17loss	 = "";
-    $m17ber	 = "";
-    $m17rssi	 = "";
+    $m17loss	 = "---";
+    $m17ber	 = "---";
+    $m17rssi	 = "---";
     $pocsagduration = "";
     $ts1alias    = "---";
     $ts2alias    = "---";
@@ -1307,9 +1307,9 @@ function getHeardList($logLines) {
 			break;
 		case "M17":
 			$m17duration	= $duration;
-			$m17loss	= $loss;
-			$m17ber	= $ber;
-			$m17rssi	= $rssi;
+			$m17loss	= "---";
+			$m17ber		= "---";
+			$m17rssi	= "---";
 			break;
 		    case "POCSAG":
 			$alias = "";
