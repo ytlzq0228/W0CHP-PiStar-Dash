@@ -862,7 +862,7 @@ function getMMDVMLog() {
         } else { // caller names/last caller selected! keep perf. in check..
 	    if(isset($_SESSION['PiStarRelease']['Pi-Star']['ProcNum']) && ($_SESSION['PiStarRelease']['Pi-Star']['ProcNum'] >= 4)) { // multi-core
 		if ($_SESSION['CSSConfigs']['ExtraSettings']['LastHeardRows'] > 40 ) {  // more than 40 rows selected
-		    $logLines1 = explode("\n", `tail -1500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`); // search last 500 lines
+		    $logLines1 = explode("\n", `tail -1500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`); // search last 1500 lines
 		} else {
 		    $logLines1 = explode("\n", `tail -500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`); // 40 or less rows selected
 		}
@@ -879,7 +879,7 @@ function getMMDVMLog() {
         if (file_exists(MMDVMLOGPATH."/".MMDVMLOGPREFIX."-".gmdate("Y-m-d", time() - 86340).".log")) {
 	    $logPath = MMDVMLOGPATH."/".MMDVMLOGPREFIX."-".gmdate("Y-m-d", time() - 86340).".log";
 	    if(isset($_SESSION['PiStarRelease']['Pi-Star']['ProcNum']) && ($_SESSION['PiStarRelease']['Pi-Star']['ProcNum'] >= 4)) { // multi-core
-		$logLines2 = explode("\n", `tail -1500 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`);
+		$logLines2 = explode("\n", `tail -1000 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`);
 	    } else {
 		$logLines2 = explode("\n", `tail -250 $logPath | sed '/\(CSBK\|overflow\|Downlink\|Valid\|Invalid\)/d' | egrep -h "^M.*(from|end|watchdog|lost|Alias|0000)"`); // single-core crap
 	    }
@@ -891,12 +891,7 @@ function getMMDVMLog() {
     } else {
         $logLines = $logLines1;
     }
-    $fileList = array_filter(array("/etc/.GETNAMES", "/etc/.CALLERDETAILS", "/etc/.SHOWDMRTA"), 'file_exists');
-    if (!$file = array_shift($fileList)) {
-        $logLines = array_slice($logLines, -1500);
-    } else {
-        $logLines = array_slice($logLines, -500);
-    }
+    $logLines = array_slice($logLines, -1500);
     return $logLines;
 }
 
