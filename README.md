@@ -16,6 +16,8 @@ on there are usually happy to help, too.  A very easy way to connect to the
 support reflector, is via DMR; BrandMeister and/or TGIF Network, TalkGroup
 `3170603`.
 
+## Installing `W0CHP-PiStar-Dash`
+
 There are two methods of installation...
 
 1. [Installation on an existing Pi-Star hotspot](#hotspot-installation)
@@ -68,19 +70,6 @@ There are two methods of installation...
 
 5. When the installer completes, refresh your dashboard home page to see the changes.
 
-## Updating `W0CHP-PiStar-Dash`
-
-Once you install `W0CHP-PiStar-Dash`, it will automatically be kept up-to-date
-with any new features/versions/etc. This is made possible via the native,
-nightly Pi-Star updating process.[^3]
-
-You can also manually invoke the update process via the dashboard admin section
-(`Admin -> Update`), or by command line:
-
-```text
-sudo pistar-update
-```
-
 ### Installing `W0CHP-PiStar-Dash` from a Bullseye-based Disk Image {#disk-image-installation}
 
 Yes, you read that correctly; the `W0CHP-PiStar-Dash` disk image uses Bullseye
@@ -96,8 +85,29 @@ The Bullseye disk image is ready-to-go; with Pi-Star 4.1.6 and `W0CHP-PiStar-Das
 **Notes: This disk image is for Raspberry Pi-based platforms. You will need an
 SD card of at least 4GB to install this disk image.**
 
-* Disk Image Download: [<code>WPSD_Latest.img.xz</code>](https://w0chp.net/WPSD_Latest.img.xz) (664MB compressed; 2.3GB decompressed)
-* MD5 Checksums: [<code>WPSD_Latest_MD5.txt</code>](https://w0chp.net/WPSD_Latest_MD5.txt)
+* Disk Image Download: [<code>**WPSD_Latest.img.xz**</code>](/WPSD_Latest.img.xz) (775MB compressed; 2.6GB decompressed)
+* MD5 Checksums: [<code>**WPSD_Latest_MD5.txt**</code>](/WPSD_Latest_MD5.txt)
+
+**HINTS:**
+
+1. When first booting from the Bullseye-based disk image, go grab a coffee, drink, etc., perhaps even  with
+   friends (if you have any), and let the file-system auto-expand and the rest of the system initialize. Be patient.
+2. When installing from the Bullseye-based disk image, it's a best practice (and better) to *run an update
+   **before** making configuration changes* to your hotspot. This ensures that configuration changes you make
+   are the most tested and up-to-date.
+
+## Updating `W0CHP-PiStar-Dash`
+
+Once you install `W0CHP-PiStar-Dash`, it will automatically be kept up-to-date
+with any new features/versions/etc. This is made possible via the native,
+nightly Pi-Star updating process.[^3]
+
+You can also manually invoke the update process via the dashboard admin section
+(`Admin -> Update`), or by command line:
+
+```text
+sudo pistar-update
+```
 
 ## Uninstalling `W0CHP-PiStar-Dash`
 
