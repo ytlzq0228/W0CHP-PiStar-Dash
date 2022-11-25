@@ -68,7 +68,7 @@ $status = exec('systemctl status mmdvm-log-backup.timer | grep masked');
                                    exec ('sudo systemctl stop mmdvm-log-backup.service');
                                    exec ('sudo systemctl stop mmdvm-log-restore.service');
                                    exec ('sudo systemctl stop mmdvm-log-shutdown.service');
-				   exec ("sudo rm -rf $log_dir/MMDVM* $log_backup_dir/* > /dev/null");
+				   exec ("sudo rm -rf $log_dir/* $log_backup_dir/* > /dev/null");
 				   exec ("sudo pistar-services start");
                                    exec ('sudo systemctl restart mmdvm-log-backup.timer');
                                    exec ('sudo systemctl restart mmdvm-log-backup.service');
