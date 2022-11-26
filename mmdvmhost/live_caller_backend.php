@@ -53,6 +53,10 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
     }
 }
 
+if (strpos($listElem[4], "via ")) {
+    $listElem[4] = preg_replace("/via (.*)/", "$1", $listElem[4]);
+}
+
 if ( substr($listElem[4], 0, 6) === 'CQCQCQ' ) {
 	$target = $listElem[4];
 } else {
