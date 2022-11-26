@@ -48,7 +48,8 @@ $diskUsed = @exec("df --block-size=1 / | tail -1 | awk {'print $3'}");
 $diskTotal = @exec("df --block-size=1 / | tail -1 | awk {'print $2'}");
 $diskPercent = sprintf('%.2f',($diskUsed / $diskTotal) * 100);
 $rootfs_free = $diskTotal - $diskUsed;
-$rootfs_stats = formatSize($diskUsed). " of " .formatSize($diskTotal). " <small>($diskPercent% used / ".formatSize($rootfs_free)." free)</small>" ;
+$rootfs_stats = formatSize($diskUsed). " of " .formatSize($diskTotal);
+$rootfsTip = "<strong>Used:</strong> $diskPercent%<br><strong>Free:</strong> ".formatSize($rootfs_free);
 
 // Get the CPU temp and colour the box accordingly...
 // Values/thresholds gathered from: 
@@ -67,7 +68,8 @@ $load = number_format(round($loads[0]/($core_nums + 1)*100, 2));
 // get ram
 $sysRamUsed = $system['mem_info']['MemTotal'] - $system['mem_info']['MemFree'] - $system['mem_info']['Buffers'] - $system['mem_info']['Cached'];
 $sysRamPercent = sprintf('%.2f',($sysRamUsed / $system['mem_info']['MemTotal']) * 100); 
-$ramDeetz = formatSize($sysRamUsed). " of ".formatSize($system['mem_info']['MemTotal']). " <small>($sysRamPercent% used / ".formatSize($system['mem_info']['MemTotal'] - $sysRamUsed)." free)</small>";
+$ramDeetz = formatSize($sysRamUsed). " of ".formatSize($system['mem_info']['MemTotal']);
+$ramTip = "<strong>Used:</strong> $sysRamPercent%<br><strong>Free:</strong> ".formatSize($system['mem_info']['MemTotal'] - $sysRamUsed);
 
 // inet traffic
 $iface = $_SESSION['PiStarRelease']['Pi-Star']['iface'];
@@ -93,11 +95,9 @@ if (empty($VNStatGetData) == false) {
     <div class="divTableRow">
       <div class="divTableCell cell_content middle"><a class="tooltip" href="#" style="border-bottom:1px solid; color:<?php echo $textContent; ?>;"><?php echo $load; ?>%<span><strong>Platform:</strong> <?php echo $_SESSION['PiStarRelease']['Pi-Star']['Platform'];?><br /><strong><?php echo 'OS:</strong> ' . $system['os']; ?><br /><strong>Linux Kernel:</strong> <?php echo php_uname('r');?><br /><?php echo $os; ?><strong>Uptime:</strong> <?php  echo(str_replace("up", "", exec('uptime -p')));?></a></span></div>
       <?php echo $cpuTempHTML; ?>
-      <div class="divTableCell cell_content middle"><?php echo $ramDeetz;?></div>
-      <div class="divTableCell cell_content middle;"><?php echo $rootfs_stats;?></div>
-      <div class="divTableCell cell_content middle;"><a class="tooltip"
-href="#" style="border-bottom:1px dotted;color: <?php echo $textContent;
-?>;"><?php echo $NetworkTraffic;?><span><strong>Total Network Traffic</strong><br /><?php echo "$NetTrafficTotal" . " combined<br />" . "$Data[6] $Data[7]" . " avg. rate<br />"; ?>(Interface: <?php echo($iface); ?>)</a></span></div>
+      <div class="divTableCell cell_content middle"><a class="tooltip" href="#" style="border-bottom:1px dotted;color: <?php echo $textContent;?>;"><?php echo $ramDeetz; ?><span><?php echo $ramTip; ?></span></a></div>
+      <div class="divTableCell cell_content middle;"><a class="tooltip" href="#" style="border-bottom:1px dotted;color: <?php echo $textContent;?>;"><?php echo $rootfs_stats;?><span><?php echo $rootfsTip; ?></span></a></div>
+      <div class="divTableCell cell_content middle;"><a class="tooltip" href="#" style="border-bottom:1px dotted;color: <?php echo $textContent;?>;"><?php echo $NetworkTraffic;?><span><strong>Total Network Traffic</strong><br /><?php echo "$NetTrafficTotal" . " combined<br />" . "$Data[6] $Data[7]" . " avg. rate<br />"; ?>(Interface: <?php echo($iface); ?>)</a></span></div>
     </div>
   </div>
 </div>
