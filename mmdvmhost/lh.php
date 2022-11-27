@@ -96,17 +96,21 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
                 } else {
                     $local_time = $dt->format('h:i:s A M j');
                 }
-		if ($listElem[1] == "M17") {
-                   if (preg_match('/ /', $listElem[2])) {
-			$listElem[2] = preg_replace('!\s+!', ' ', $listElem[2]);
-		        $callBase = explode(" ", $listElem[2]);
-		        $callPre = $callBase[0];
-		        $callSuff = "/$callBase[1]";
-                    } else {
-		       $callPre = $listElem[2];
-		       $callSuff = "";
+		if (preg_match('/[\s-]/', $listElem[2])) { // handle and display calls with certain suffixes:
+		    if ($listElem[1] == "M17") {  // M17 supports two suffix types: "-n" and a "/n". MMDVMHost uses multiple, spaces instead of a "/". Let's parse those suffixes...
+			$listElem[2] = preg_replace('!\s+!', ',', $listElem[2]);
+			$listElem[2] = preg_replace('/-/', ',', $listElem[2]);
+		    } else { // all other modes with dash and/or single space
+			$listElem[2] = preg_replace('/[\s+-]/', ',', $listElem[2]);
 		    }
-		} else {
+		    $callBase = explode(",", $listElem[2]);
+		    $callPre = $callBase[0];
+		    if (empty($callBase[1])) { // handler for suffix specified, but has space or is empty (e.g. clueless YSF users)
+			$callSuff = ""; // kill invalid suffix
+		    } else {
+			$callSuff = "-$callBase[1]"; // "CALL-SUFF" format
+		    }
+		} else { // no suffix
 		    $callPre = $listElem[2];
 		    $callSuff = "";
 		}
@@ -142,7 +146,6 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
                         echo "<td align=\"left\">$callPre$callSuff</td><td>$flContent</td>";
 		    }
 		} else {
-		    if (strpos($listElem[2],"-") > 0) { $listElem[2] = substr($listElem[2], 0, strpos($listElem[2],"-")); }
 		    if ( $listElem[3] && $listElem[3] != '    ' ) {
 			if (file_exists("/etc/.CALLERDETAILS") && $testMMDVModeDMR == 1 ) {
 			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$callPre\" target=\"_blank\">$listElem[2]</a>/$listElem[3]</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
