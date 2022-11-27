@@ -976,8 +976,8 @@ td.lookatme {
   display: table-cell;
 }
 
-.lookatme {
-  color: #630030;
+a.lookatme {
+  color: steelblue;
   opacity: 1;
   position: relative;
   display: inline-block;
@@ -990,7 +990,7 @@ td.lookatme {
 /* this pseudo element will be faded in and out in front /*
 /* of the lookatme element to create an efficient animation. */
 .lookatme:after {
-  color: #e33100;
+  color: white;
   text-shadow: 0 0 5px #e33100;
   /* in the html, the lookatme-text attribute must */
   /* contain the same text as the .lookatme element */
