@@ -114,13 +114,13 @@ if(empty($_POST['func'])) {
                 },3600000);
             });
           $(document).ready(function() {
-	    $('.menuhwinfo').click(function() {
-	      $(".hw_toggle").slideToggle(function() {
-	        localStorage.setItem('visible', $(this).is(":visible"));
-	      })
-	    });
-	    $('.hw_toggle').toggle(localStorage.getItem('visible') === 'true');
-	  });
+            $('.menuhwinfo').click(function() {
+              $(".hw_toggle").slideToggle(function() {
+                localStorage.setItem('hwinfo_visible', $(this).is(":visible"));
+              })
+            });
+            $('.hw_toggle').toggle(localStorage.getItem('hwinfo_visible') === 'true');
+          });
 	  jQuery(document).ready(function() {
             jQuery('#lh_details').click(function(){
               jQuery('#lh_info').slideToggle('slow');
