@@ -74,11 +74,12 @@ if(empty($_POST['func'])) {
 	</script>
         <link href="/js/select2/css/select2.min.css?version=<?php echo $versionCmd; ?>" rel="stylesheet" />
         <script src="/js/select2/js/select2.full.min.js?version=<?php echo $versionCmd; ?>"></script>
+        <script src="/js/select2/js/select2-searchInputPlaceholder.js?version=<?php echo $versionCmd; ?>"></script>
         <script type="text/javascript">
           $(document).ready(function() {
-            $('.ysfLinkHost').select2();
-            $('.p25LinkHost').select2();
-            $('.nxdnLinkHost').select2();
+            $('.ysfLinkHost').select2({searchInputPlaceholder: 'Search...'});
+            $('.p25LinkHost').select2({searchInputPlaceholder: 'Search...'});
+            $('.nxdnLinkHost').select2({searchInputPlaceholder: 'Search...'});
             $(".RefName").select2({
               tags: true,
               dropdownAutoWidth : true,
@@ -102,9 +103,9 @@ if(empty($_POST['func'])) {
               }
             });
             $('.dmrMasterHost3').select2();
-            $('.dmrMasterHost3Startup').select2();
+            $('.dmrMasterHost3Startup').select2({searchInputPlaceholder: 'Search...'});
             $('.ModSel').select2();
-            $('.M17Ref').select2();
+            $('.M17Ref').select2({searchInputPlaceholder: 'Search...'});
           });
           $(document).ready(function(){
             setInterval(function(){
