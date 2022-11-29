@@ -6,15 +6,8 @@ hacking and enjoyment, and you're fully on your own. *Use at your own risk*,
 and DO NOT ask me for support.  Nor should you file/report any bugs etc. on any
 official Pi-Star medium...this is not an official Pi-Star release.
 
-It's *strongly* recommended that you read and heed the [rules and
-caveats](https://w0chp.net/w0chp-pistar-dash/#rules).
-
-Users of `W0CHP-PiStar-Dash` are on [Module **E** of
-XLX493](https://w0chp.net/xlx493-reflector/). If you're lucky; and if I'm in a
-good mood and/or if my availability allows, I can help on there.  Other users
-on there are usually happy to help, too.  A very easy way to connect to the
-support reflector, is via DMR; BrandMeister and/or TGIF Network, TalkGroup
-`3170603`.
+It's *strongly* recommended that you read and heed the [warnings and
+caveats](https://w0chp.net/w0chp-pistar-dash/#caveats).
 
 ## Installing `W0CHP-PiStar-Dash`
 
