@@ -93,6 +93,20 @@ tt, code, kbd, pre {
         font-family: 'Inconsolata', monospace !important;
 }
 
+.SmallHeader {
+    font-family: 'Inconsolata', monospace !important;
+    font-size: 12px; 
+}
+.shRight {
+    text-align: right;
+    padding-right: 8px;
+}
+.shLeft {
+    text-align: left;
+    padding-left: 8px;
+    float: left;
+}
+
 #tail {
     font-family: 'Inconsolata', monospace;
     height: 640px;
