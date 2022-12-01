@@ -4625,8 +4625,8 @@ fclose($dmrMasterFile);
     <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['bm_network'];?>:<span><b>BrandMeister Dashboards</b>Direct links to your BrandMeister Dashboards</span></a></td>
     <td colspan="3" align="left">
-    <a href="https://brandmeister.network/??page=device&amp;id=<?php if (isset($configdmrgateway['DMR Network 1']['Id'])) { echo $configdmrgateway['DMR Network 1']['Id']; } else { echo $configmmdvm['General']['Id']; } ?>" target="_new">Repeater Information</a> |
-    <a href="https://brandmeister.network/??page=device-edit&amp;id=<?php if (isset($configdmrgateway['DMR Network 1']['Id'])) { echo $configdmrgateway['DMR Network 1']['Id']; } else { echo $configmmdvm['General']['Id']; } ?>" target="_new">Edit Repeater (BrandMeister Selfcare)</a>
+    <a href="https://brandmeister.network/?page=device&amp;id=<?php if (isset($configdmrgateway['DMR Network 1']['Id'])) { echo $configdmrgateway['DMR Network 1']['Id']; } else { echo $configmmdvm['General']['Id']; } ?>" target="_new">Repeater Information</a> |
+    <a href="https://brandmeister.network/?page=device-edit&amp;id=<?php if (isset($configdmrgateway['DMR Network 1']['Id'])) { echo $configdmrgateway['DMR Network 1']['Id']; } else { echo $configmmdvm['General']['Id']; } ?>" target="_new">Edit Repeater (BrandMeister Selfcare)</a>
     </td>
     </tr>
     <tr>
@@ -4808,8 +4808,8 @@ fclose($dmrMasterFile);
     <tr>
     <td align="left"><a class="tooltip2" href="#">'.$lang['bm_network'].':<span><b>BrandMeister Dashboards</b>Direct links to your BrandMeister Dashboards</span></a></td>
     <td colspan="3">
-      <a href="https://brandmeister.network/??page=device&amp;id='.$configmmdvm['General']['Id'].'" target="_new">Repeater Information</a> |
-      <a href="https://brandmeister.network/??page=device-edit&amp;id='.$configmmdvm['General']['Id'].'" target="_new">Edit Repeater (BrandMeister Selfcare)</a>
+      <a href="https://brandmeister.network/?page=device&amp;id='.$configmmdvm['General']['Id'].'" target="_new">Repeater Information</a> |
+      <a href="https://brandmeister.network/?page=device-edit&amp;id='.$configmmdvm['General']['Id'].'" target="_new">Edit Repeater (BrandMeister Selfcare)</a>
     </td>
     </tr>'."\n";}
     if (substr($dmrMasterNow, 0, 8) == "FreeDMR_") {
