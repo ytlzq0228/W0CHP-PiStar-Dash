@@ -124,7 +124,7 @@ function formatSize( $bytes ) {
     <body>
 	<div class="container">
 	    <div class="header">
-		<div class="SmallHeader shLeft">Hostname: <?php echo exec('cat /etc/hostname'); ?></div><div class="SmallHeader shRight">Pi-Star: <?php echo $_SESSION['PiStarRelease']['Pi-Star']['Version'].'<br />';?> <?php echo $version; system('/usr/local/sbin/pistar-check4updates'); ?></div>
+		<div class="SmallHeader shLeft">Hostname: <?php echo exec('cat /etc/hostname'); ?></div><div class="SmallHeader shRight">Pi-Star: Ver.#  <?php echo $_SESSION['PiStarRelease']['Pi-Star']['Version'].'<br />';?> <?php echo $version; system('/usr/local/sbin/pistar-check4updates'); ?></div>
 		<h1>Pi-Star <?php echo $lang['digital_voice']." ".$lang['dashboard']." - Hardware/Software Details ";?></h1>
 		<p>
 		    <div class="navbar">

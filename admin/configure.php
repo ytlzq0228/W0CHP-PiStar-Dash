@@ -539,7 +539,7 @@ if (file_exists($bmAPIkeyFile) && fopen($bmAPIkeyFile,'r')) {
 <div class="container">
 <div class="header">
 <div class="SmallHeader shLeft">Hostname: <?php echo exec('cat /etc/hostname'); ?></div>
-<div class="SmallHeader shRight">Pi-Star: <?php echo $configPistarRelease['Pi-Star']['Version'].'<br />';?>
+<div class="SmallHeader shRight">Pi-Star: Ver.#  <?php echo $configPistarRelease['Pi-Star']['Version'].'<br />';?>
 <?php if (constant("AUTO_UPDATE_CHECK") == "true") { ?>
 <div id="CheckUpdate"><?php echo $version; system('/usr/local/sbin/pistar-check4updates'); ?></div></div>
 <?php } else { ?>
