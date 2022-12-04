@@ -819,11 +819,14 @@ if (getServiceEnabled('/etc/dgidgateway') == 1 )  { // Hide DGId GW info when GW
 		if (strpos($P25tg, 'Not Linked') || strpos($P25tg, 'Service Not Started')) {
 		    echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteP25GResults, "p25").">$P25tg</div></div>\n";
 		} else {
-		    if (file_exists("/etc/.TGNAMES")) {
-			$P25_target = exec("grep -w \"$P25tg\" /usr/local/etc/TGList_P25.txt | awk -F';' '{print $2}'");
-			echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteP25GResults, "p25").">TG $P25tg<br /><small>($P25_target)</small></div></div>\n";
+		    if (empty($P25tg)) {
+			echo "<div class='divTableCell cell_content'><div class='inactive-mode-cell'>Not Linked</div></div>\n";
 		    } else {
-			echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteP25GResults, "p25").">TG $P25tg</div></div>\n";
+			if (file_exists("/etc/.TGNAMES")) {
+			    $P25_target = exec("grep -w \"$P25tg\" /usr/local/etc/TGList_P25.txt | awk -F';' '{print $2}'");
+			    echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteP25GResults, "p25").">TG $P25tg<br /><small>($P25_target)</small></div></div>\n";			    } else {
+			    echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteP25GResults, "p25").">TG $P25tg</div></div>\n";
+			}
 		    }
 		}
 	    }
@@ -865,11 +868,15 @@ if (getConfigItem("NXDN", "RAN", $_SESSION['MMDVMHostConfigs'])) {
 	    if (strpos($NXDNtg, 'Not Linked') || strpos($NXDNtg, 'Service Not Started')) {
 		echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteNXDNGResults, "nxdn").">$NXDNtg</div></div>\n";
 	    } else {
-		if (file_exists("/etc/.TGNAMES")) {
-		    $NXDN_target = exec("grep -w \"$NXDNtg\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
-		    echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteNXDNGResults, "nxdn").">TG $NXDNtg<br /><small>($NXDN_target)</small></div></div>\n";
-	    	} else {
-		    echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteNXDNGResults, "nxdn").">TG $NXDNtg</div></div>\n";
+		if (empty($P25tg)) {
+		    echo "<div class='divTableCell cell_content'><div class='inactive-mode-cell'>Not Linked</div></div>\n";
+		} else {
+		    if (file_exists("/etc/.TGNAMES")) {
+			$NXDN_target = exec("grep -w \"$NXDNtg\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
+			echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteNXDNGResults, "nxdn").">TG $NXDNtg<br /><small>($NXDN_target)</small></div></div>\n";
+		    } else {
+			echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteNXDNGResults, "nxdn").">TG $NXDNtg</div></div>\n";
+		    }
 		}
 	    }
 	}
