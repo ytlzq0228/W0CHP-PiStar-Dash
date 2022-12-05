@@ -32,7 +32,8 @@ function system_information() {
     return array('date' => date('Y-m-d H:i:s T'),
                  'mem_info' => $meminfo,
                  'partitions' => disk_list(),
-		 'os' => trim( exec( 'lsb_release -sd' ) ),
+		 'os' => preg_replace('/\(|\)/','"', trim( exec( 'lsb_release -sd' ) )),
+		 'os_ver' => trim( exec( 'cat /etc/debian_version' ) ),
     );
 }
 
@@ -194,7 +195,7 @@ function formatSize( $bytes ) {
 		    }
 		    // OS Information
 		    echo "<tr><th align='left'>System</th><th align='left'>Version</th></tr>";
-		    echo "<tr><td align='left'>Operating System</td><td align='left'>{$system['os']}</td></tr>";
+		    echo "<tr><td align='left'>Operating System</td><td align='left'>{$system['os']}, release ver. {$system['os_ver']}</td></tr>";
 		    // Binary Information
 		    echo "  <tr><th align='left'>Software Binaries</th><th align='left'>Version</th></tr>\n";
 		    if (is_executable('/usr/local/bin/MMDVMHost')) {
