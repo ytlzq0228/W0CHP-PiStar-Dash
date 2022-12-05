@@ -68,9 +68,9 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';	      // Translat
 		else {
 		    print "</td>";
 		}
-                print "<td align=\"left\" width=\"100\">$YourCall</td>";
-		print "<td align=\"left\" width=\"100\">$Rpt1</td>";
-		print "<td align=\"left\" width=\"100\">$Rpt2</td>";
+                print "<td align=\"left\">$YourCall</td>";
+		print "<td align=\"left\">$Rpt1</td>";
+		print "<td align=\"left\">$Rpt2</td>";
 		print "</tr>\n";
 	    }
 	}

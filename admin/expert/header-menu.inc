@@ -13,7 +13,9 @@
 	    <a class="menuupgrade" href="/admin/expert/upgrade.php">Upgrade</a>
 	    <a class="menuupdate" href="/admin/update.php"><?php echo $lang['update'];?></a>
 	    <a class="menuadmin" href="/admin/"><?php echo $lang['admin'];?></a>
-        <a class="menulive" href="/live/">Live Caller</a>
+	    <?php if (file_exists("/etc/dstar-radio.mmdvmhost")) { ?>
+	    <a class="menulive" href="/live/">Live Caller</a>
+	    <?php } ?>
 	    <a class="menudashboard" href="/"><?php echo $lang['dashboard'];?></a>
 	</div>
 
