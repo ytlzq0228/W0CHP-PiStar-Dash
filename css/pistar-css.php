@@ -803,7 +803,7 @@ select {
 }
 
 .menutgnames:before {
-    content: "\f05a";
+    content: "\f0c0";
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
