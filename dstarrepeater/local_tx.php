@@ -58,12 +58,11 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';	      // Translat
                     $local_time = date('h:i:s A M j');
                 }
                 print "<td align=\"left\">$local_time</td>";
-		print "<td align=\"left\" width=\"180\"><a href=\"http://www.qrz.com/db/$MyCallLink\" target=\"_blank\">$MyCall</a>";
-		//print "<td align=\"left\" width=\"180\"><a href=\"http://www.qrz.com/db/$MyCallLink\" data-featherlight=\"iframe\" data-featherlight-iframe-min-width=\"90%\" data-featherlight-iframe-max-width=\"90%\" data-featherlight-iframe-width=\"2000\" data-featherlight-iframe-height=\"2000\">$MyCall</a>";
+		print "<td align=\"left\"><a href=\"http://www.qrz.com/db/$MyCallLink\" target=\"_blank\">$MyCall</a>";
                 if($MyId) { print "/".$MyId."</td>"; } else { print "</td>"; }
-                print "<td align=\"left\" width=\"100\">$YourCall</td>";
-                print "<td align=\"left\" width=\"100\">$Rpt1</td>";
-                print "<td align=\"left\" width=\"100\">$Rpt2</td>";
+                print "<td align=\"left\">$YourCall</td>";
+                print "<td align=\"left\">$Rpt1</td>";
+                print "<td align=\"left\">$Rpt2</td>";
                 print "</tr>\n";
 	    }
 	}

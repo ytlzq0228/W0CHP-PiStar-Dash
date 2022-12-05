@@ -67,8 +67,9 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/ssh_access.php") {
           </a>
           <a class="menuadmin" href="/admin/">Admin
           </a>
-          <a class="menulive" href="/live/">Live Caller
-          </a>
+	  <?php if (file_exists("/etc/dstar-radio.mmdvmhost")) { ?>
+	  <a class="menulive" href="/live/">Live Caller</a>
+	  <?php } ?>
           <a class="menudashboard" href="/">Dashboard
           </a>
         </div>
