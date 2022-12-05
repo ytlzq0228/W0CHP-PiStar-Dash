@@ -186,7 +186,9 @@ if(empty($_POST['func'])) {
 			    echo ' <a class="menulogs" href="/admin/live_modem_log.php">'.$lang['live_logs'].'</a>'."\n";
 			} ?>
 			<a class="menuadmin" href="/admin/"><?php echo $lang['admin'];?></a>
+			<?php if (file_exists("/etc/dstar-radio.mmdvmhost")) { ?>
 			<a class="menulive" href="/live/">Live Caller</a>
+			<?php } ?>
 			<a class="menuhwinfo" href='#'>Toggle SysInfo</a>
 			<a class="menudashboard" href="/"><?php echo $lang['dashboard'];?></a>
 		    </div> 
@@ -197,7 +199,9 @@ if(empty($_POST['func'])) {
 	    // Check if config files need updating but supress if new installation
 	    if (($_SERVER["PHP_SELF"] == "/admin/index.php") || ($_SERVER["PHP_SELF"] == "/index.php")) {
 		$configUpNeeded = $_SESSION['PiStarRelease']['Pi-Star']['ConfUpdReqd'];
-                if (!isset($configUpNeeded) || ($configUpNeeded < $configUpdateRequired) && file_exists('/etc/dstar-radio.mmdvmhost') || file_exists('/etc/dstar-radio.dstarrepeater')) {	
+                if (!isset($configUpNeeded) || ($configUpNeeded < $configUpdateRequired)) {	
+		    $fileList = array_filter(array("/etc/dstar-radio.mmdvmhost", "/etc/dstar-radio.dstarrepeater"), 'file_exists');
+		    if ($file = array_shift($fileList)) {
 	    ?>
 		<div>
 		    <div style="background-color: #FFCC00; color: #000;text-align:center; padding:10px 0; margin: 0px 0px 10px 0px; width: 100%;">
@@ -210,7 +214,7 @@ if(empty($_POST['func'])) {
 				</p>
 		    </div>
 		</div>
-	    <?php
+	    <?php }
 	        }
 	    }
 	    ?>
@@ -324,7 +328,7 @@ if(empty($_POST['func'])) {
         } // end tgif check
 
 		$testMMDVModeDSTARnet = getConfigItem("D-Star", "Enable", $_SESSION['MMDVMHostConfigs']);
-		if ( $testMMDVModeDSTARnet == 1 ) {				// If D-Star network is enabled, add these extra features.
+		if ( $testMMDVModeDSTARnet == 1 ) {	// If D-Star network is enabled, add these extra features.
 		    
 		    if ($_SERVER["PHP_SELF"] == "/admin/index.php" && $_POST["func"] == "ds_man" || $_GET["func"] == "ds_man") {	// Admin Only Option (D-Star Mgr)
 			echo '<script type="text/javascript">'."\n";
@@ -718,8 +722,7 @@ if(empty($_POST['func'])) {
 		echo '<div id="refLinks">'."\n";
 		include 'dstarrepeater/active_reflector_links.php';		// dstarrepeater gateway config
 		echo '</div>'."\n";
-		echo '<br />'."\n";
-		if ($_SERVER["PHP_SELF"] == "/admin/index.php" && $_POST["func"] == "ds_link_man") {	// Admin Only Options  (D-star link mgr)
+		if ($_SERVER["PHP_SELF"] == "/admin/index.php") {        // Admin Only Option (D-Star Mgr)
 		    include 'dstarrepeater/link_manager.php';		// D-Star Link Manager
 		    echo "<br />\n";
 		}

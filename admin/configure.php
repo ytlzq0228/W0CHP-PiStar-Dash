@@ -578,7 +578,9 @@ if (file_exists($bmAPIkeyFile) && fopen($bmAPIkeyFile,'r')) {
 			<a class="menuexpert" href="/admin/expert/">Expert</a>
 			<a class="menupower" href="/admin/power.php"><?php echo $lang['power'];?></a>
 			<a class="menuadmin" href="/admin/"><?php echo $lang['admin'];?></a>
+			<?php if (file_exists("/etc/dstar-radio.mmdvmhost")) { ?>
 			<a class="menulive" href="/live/">Live Caller</a>
+			<?php } ?>
 			<a class="menudashboard" href="/"><?php echo $lang['dashboard'];?></a>
 		    </div>
 		</p>
