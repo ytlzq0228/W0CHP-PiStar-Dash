@@ -1442,8 +1442,15 @@ if (!empty($_POST)):
         // Enable DGIdGateway
         if (isset($configdgidgateway)) {
             if (empty($_POST['useDGIdGateway']) != TRUE ) {
-                if (escapeshellcmd($_POST['useDGIdGateway']) == 'ON' )  { $configdgidgateway['Enabled']['Enabled'] = "1"; }
-                if (escapeshellcmd($_POST['useDGIdGateway']) == 'OFF' ) { $configdgidgateway['Enabled']['Enabled'] = "0"; }
+                if (escapeshellcmd($_POST['useDGIdGateway']) == 'ON' )  {
+		    $configdgidgateway['Enabled']['Enabled'] = "1";
+		    $configysf2dmr['Enabled']['Enabled'] = "0"; // dgidgateway causes port/comm conflicts with YSF2***
+		    $configysf2p25['Enabled']['Enabled'] = "0";
+		    $configysf2nxdn['Enabled']['Enabled'] = "0";
+		}
+                if (escapeshellcmd($_POST['useDGIdGateway']) == 'OFF' ) {
+		    $configdgidgateway['Enabled']['Enabled'] = "0";
+		}
             }
 	}
 
@@ -2583,19 +2590,32 @@ if (!empty($_POST)):
 
 	// Set YSF2DMR Mode
 	if (empty($_POST['MMDVMModeYSF2DMR']) != TRUE ) {
-          if (escapeshellcmd($_POST['MMDVMModeYSF2DMR']) == 'ON' )  { $configysf2dmr['Enabled']['Enabled'] = "1"; }
+          if (escapeshellcmd($_POST['MMDVMModeYSF2DMR']) == 'ON' )  {
+	      $configysf2dmr['Enabled']['Enabled'] = "1";
+	      $configdgidgateway['Enabled']['Enabled'] = "0"; // dgidgateway causes port/comm conflicts with YSF2***
+	  }
           if (escapeshellcmd($_POST['MMDVMModeYSF2DMR']) == 'OFF' ) { $configysf2dmr['Enabled']['Enabled'] = "0"; }
 	}
 
 	// Set YSF2NXDN Mode
 	if (empty($_POST['MMDVMModeYSF2NXDN']) != TRUE ) {
-          if (escapeshellcmd($_POST['MMDVMModeYSF2NXDN']) == 'ON' )  { $configysf2nxdn['Enabled']['Enabled'] = "1"; $configmmdvm['NXDN']['Enable'] = "0"; $configmmdvm['NXDN Network']['Enable'] = "0";}
+          if (escapeshellcmd($_POST['MMDVMModeYSF2NXDN']) == 'ON' )  {
+	      $configysf2nxdn['Enabled']['Enabled'] = "1";
+	      $configmmdvm['NXDN']['Enable'] = "0";
+	      $configmmdvm['NXDN Network']['Enable'] = "0";
+	      $configdgidgateway['Enabled']['Enabled'] = "0"; // dgidgateway causes port/comm conflicts with YSF2***
+	  }
           if (escapeshellcmd($_POST['MMDVMModeYSF2NXDN']) == 'OFF' ) { $configysf2nxdn['Enabled']['Enabled'] = "0"; }
 	}
 
 	// Set YSF2P25 Mode
 	if (empty($_POST['MMDVMModeYSF2P25']) != TRUE ) {
-          if (escapeshellcmd($_POST['MMDVMModeYSF2P25']) == 'ON' )  { $configysf2p25['Enabled']['Enabled'] = "1"; $configmmdvm['P25']['Enable'] = "0"; $configmmdvm['P25 Network']['Enable'] = "0"; }
+          if (escapeshellcmd($_POST['MMDVMModeYSF2P25']) == 'ON' )  {
+	      $configysf2p25['Enabled']['Enabled'] = "1";
+	      $configmmdvm['P25']['Enable'] = "0";
+	      $configmmdvm['P25 Network']['Enable'] = "0";
+	      $configdgidgateway['Enabled']['Enabled'] = "0"; // dgidgateway causes port/comm conflicts with YSF2***
+	  }
           if (escapeshellcmd($_POST['MMDVMModeYSF2P25']) == 'OFF' ) { $configysf2p25['Enabled']['Enabled'] = "0"; }
 	  if (escapeshellcmd($_POST['MMDVMModeFUSION']) == 'OFF' ) { $configysf2p25['Enabled']['Enabled'] = "0"; }
 	}
@@ -3005,7 +3025,7 @@ if (!empty($_POST)):
 	// Add missing options to YSFGateway
 	if (!isset($configysfgateway['General']['WiresXMakeUpper'])) { $configysfgateway['General']['WiresXMakeUpper'] = "1"; }
 	if (!isset($configysfgateway['Network']['Revert'])) { $configysfgateway['Network']['Revert'] = "0"; }
-	if (!isset($configysfgateway['Network']['Port'])) { $configysfgateway['Network']['Port'] = "42000"; }
+	if (!isset($configysfgateway['Network']['Port'])) { $configysfgateway['Network']['Port'] = "4200"; }
 	if (isset($configysfgateway['Network']['YSF2DMRAddress'])) { unset($configysfgateway['Network']['YSF2DMRAddress']); }
 	if (isset($configysfgateway['Network']['YSF2DMRPort'])) { unset($configysfgateway['Network']['YSF2DMRPort']); }
 	unset($configysfgateway['Network']['DataPort']);
@@ -3016,8 +3036,8 @@ if (!empty($_POST)):
 	if ($configdgidgateway['Enabled']['Enabled'] == "1") { // if DGId is enabled by user, use the proper DGId ports, otherwise, use MMDVMHost ports:
 	    $configysfgateway['General']['LocalPort'] = "42025";
 	} else {
-	    $configysfgateway['General']['LocalPort'] = "42000";
-	    $configmmdvm['System Fusion Network']['GatewayPort'] = "42000"; // ensure MMDVMhost uses new YSFgw port when reverting
+	    $configysfgateway['General']['LocalPort'] = "4200";
+	    $configmmdvm['System Fusion Network']['GatewayPort'] = "4200"; // ensure MMDVMhost uses new YSFgw port when reverting
 	}
 	if ($configdgidgateway['Enabled']['Enabled'] == "1") {
 	    $configysfgateway['General']['RptPort'] = "42026";
@@ -4376,39 +4396,51 @@ else:
     </td>
     </tr>
 
-    <tr>
+    <tr colspan="2">
     <td align="left"><a class="tooltip2" href="#">YSF2DMR:<span><b>YSF2DMR Mode</b>Turn on YSF2DMR Features</span></a></td>
     <?php
-	if ( $configysf2dmr['Enabled']['Enabled'] == 1 ) {
+	if ($configdgidgateway['Enabled']['Enabled'] == 1) {
+	    echo "<td colspan=\"1\" align=\"left\"><div class=\"switch\"><input id=\"toggle-ysf2dmr\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"MMDVMModeYSF2DMR\" value=\"OFF\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleYSF2DMRCheckboxCr." disabled=\"disabled\"/><label id=\"aria-toggle-ysf2dmr\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Y S F 2 DMR Mode\" aria-checked=\"false\" onKeyPress=\"toggleYSF2DMRCheckbox()\" onclick=\"toggleYSF2DMRCheckbox()\" for=\"toggle-ysf2dmr\"><font style=\"font-size:0px\">Y S F 2 DMR Mode</font></label></div></td>\n";
+	    echo "<td align='left'><em>Note: YSF2DMR cannot be enabled along with DGIdGateway</em></td>\n";
+	} else {
+	    if ( $configysf2dmr['Enabled']['Enabled'] == 1 ) {
 		echo "<td colspan=\"2\" align=\"left\"><div class=\"switch\"><input id=\"toggle-ysf2dmr\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"MMDVMModeYSF2DMR\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleYSF2DMRCheckboxCr." /><label id=\"aria-toggle-ysf2dmr\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Y S F 2 DMR Mode\" aria-checked=\"true\" onKeyPress=\"toggleYSF2DMRCheckbox()\" onclick=\"toggleYSF2DMRCheckbox()\" for=\"toggle-ysf2dmr\"><font style=\"font-size:0px\">Y S F 2 DMR Mode</font></label></div></td>\n";
-		}
-	else {
+	    } else {
 		echo "<td colspan=\"2\" align=\"left\"><div class=\"switch\"><input id=\"toggle-ysf2dmr\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"MMDVMModeYSF2DMR\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleYSF2DMRCheckboxCr." /><label id=\"aria-toggle-ysf2dmr\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Y S F 2 DMR Mode\" aria-checked=\"false\" onKeyPress=\"toggleYSF2DMRCheckbox()\" onclick=\"toggleYSF2DMRCheckbox()\" for=\"toggle-ysf2dmr\"><font style=\"font-size:0px\">Y S F 2 DMR Mode</font></label></div></td>\n";
+	    }
 	}
     ?>
     </tr>
     <?php if (file_exists('/etc/ysf2nxdn')) { ?>
-    <tr>
+    <tr colspan="2">
     <td align="left"><a class="tooltip2" href="#">YSF2NXDN:<span><b>YSF2NXDN Mode</b>Turn on YSF2NXDN Features</span></a></td>
     <?php
-	if ( $configysf2nxdn['Enabled']['Enabled'] == 1 ) {
+	if ($configdgidgateway['Enabled']['Enabled'] == 1) {
+	    echo "<td colspan=\"1\" align=\"left\"><div class=\"switch\"><input id=\"toggle-ysf2nxdn\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"MMDVMModeYSF2NXDN\" value=\"OFF\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleYSF2NXDNCheckboxCr." disabled=\"disabled\" /><label id=\"aria-toggle-ysf2nxdn\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Y S F 2 NXDN Mode\" aria-checked=\"false\" onKeyPress=\"toggleYSF2NXDNCheckbox()\" onclick=\"toggleYSF2NXDNCheckbox()\" for=\"toggle-ysf2nxdn\"><font style=\"font-size:0px\">Y S F 2 NXDN Mode</font></label></div></td>\n";
+	    echo "<td align='left'><em>Note: YSF2NXDN cannot be enabled along with DGIdGateway</em></td>\n";
+	} else {
+	    if ( $configysf2nxdn['Enabled']['Enabled'] == 1 ) {
 		echo "<td colspan=\"2\" align=\"left\"><div class=\"switch\"><input id=\"toggle-ysf2nxdn\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"MMDVMModeYSF2NXDN\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleYSF2NXDNCheckboxCr." /><label id=\"aria-toggle-ysf2nxdn\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Y S F 2 NXDN Mode\" aria-checked=\"true\" onKeyPress=\"toggleYSF2NXDNCheckbox()\" onclick=\"toggleYSF2NXDNCheckbox()\" for=\"toggle-ysf2nxdn\"><font style=\"font-size:0px\">Y S F 2 NXDN Mode</font></label></div></td>\n";
-		}
-	else {
+	    } else {
 		echo "<td colspan=\"2\" align=\"left\"><div class=\"switch\"><input id=\"toggle-ysf2nxdn\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"MMDVMModeYSF2NXDN\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleYSF2NXDNCheckboxCr." /><label id=\"aria-toggle-ysf2nxdn\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Y S F 2 NXDN Mode\" aria-checked=\"false\" onKeyPress=\"toggleYSF2NXDNCheckbox()\" onclick=\"toggleYSF2NXDNCheckbox()\" for=\"toggle-ysf2nxdn\"><font style=\"font-size:0px\">Y S F 2 NXDN Mode</font></label></div></td>\n";
+	    }
 	}
     ?>
     </tr>
     <?php } ?>
     <?php if (file_exists('/etc/ysf2p25')) { ?>
-    <tr>
+    <tr colspan="2">
     <td align="left"><a class="tooltip2" href="#">YSF2P25:<span><b>YSF2P25 Mode</b>Turn on YSF2P25 Features</span></a></td>
     <?php
-	if ( $configysf2p25['Enabled']['Enabled'] == 1 ) {
+	if ($configdgidgateway['Enabled']['Enabled'] == 1) {
+	    echo "<td colspan=\"1\" align=\"left\"><div class=\"switch\"><input id=\"toggle-ysf2p25\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"MMDVMModeYSF2P25\" value=\"OFF\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleYSF2P25CheckboxCr." disabled=\"disabled\"/><label id=\"aria-toggle-ysf2p25\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Y S F 2 P 25 Mode\" aria-checked=\"false\" onKeyPress=\"toggleYSF2P25Checkbox()\" onclick=\"toggleYSF2P25Checkbox()\" for=\"toggle-ysf2p25\"><font style=\"font-size:0px\">Y S F 2 P 25 Mode</font></label></div></td>\n";
+	    echo "<td align='left'><em>Note: YSF2P25 cannot be enabled along with DGIdGateway</em></td>\n";
+	} else {
+	    if ( $configysf2p25['Enabled']['Enabled'] == 1 ) {
 		echo "<td colspan=\"2\" align=\"left\"><div class=\"switch\"><input id=\"toggle-ysf2p25\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"MMDVMModeYSF2P25\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleYSF2P25CheckboxCr." /><label id=\"aria-toggle-ysf2p25\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Y S F 2 P 25 Mode\" aria-checked=\"true\" onKeyPress=\"toggleYSF2P25Checkbox()\" onclick=\"toggleYSF2P25Checkbox()\" for=\"toggle-ysf2p25\"><font style=\"font-size:0px\">Y S F 2 P 25 Mode</font></label></div></td>\n";
-		}
-	else {
+	    } else {
 		echo "<td colspan=\"2\" align=\"left\"><div class=\"switch\"><input id=\"toggle-ysf2p25\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"MMDVMModeYSF2P25\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleYSF2P25CheckboxCr." /><label id=\"aria-toggle-ysf2p25\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Y S F 2 P 25 Mode\" aria-checked=\"false\" onKeyPress=\"toggleYSF2P25Checkbox()\" onclick=\"toggleYSF2P25Checkbox()\" for=\"toggle-ysf2p25\"><font style=\"font-size:0px\">Y S F 2 P 25 Mode</font></label></div></td>\n";
+	    }
 	}
     ?>
     </tr>
@@ -5255,16 +5287,19 @@ $ysfHosts = fopen("/usr/local/etc/YSFHosts.txt", "r"); ?>
 				<tr>
 				    <td align="left"><a class="tooltip2" href="#">Enable DGIdGateway:<span><b>Enable DGIdGateway</b>Enable/Disable DGIdGateway.</span></a></td>
 				    <?php
-				    if (isset($configdgidgateway['Enabled']['Enabled'])) {
-					if ($configdgidgateway['Enabled']['Enabled']) {
-					    echo "<td align=\"left\" colspan=\"2\"><div class=\"switch\"><input id=\"toggle-useDGIdGateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"useDGIdGateway\" value=\"ON\" checked=\"checked\" /><label for=\"toggle-useDGIdGateway\"></label></div></td>\n";
-					}
-					else {
+				    if ($configysf2dmr['Enabled']['Enabled'] == 1 || $configysf2p25['Enabled']['Enabled'] == 1 || $configysf2nxdn['Enabled']['Enabled'] == 1 ) {
+					echo "<td align=\"left\" colspan=\"1\"><div class=\"switch\"><input id=\"toggle-useDGIdGateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"useDGIdGateway\" value=\"OFF\" disabled=\"disabled\" /><label for=\"toggle-useDGIdGateway\"></label></div></td>\n";
+					echo "<td align='left'><em>Note: DGIdGateway cannot be enabled along with YSF2DMR/YSF2NXDN/YSF2P25 modes</em></td>\n";
+				    } else {
+					if (isset($configdgidgateway['Enabled']['Enabled'])) {
+					    if ($configdgidgateway['Enabled']['Enabled']) {
+						echo "<td align=\"left\" colspan=\"2\"><div class=\"switch\"><input id=\"toggle-useDGIdGateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"useDGIdGateway\" value=\"ON\" checked=\"checked\" /><label for=\"toggle-useDGIdGateway\"></label></div></td>\n";
+					    } else {
+						echo "<td align=\"left\" colspan=\"2\"><div class=\"switch\"><input id=\"toggle-useDGIdGateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"useDGIdGateway\" value=\"ON\" /><label for=\"toggle-useDGIdGateway\"></label></div></td>\n";
+					    }
+					} else {
 					    echo "<td align=\"left\" colspan=\"2\"><div class=\"switch\"><input id=\"toggle-useDGIdGateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"useDGIdGateway\" value=\"ON\" /><label for=\"toggle-useDGIdGateway\"></label></div></td>\n";
 					}
-				    } 
-				    else {
-					echo "<td align=\"left\" colspan=\"2\"><div class=\"switch\"><input id=\"toggle-useDGIdGateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"useDGIdGateway\" value=\"ON\" /><label for=\"toggle-useDGIdGateway\"></label></div></td>\n";
 				    }
 				    ?>
 				</tr>
