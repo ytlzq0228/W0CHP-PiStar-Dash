@@ -1667,7 +1667,7 @@ if (!empty($_POST)):
 		}
 
 		// Set the DMR+ / HBLink Options= line
-		if ((substr($dmrMasterHostArr[3], 0, 4) == "DMR+") || (substr($dmrMasterHostArr[3], 0, 3) == "HB_") || (substr($dmrMasterHostArr[3], 0, 3) == "FD_") || (substr($dmrMasterHostArr[3], 0, 8) == "FreeDMR_")) {
+		if ((substr($dmrMasterHostArr[3], 0, 4) == "DMR+") || (substr($dmrMasterHostArr[3], 0, 3) == "HB_") || (substr($dmrMasterHostArr[3], 0, 3) == "FD_") || (substr($dmrMasterHostArr[3], 0, 8) == "FreeDMR_") || (substr($dmrMasterHostArr[3], 0, 8) == "SystemX_")) {
 			unset ($configmmdvm['DMR Network']['Local']);
 			unset ($configmmdvm['DMR Network']['LocalPort']);
 			unset ($configysf2dmr['DMR Network']['Local']);
@@ -4846,7 +4846,7 @@ fclose($dmrMasterFile);
       <a href="https://brandmeister.network/?page=device-edit&amp;id='.$configmmdvm['General']['Id'].'" target="_new">Edit Repeater (BrandMeister Selfcare)</a>
     </td>
     </tr>'."\n";}
-    if (substr($dmrMasterNow, 0, 8) == "FreeDMR_") {
+    if ((substr($dmrMasterNow, 0, 4) == "DMR+") || (substr($dmrMasterNow, 0, 3) == "HB_") || (substr($dmrMasterNow, 0, 3) == "FD_") || (substr($dmrMasterNow, 0, 8) == "FreeDMR_") || (substr($dmrMasterNow, 0, 8) == "SystemX_")) {
       echo '    <tr>
     <td align="left"><a class="tooltip2" href="#">DMR Options:<span><b>DMR Network</b>Set your options= for DMR here</span></a></td>
     <td align="left" colspan="3">
