@@ -314,3 +314,7 @@ and gifts to the ham community.
       `W0CHP-PiStar-Dash` installation has a unique UUID generated for it; for
       web/repo-traffic capacity planning/analytics, as well as for troubleshooting
       purposes. You can find the unique UUID within the `/etc/pistar-release` file.
+      The UUID is derived from the devices' unique processor serial number:
+      ```
+      $ cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2
+      ```
