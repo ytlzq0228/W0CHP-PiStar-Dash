@@ -1596,6 +1596,24 @@ if (!empty($_POST)):
 	    $configmmdvm['DMR Network']['Port'] = $dmrMasterHostArr[2];
 	    $configmmdvm['DMR Network']['RemotePort'] = $dmrMasterHostArr[2];
 
+	    if (empty($_POST['bmHSSecurity']) != TRUE ) {
+	    	$configModem['BrandMeister']['Password'] = '"'.$_POST['bmHSSecurity'].'"';
+		if ($dmrMasterHostArr[0] != '127.0.0.1') {
+		    $configmmdvm['DMR Network']['Password'] = '"'.$_POST['bmHSSecurity'].'"';
+		}
+	    } else {
+		unset($configModem['BrandMeister']['Password']);
+	    }
+	
+	    if (empty($_POST['tgifHSSecurity']) != TRUE ) {
+		$configModem['TGIF']['Password'] = '"'.$_POST['tgifHSSecurity'].'"';
+		    if ($dmrMasterHostArr[0] != '127.0.0.1') {
+			$configmmdvm['DMR Network']['Password'] = '"'.$_POST['tgifHSSecurity'].'"';
+		    }
+	    } else {
+		    unset ($configModem['TGIF']['Password']);
+	    }
+
 	    // DMR Gateway
 	    if ($dmrMasterHostArr[0] == '127.0.0.1' && $dmrMasterHostArr[2] == '62031') {
 		unset ($configmmdvm['DMR Network']['Options']);
@@ -3340,10 +3358,14 @@ if (!empty($_POST)):
 
 	// MMDVMHost config file wrangling
         //
-	// Removes empty section
+	// Removes empty sections
  	if (!empty($configModem) && isset($configModem['BrandMeister']) && (count($configModem['BrandMeister'], COUNT_RECURSIVE) == 0))
 	{
 		unset($configModem['BrandMeister']);
+	}
+ 	if (!empty($configModem) && isset($configModem['TGIF']) && (count($configModem['TGIF'], COUNT_RECURSIVE) == 0))
+	{
+		unset($configModem['TGIF']);
 	}
 	//
 	if (empty($configp25gateway['Network']['Static']))
@@ -4799,7 +4821,7 @@ fclose($dmrMasterFile);
     <tr>
       <td align="left"><a class="tooltip2" href="#">TGIF Security Key:<span><b>TGIF Security Key</b>Override the default login with your own TGIF security key, Make sure you already configured this using TGIF Self Care. Empty the field to use the default.</span></a></td>
       <td align="left" colspan="2">
-        <input type="password" name="tgifHSSecurity" size="30" maxlength="30" value="<?php if (isset($configdmrgateway['DMR Network 4']['Password'])) {echo $configdmrgateway['DMR Network 4']['Password'];} ?>"></input>
+        <input type="password" name="tgifHSSecurity" size="30" maxlength="30" value="<?php if (isset($configModem['TGIF']['Password'])) {echo $configModem['TGIF']['Password'];} ?>"></input>
       </td>
       <td align="left"><a href="https://tgif.network/profile.php?tab=Security" target="_new">Get your TGIF Security Key here...</a></td>
     </tr>
