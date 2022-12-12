@@ -165,11 +165,15 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 		if (strpos($listElem[4], "via ")) {
 		    $listElem[4] = preg_replace("/via (.*)/", "<span class='noMob'> $1</span>", $listElem[4]);
 		}
+		if (strpos($listElem[4], "at ")) {
+		    $listElem[4] = preg_replace("/at (.*)/", "<span class='noMob'>at $1</span>", $listElem[4]);
+		}
+
 		if (strlen($listElem[4]) == 1) { $listElem[4] = str_pad($listElem[4], 8, " ", STR_PAD_LEFT); }
 		if ( substr($listElem[4], 0, 6) === 'CQCQCQ' ) {
 		    echo "<td align=\"left\">$listElem[4]</td>";
 		} else {
-		    echo "<td align=\"left\">".str_replace(" ","&nbsp;", $listElem[4])."</td>";
+		    echo "<td align=\"left\">".str_replace(" "," ", $listElem[4])."</td>";
 		}
 
 		if ($listElem[5] == "RF") {
