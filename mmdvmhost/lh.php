@@ -174,14 +174,21 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 		    } else {
 			$mode = $listElem[1];
 		    }
+
                     if (strpos($listElem[4], "via ")) {
-                        $listElem[4] = preg_replace("/via (.*)/", "<span class='noMob'>via $1</span>", $listElem[4]);
+                        $listElem[4] = preg_replace("/via (.*)/", "<span class='noMob'> $1</span>", $listElem[4]);
                     }
-		    if ( substr($listElem[4], 0, 6) === 'CQCQCQ' ) {
-			$target = $listElem[4];
-		    } else {
-			$target = str_replace(" ","&nbsp;", $listElem[4]);
-		    }
+                    if (strpos($listElem[4], "at ")) {
+                        $listElem[4] = preg_replace("/at (.*)/", "<span class='noMob'>at $1</span>", $listElem[4]);
+                    }
+
+		    if (strlen($listElem[4]) == 1) { $listElem[4] = str_pad($listElem[4], 8, " ", STR_PAD_LEFT); }
+                    if ( substr($listElem[4], 0, 6) === 'CQCQCQ' ) {
+                        $target = $listElem[4];
+                    } else {
+                        $target = str_replace(" "," ", $listElem[4]);
+                    }
+
 		    $target = preg_replace('/TG /', '', $listElem[4]);
 		    if (strlen($target) >= 2) {
 		    	if (strpos($mode, 'DMR') !== false) {
@@ -218,15 +225,18 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 		    }
 		    echo "<td align=\"left\">$target</td>";
 		} else {
-		    if (strpos($listElem[4], "via ")) {
-		    	$listElem[4] = preg_replace("/via (.*)/", "<span class='noMob'> $1</span>", $listElem[4]);
-		    }
-		    if (strlen($listElem[4]) == 1) { $listElem[4] = str_pad($listElem[4], 8, " ", STR_PAD_LEFT); }
-		    if ( substr($listElem[4], 0, 6) === 'CQCQCQ' ) {
+                    if (strpos($listElem[4], "via ")) {
+                        $listElem[4] = preg_replace("/via (.*)/", "<span class='noMob'> $1</span>", $listElem[4]);
+                    }
+                    if (strpos($listElem[4], "at ")) {
+                        $listElem[4] = preg_replace("/at (.*)/", "<span class='noMob'>at $1</span>", $listElem[4]);
+                    }
+                    
+                    if ( substr($listElem[4], 0, 6) === 'CQCQCQ' ) {
 		    	echo "<td align=\"left\">$listElem[4]</td>";
-		    } else {
-			echo "<td align=\"left\">".str_replace(" ","&nbsp;", $listElem[4])."</td>";
-		    }
+                    } else {
+			echo "<td align=\"left\">".str_replace(" "," ", $listElem[4])."</td>";
+                    }  
 		}
 
 		if ($listElem[5] == "RF") {
