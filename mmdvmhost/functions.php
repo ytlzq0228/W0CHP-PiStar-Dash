@@ -688,15 +688,6 @@ function getPSRState () {
     }
 }
 
-// Pi-Star Watchdog status
-function getPSWState () {
-    if (isProcessRunning('/usr/local/sbin/pistar-watchdog',true) == 1) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
 // status classes used in sysinfo.php
 function getStatusClass($status, $disabled = false) {
     if ($status) {
