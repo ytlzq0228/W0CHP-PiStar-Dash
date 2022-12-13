@@ -109,7 +109,7 @@ if ($_SERVER["PHP_SELF"] == "/config/changelog.php") {
                             <div class="cl_wrapper">
 			      <div class="ChangeLogData"> 
 				<?php
-				  $uaStr="WPSD-ChangeLog";
+				  $uaStr="WPSD-ChangeLog-Viewer";
 				  @exec("curl --fail -s -o /dev/null https://repo.w0chp.net/Chipster/W0CHP-PiStar-Dash/info/refs?service=git-upload-pack --user-agent $uaStr");
 				  $out = shell_exec('/usr/local/bin/WPSD-CL-to-html');
 				  $out = str_replace("\n", "<br />", $out);
@@ -118,7 +118,7 @@ if ($_SERVER["PHP_SELF"] == "/config/changelog.php") {
 			      </div>
 			    </div>
 			    <p style="text-align:center;font-weight:bold;">
-			      <a href="https://repo.w0chp.net/Chipster/W0CHP-PiStar-Dash/graph" target="new" style="text-decoration:underline;color:inherit;">View the entire change/commit history...</a>
+			      <a href="https://repo.w0chp.net/Chipster/W0CHP-PiStar-Dash/graph?branch=refs%2Fheads%2Fmaster" target="_new" style="text-decoration:underline;color:inherit;">View the entire change/commit history...</a>
 			    </p>
 			</div>
 		      </div>
