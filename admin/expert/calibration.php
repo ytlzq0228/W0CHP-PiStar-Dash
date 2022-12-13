@@ -93,7 +93,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/calibration.php") {
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta http-equiv="pragma" content="no-cache" />
-        <link rel="shortcut icon" href="//images/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
         <meta http-equiv="Expires" content="0" />
         <title>Pi-Star - Digital Voice Dashboard - MMDVM Calibration</title>
         <link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
@@ -275,6 +275,16 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/calibration.php") {
         });
       });
     });
+    jQuery(document).ready(function() {
+      jQuery('#help_details').click(function(){
+        jQuery('#help_info').slideToggle('slow');
+        if(jQuery(this).text() == 'Hide Help...'){
+          jQuery(this).text('Display Calibration Help...');
+        } else {
+          jQuery(this).text('Hide Help...');
+        }
+      });
+    });
     </script>
   </head>
   <body>
@@ -282,10 +292,15 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/calibration.php") {
 <?php include './header-menu.inc'; ?>
   </div>
   <div class="contentwide">
+  <p style="text-align:left;"><a style="color:#bebebe;text-decoration:underline;" href="#help_details" id="help_details">Display Calibration Help...</a><br />
+  <div id="help_info" style="display:none;text-align:left;"><br />
+    First, click the "Start" button, then wait until the Start "LED" turns to green. Then, select the mode you wish to caibrate,
+    and then wait until the Mode "LED" turns green. TX from your radio until the BER% reaches its lowest value, while adjusting the offset by clicking  the "<code>+/-</code>"
+    offset buttons. Once happy with the value, click "Save Offset" and then click "Stop" and wait for the LED to turn red.
+  </div></p>
   <table width="100%">
   <tr><th>MMDVM Calibration Tool</th></tr>
   <tr><td align="left">
-  
 <table width="800" border="0" cellspacing="0" cellpadding="5">
   <tr>
     <td align="center" valign="top"><table border="0" cellspacing="0" cellpadding="5">
