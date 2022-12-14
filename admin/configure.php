@@ -2839,9 +2839,20 @@ if (!empty($_POST)):
 	}
 
 	// Add missing values to DMRGateway
+	$configdmrgateway['General']['RptAddress'] = "127.0.0.1";
+	$configdmrgateway['General']['RptPort'] = "62032";
+	$configdmrgateway['General']['LocalAddress'] ="127.0.0.1";
+	$configdmrgateway['General']['LocalPort'] ="62031";
+	$configdmrgateway['General']['RuleTrace'] ="0";
+	$configdmrgateway['General']['Daemon'] ="1";
+	$configdmrgateway['General']['Debug'] ="0";
+	$configdmrgateway['General']['Suffix'] ="R";
 	if (!isset($configdmrgateway['Info']['Enabled'])) { $configdmrgateway['Info']['Enabled'] = "0"; }
 	if (!isset($configdmrgateway['Info']['Power'])) { $configdmrgateway['Info']['Power'] = $configmmdvm['Info']['Power']; }
 	if (!isset($configdmrgateway['Info']['Height'])) { $configdmrgateway['Info']['Height'] = $configmmdvm['Info']['Height']; }
+	if (!isset($configdmrgateway['Voice']['Enabled'])) { $configdmrgateway['Voice']['Enabled'] = "1"; }
+	if (!isset($configdmrgateway['Voice']['Language'])) { $configdmrgateway['Voice']['Language'] = "en_US"; }
+	if (!isset($configdmrgateway['Voice']['Directory'])) { $configdmrgateway['Voice']['Directory'] = "/usr/local/etc/DMR_Audio"; }
 	if (!isset($configdmrgateway['XLX Network']['Enabled'])) { $configdmrgateway['XLX Network']['Enabled'] = "0"; }
 	if (!isset($configdmrgateway['XLX Network']['File'])) { $configdmrgateway['XLX Network']['File'] = "/usr/local/etc/XLXHosts.txt"; }
 	if (!isset($configdmrgateway['XLX Network']['Port'])) { $configdmrgateway['XLX Network']['Port'] = "62030"; }
