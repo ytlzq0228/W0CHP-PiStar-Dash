@@ -717,8 +717,17 @@ select {
     visibility: hidden;
 }
 
-.menuhwinfo .menuconfig .menuadmin .menudashboard .menucaller .menulive .menuupdate .menuupgrade .menupower .menulogs .menubackup .menuexpert .menureset .menusysinfo {
+.menuhwinfo .menuconfig .menuadmin .menudashboard .menucaller .menulive .menuupdate .menuupgrade .menupower .menulogs .menubackup .menuexpert .menureset .menusysinfo .menuradioinfo {
     position: relative;
+}
+
+.menuradioinfo:before {
+    content: "\f012";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    padding-right: 0.2em;
 }
 
 .menuconfig:before {
