@@ -461,11 +461,19 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
 		    if (file_exists("/etc/.TGNAMES")) {
 			$slot1Link = str_replace("TG ", "", $slot1Link);
 			if (strlen($slot1Link) >= 2) {
-			    $target_lookup = trim(exec("grep -w \"$slot1Link\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'"));
-			    if (!empty($target_lookup)) {
-				$TGname = str_replace("$slot1Link: ", "BM ", $target_lookup);
+			    if (strlen($slot1Link) >= 7 && substr( $slot1Link, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1") {
+				$target_lookup = trim(exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"));
+				if (strlen($target_lookup) > 20) {
+				    $target_lookup = substr($target_lookup, 0, 15) . '...';
+				}
+				$TGname = $target_lookup;
+			    } else {
+				$target_lookup = trim(exec("grep -w \"$slot1Link\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'"));
+				$TGname = str_replace("$slot1Link: ", "", $target_lookup);
 				$stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
 				$TGname = preg_replace($stupid_bm, "", $TGname); // strip stupid fucking comments from BM admins in TG names. Idiots.
+			    }
+			    if (!empty($target_lookup)) {
 				echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled: TG $slot1Link' style='border: .5px solid $tableBorderColor;'>TG $slot1Link<br /><small>($TGname)</small></div>\n";
 			    } else {
 				if ($slot1Link == "Unlinked") {
@@ -497,11 +505,19 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
 		    if (file_exists("/etc/.TGNAMES")) {
 			$slot2Link = str_replace("TG ", "", $slot2Link);
 			if (strlen($slot2Link) >= 2) {
-			    $target_lookup = trim(exec("grep -w \"$slot2Link\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'"));
-			    if (!empty($target_lookup)) {
-				$TGname = str_replace("$slot2Link: ", "BM ", $target_lookup);
+			    if (strlen($slot2Link) >= 7 && substr( $slot2Link, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1") {
+				$target_lookup = trim(exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"));
+				if (strlen($target_lookup) > 20) {
+				    $target_lookup = substr($target_lookup, 0, 15) . '...';
+				}
+				$TGname = $target_lookup;
+			    } else {
+				$target_lookup = trim(exec("grep -w \"$slot2Link\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'"));
+				$TGname = str_replace("$slot2Link: ", "", $target_lookup);
 				$stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
 				$TGname = preg_replace($stupid_bm, "", $TGname); // strip stupid fucking comments from BM admins in TG names. Idiots.
+			    }
+			    if (!empty($target_lookup)) {
 				echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 2 Enabled: TG $slot2Link' style='border: .5px solid $tableBorderColor;'>TG $slot2Link<br /><small>($TGname)</small></div>\n";
 			    } else {
 				if ($slot2Link == "Unlinked") {
