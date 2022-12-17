@@ -91,8 +91,8 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
  		$dt = new DateTime($utc_time, $utc_tz);
 		$TA = timeago( $dt->getTimestamp(), $now->getTimestamp() );
 		$duration = "<td style='font-size:1.3em;'>$listElem[6]s <span class='noMob'>($TA)</span></td>";
-    // dynamic <title> reset
-    echo "<script>if(typeof window.original_title !== 'undefined'){jQuery('title').text(window.original_title)}</script>";
+		// dynamic <title> reset
+		echo "<script>if(typeof window.original_title !== 'undefined'){jQuery('title').text(window.original_title)}</script>";
 	    }
 
 	    if ($listElem[8] == null) {
@@ -151,31 +151,48 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
 		}
 	    }
 
-	if (file_exists("/etc/.TGNAMES")) {
-	    if (strlen($target) >= 2) {
-		if (strpos($mode, 'DMR') !== false) {
-		    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
-		    if (!empty($target_lookup)) {
-			$target = $target_lookup;
-			$stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
-			$target = preg_replace($stupid_bm, "", $target); // strip stupid fucking comments from BM admins in TG names. Idiots.
-			$target = str_replace(": ", " <span class='noMob'>(BM ", $target.")</span>");
-			$target = "TG $target";
-		    } else {
-			$target = "TG $target";
-		    }
-		} else if (strpos($mode, 'NXDN') !== false) {
-		    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
-		    if (!empty($target_lookup)) {
-			$target = "TG $target <span class='noMob'>($target_lookup)</span>";
-		    }
-		} else if (strpos($mode, 'P25') !== false) {
-		    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_P25.txt | awk -F';' '{print $2}'");
+	    if (file_exists("/etc/.TGNAMES")) {
+		if (strlen($target) >= 2) {
+		    if (strpos($mode, 'DMR') !== false) {
+			if (strlen($target) >= 7 && substr( $target, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1") {
+			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+			    if (!empty($target_lookup)) {
+				$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+			    } else {
+				$target = "TG $target";
+			    }
+			} else {
+			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
+			    if (!empty($target_lookup)) {
+				$target = $target_lookup;
+				$stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
+				$target = preg_replace($stupid_bm, "", $target); // strip stupid fucking comments from BM admins in TG names. Idiots.
+				$target = str_replace(": ", " <span class='noMob'>(", $target.")</span>");
+				$target = "TG $target";
+			    } else {
+				$target = "TG $target";
+			    }
+			}
+		    } else if (strpos($mode, 'NXDN') !== false) {
+			$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
 			if (!empty($target_lookup)) {
 			    $target = "TG $target <span class='noMob'>($target_lookup)</span>";
 			}
+		    } else if (strpos($mode, 'P25') !== false) {
+			$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_P25.txt | awk -F';' '{print $2}'");
+			if (!empty($target_lookup)) {
+			    $target = "TG $target <span class='noMob'>($target_lookup)</span>";
+			}
+		    } else {
+			$target = $target;
+		    }
 		} else {
-		    $target = $target;
+		    $modeArray = array('DMR', 'NXDN', 'P25');
+		    if (strpos($mode, $modeArray[0]) !== false) {
+			$target = "TG $target";
+		    } else {
+			$target = $target;
+		    }
 		}
 	    } else {
 		$modeArray = array('DMR', 'NXDN', 'P25');
@@ -185,14 +202,6 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
 		    $target = $target;
 		}
 	    }
-	} else {
-	    $modeArray = array('DMR', 'NXDN', 'P25');
-	    if (strpos($mode, $modeArray[0]) !== false) {
-		$target = "TG $target";
-	    } else {
-		$target = $target;
-	    }
-	}
 
 	    if($listElem[2] == "4000" || $listElem[2] == "9990" || $listElem[2] == "DAPNET") {
 		$name = "---";

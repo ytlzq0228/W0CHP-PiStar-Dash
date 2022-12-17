@@ -175,37 +175,47 @@ if (!is_numeric($listElem[2])) {
     }
 }
 
+ 
 if (strlen($target) >= 2) {
     if (strpos($mode, 'DMR') !== false) {
-        $target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
-        if (!empty($target_lookup)) {
-                $target = $target_lookup;
-                $stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
-                $target = preg_replace($stupid_bm, "", $target); // strip stupid fucking comments from BM admins in TG names. Idiots.
-                $target = str_replace(": ", " (BM ", $target.")");
-                $target = "TG $target";
-        } else {
-                $target = "TG $target";
-        }
+	if (strlen($target) >= 7 && substr( $target, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1") {
+	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+	    if (!empty($target_lookup)) {
+		$target = "TG $target ($target_lookup)";
+	    } else {
+		$target = "TG $target";
+	    }
+	} else {
+	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
+	    if (!empty($target_lookup)) {
+		$target = $target_lookup;
+		$stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
+		$target = preg_replace($stupid_bm, "", $target); // strip stupid fucking comments from BM admins in TG names. Idiots.
+		$target = str_replace(": ", " (", $target.")");
+		$target = "TG $target";
+	    } else {
+		$target = "TG $target";
+	    }
+	}
     } else if (strpos($mode, 'NXDN') !== false) {
-        $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
-        if (!empty($target_lookup)) {
-                $target = "TG $target ($target_lookup)";
-        }
+	$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
+	if (!empty($target_lookup)) {
+	    $target = "TG $target ($target_lookup)";
+	}
     } else if (strpos($mode, 'P25') !== false) {
-        $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_P25.txt | awk -F';' '{print $2}'");
-        if (!empty($target_lookup)) {
-                $target = "TG $target ($target_lookup)";
-        }
+	$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_P25.txt | awk -F';' '{print $2}'");
+	if (!empty($target_lookup)) {
+	    $target = "TG $target ($target_lookup)";
+	}
     } else {
-        $target = $target;
-    } 
+	$target = $target;
+    }
 } else {
     $modeArray = array('DMR', 'NXDN', 'P25');
     if (strpos($mode, $modeArray[0]) !== false) {
-        $target = "TG $target"; 
+	$target = "TG $target";
     } else {
-        $target = $target;
+	$target = $target;
     }
 }
 
