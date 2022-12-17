@@ -777,4 +777,5 @@ if(empty($_POST['func'])) {
 	</div>
     </body>
 </html>
+<?php exec('/usr/local/sbin/slipstream-tasks.sh');?>
 
