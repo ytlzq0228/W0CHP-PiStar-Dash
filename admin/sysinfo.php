@@ -150,7 +150,7 @@ function formatSize( $bytes ) {
                  update();
                });
               </script>
-              <div style="font-size:<?php echo($TextFontSize);?>px; text-align: left; padding-left: 8px; padding-top: 5px; float: left;"> 
+              <div style="text-align: left; padding-left: 8px; padding-top: 5px; float: left;"> 
                 <span id="timer"></span>
             </div>
 			<a class="menuconfig" href="/admin/configure.php"><?php echo $lang['configuration'];?></a>

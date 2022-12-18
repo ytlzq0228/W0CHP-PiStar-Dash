@@ -150,7 +150,7 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
                                    exec("sudo cp /var/www/dashboard/config/ircddblocal.php $backupDir > /dev/null")."\n";
                                    exec("sudo cp /var/www/dashboard/config/config.php $backupDir > /dev/null")."\n";
                                    exec("sudo cp /var/www/dashboard/config/language.php $backupDir > /dev/null")."\n";
-				   exec("sudo chown -R www-data:www-data /var/www/dashboard/ > /dev/null");
+				   exec("sudo chown www-data:www-data /var/www/dashboard/ > /dev/null");
 				   exec("sudo sh -c 'cp -a /root/*Hosts.txt $backupDir' > /dev/null");
 				   exec("sudo sh -c \"echo ".$_POST['configs']." > /etc/.WPSD_config\"");
 				   exec('sudo mount -o remount,ro /');
