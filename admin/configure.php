@@ -569,7 +569,7 @@ if (file_exists($bmAPIkeyFile) && fopen($bmAPIkeyFile,'r')) {
                  update();
                });
               </script>
-              <div style="font-size:<?php echo($TextFontSize);?>px; text-align: left; padding-left: 8px; padding-top: 5px; float: left;">
+              <div style="text-align: left; padding-left: 8px; padding-top: 5px; float: left;">
                 <span id="timer"></span>
             </div>
 			<a class="menureset" href="javascript:factoryReset();"><?php echo $lang['factory_reset'];?></a>
@@ -2839,14 +2839,14 @@ if (!empty($_POST)):
 	}
 
 	// Add missing values to DMRGateway
-	$configdmrgateway['General']['RptAddress'] = "127.0.0.1";
-	$configdmrgateway['General']['RptPort'] = "62032";
-	$configdmrgateway['General']['LocalAddress'] ="127.0.0.1";
-	$configdmrgateway['General']['LocalPort'] ="62031";
-	$configdmrgateway['General']['RuleTrace'] ="0";
-	$configdmrgateway['General']['Daemon'] ="1";
-	$configdmrgateway['General']['Debug'] ="0";
-	$configdmrgateway['General']['Suffix'] ="R";
+	if (!isset($configdmrgateway['General']['RptAddress'])) { $configdmrgateway['General']['RptAddress'] = "128.0.0.1"; }
+	if (!isset($configdmrgateway['General']['RptPort'])) { $configdmrgateway['General']['RptPort'] = "62032"; }
+	if (!isset($configdmrgateway['General']['LocalAddress'])) { $configdmrgateway['General']['LocalAddress'] ="127.0.0.1"; }
+	if (!isset($configdmrgateway['General']['LocalPort'])) { $configdmrgateway['General']['LocalPort'] ="62031"; }
+	if (!isset($configdmrgateway['General']['RuleTrace'])) { $configdmrgateway['General']['RuleTrace'] ="0"; }
+	if (!isset($configdmrgateway['General']['Daemon'])) { $configdmrgateway['General']['Daemon'] ="1"; }
+	if (!isset($configdmrgateway['General']['Debug'])) { $configdmrgateway['General']['Debug'] ="0"; }
+	if (!isset($configdmrgateway['General']['Suffix'])) { $configdmrgateway['General']['Suffix'] ="R"; }
 	if (!isset($configdmrgateway['Info']['Enabled'])) { $configdmrgateway['Info']['Enabled'] = "0"; }
 	if (!isset($configdmrgateway['Info']['Power'])) { $configdmrgateway['Info']['Power'] = $configmmdvm['Info']['Power']; }
 	if (!isset($configdmrgateway['Info']['Height'])) { $configdmrgateway['Info']['Height'] = $configmmdvm['Info']['Height']; }
@@ -2903,18 +2903,18 @@ if (!empty($_POST)):
 	}
 
 	// DMRGateway can break the lines with quotes in, when DMRGateway is off...
-	if ( isset($configdmrgateway['Info']['Location']) && substr($configdmrgateway['Info']['Location'], 0, 1) !== '"' ) 			{ $configdmrgateway['Info']['Location'] = '"'.$configdmrgateway['Info']['Location'].'"'; }
-	if ( isset($configdmrgateway['Info']['Description']) && substr($configdmrgateway['Info']['Description'], 0, 1) !== '"' ) 		{ $configdmrgateway['Info']['Description'] = '"'.$configdmrgateway['Info']['Description'].'"'; }
-	if ( isset($configdmrgateway['DMR Network 1']['Password']) && substr($configdmrgateway['DMR Network 1']['Password'], 0, 1) !== '"' )	{ $configdmrgateway['DMR Network 1']['Password'] = '"'.$configdmrgateway['DMR Network 1']['Password'].'"'; }
-	if ( isset($configdmrgateway['DMR Network 1']['Options']) &&  substr($configdmrgateway['DMR Network 1']['Options'], 0, 1) !== '"' )	{ $configdmrgateway['DMR Network 1']['Options'] = '"'.$configdmrgateway['DMR Network 1']['Options'].'"'; }
-	if ( isset($configdmrgateway['DMR Network 2']['Password']) && substr($configdmrgateway['DMR Network 2']['Password'], 0, 1) !== '"' )	{ $configdmrgateway['DMR Network 2']['Password'] = '"'.$configdmrgateway['DMR Network 2']['Password'].'"'; }
-	if ( isset($configdmrgateway['DMR Network 2']['Options']) &&  substr($configdmrgateway['DMR Network 2']['Options'], 0, 1) !== '"' )	{ $configdmrgateway['DMR Network 2']['Options'] = '"'.$configdmrgateway['DMR Network 2']['Options'].'"'; }
-	if ( isset($configdmrgateway['DMR Network 3']['Password']) && substr($configdmrgateway['DMR Network 3']['Password'], 0, 1) !== '"' )	{ $configdmrgateway['DMR Network 3']['Password'] = '"'.$configdmrgateway['DMR Network 3']['Password'].'"'; }
-	if ( isset($configdmrgateway['DMR Network 3']['Options']) &&  substr($configdmrgateway['DMR Network 3']['Options'], 0, 1) !== '"' )	{ $configdmrgateway['DMR Network 3']['Options'] = '"'.$configdmrgateway['DMR Network 3']['Options'].'"'; }
-	if ( isset($configdmrgateway['DMR Network 4']['Password']) && substr($configdmrgateway['DMR Network 4']['Password'], 0, 1) !== '"' )	{ $configdmrgateway['DMR Network 4']['Password'] = '"'.$configdmrgateway['DMR Network 4']['Password'].'"'; }
-	if ( isset($configdmrgateway['DMR Network 4']['Options']) &&  substr($configdmrgateway['DMR Network 4']['Options'], 0, 1) !== '"' )	{ $configdmrgateway['DMR Network 4']['Options'] = '"'.$configdmrgateway['DMR Network 4']['Options'].'"'; }
-	if ( isset($configdmrgateway['DMR Network 5']['Password']) && substr($configdmrgateway['DMR Network 5']['Password'], 0, 1) !== '"' )	{ $configdmrgateway['DMR Network 5']['Password'] = '"'.$configdmrgateway['DMR Network 5']['Password'].'"'; }
-	if ( isset($configdmrgateway['DMR Network 5']['Options']) &&  substr($configdmrgateway['DMR Network 5']['Options'], 0, 1) !== '"' )	{ $configdmrgateway['DMR Network 5']['Options'] = '"'.$configdmrgateway['DMR Network 5']['Options'].'"'; }
+	if ( isset($configdmrgateway['Info']['Location']) && substr($configdmrgateway['Info']['Location'], 0, 1) !== '"' ) { $configdmrgateway['Info']['Location'] = '"'.$configdmrgateway['Info']['Location'].'"'; }
+	if ( isset($configdmrgateway['Info']['Description']) && substr($configdmrgateway['Info']['Description'], 0, 1) !== '"' ) { $configdmrgateway['Info']['Description'] = '"'.$configdmrgateway['Info']['Description'].'"'; }
+	if ( isset($configdmrgateway['DMR Network 1']['Password']) && substr($configdmrgateway['DMR Network 1']['Password'], 0, 1) !== '"' ) { $configdmrgateway['DMR Network 1']['Password'] = '"'.$configdmrgateway['DMR Network 1']['Password'].'"'; }
+	if ( isset($configdmrgateway['DMR Network 1']['Options']) &&  substr($configdmrgateway['DMR Network 1']['Options'], 0, 1) !== '"' ) { $configdmrgateway['DMR Network 1']['Options'] = '"'.$configdmrgateway['DMR Network 1']['Options'].'"'; }
+	if ( isset($configdmrgateway['DMR Network 2']['Password']) && substr($configdmrgateway['DMR Network 2']['Password'], 0, 1) !== '"' ) { $configdmrgateway['DMR Network 2']['Password'] = '"'.$configdmrgateway['DMR Network 2']['Password'].'"'; }
+	if ( isset($configdmrgateway['DMR Network 2']['Options']) &&  substr($configdmrgateway['DMR Network 2']['Options'], 0, 1) !== '"' ) { $configdmrgateway['DMR Network 2']['Options'] = '"'.$configdmrgateway['DMR Network 2']['Options'].'"'; }
+	if ( isset($configdmrgateway['DMR Network 3']['Password']) && substr($configdmrgateway['DMR Network 3']['Password'], 0, 1) !== '"' ) { $configdmrgateway['DMR Network 3']['Password'] = '"'.$configdmrgateway['DMR Network 3']['Password'].'"'; }
+	if ( isset($configdmrgateway['DMR Network 3']['Options']) &&  substr($configdmrgateway['DMR Network 3']['Options'], 0, 1) !== '"' ) { $configdmrgateway['DMR Network 3']['Options'] = '"'.$configdmrgateway['DMR Network 3']['Options'].'"'; }
+	if ( isset($configdmrgateway['DMR Network 4']['Password']) && substr($configdmrgateway['DMR Network 4']['Password'], 0, 1) !== '"' ) { $configdmrgateway['DMR Network 4']['Password'] = '"'.$configdmrgateway['DMR Network 4']['Password'].'"'; }
+	if ( isset($configdmrgateway['DMR Network 4']['Options']) &&  substr($configdmrgateway['DMR Network 4']['Options'], 0, 1) !== '"' ) { $configdmrgateway['DMR Network 4']['Options'] = '"'.$configdmrgateway['DMR Network 4']['Options'].'"'; }
+	if ( isset($configdmrgateway['DMR Network 5']['Password']) && substr($configdmrgateway['DMR Network 5']['Password'], 0, 1) !== '"' ) { $configdmrgateway['DMR Network 5']['Password'] = '"'.$configdmrgateway['DMR Network 5']['Password'].'"'; }
+	if ( isset($configdmrgateway['DMR Network 5']['Options']) &&  substr($configdmrgateway['DMR Network 5']['Options'], 0, 1) !== '"' ) { $configdmrgateway['DMR Network 5']['Options'] = '"'.$configdmrgateway['DMR Network 5']['Options'].'"'; }
 
 	// Add missing values to M17Gateway
 	$configm17gateway['General']['RptAddress'] = '127.0.0.1';
