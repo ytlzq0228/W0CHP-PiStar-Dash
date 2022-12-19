@@ -1720,24 +1720,46 @@ function getActualLink($logLines, $mode) {
             // 2020-11-04 08:47:48.297 Unlinking from 65000 due to inactivity
             // 2020-11-04 08:47:48.297 Unlinked from reflector 65000 by remote command
             if (isProcessRunning("NXDNGateway")) {
-		foreach($logLines as $logLine) {
-		    $to = "";
-            if (strpos($logLine, "Statically linked to")) {
-			$to = preg_replace('/[^0-9]/', '', substr($logLine, 55, 5));
-			$to = preg_replace('/[^0-9]/', '', $to);
-            return "TG".$to;
-		    }
-               else if (strpos($logLine,"Switched to reflector")) {
-                   $to = preg_replace('/[^0-9]/', '', substr($logLine, 46, 5));
-                   $to = preg_replace('/[^0-9]/', '', $to);
-                   return "TG".$to;
-		    }
-			else if (strpos($logLine,"Starting NXDNGateway") || strpos($logLine,"Unlinking") || strpos($logLine,"Unlinked")) {
-			return "<div class='inactive-mode-cell'>Not Linked</div>";
-		    }
-		}
-		return "<div class='inactive-mode-cell'>Not Linked</div>";
-            } 
+                foreach ( array_reverse($logLines) as $logLine ) {
+                    $to = "";
+                    if (strpos($logLine,"Statically linked to")) {
+                        $to = preg_replace('/[^0-9]/', '', substr($logLine, 55, 5));
+                        $to = preg_replace('/[^0-9]/', '', $to);
+                        $nxdncache = fopen("/tmp/NXDNLink.txt", "w");
+                        $num = fwrite($nxdncache,$to);
+                        fclose($nxdncache);
+                        return "TG".$to;
+                    } else
+                    if (strpos($logLine,"Switched to reflector")) {
+                        $to = preg_replace('/[^0-9]/', '', substr($logLine, 46, 5));
+                        $to = preg_replace('/[^0-9]/', '', $to);
+                        $nxdncache = fopen("/tmp/NXDNLink.txt", "w");
+                        $num = fwrite($nxdncache,$to);
+                        fclose($nxdncache);
+                        return "TG".$to;
+                    } else
+                    if (strpos($logLine,"Starting NXDNGateway")) {
+                        return "<div class='inactive-mode-cell'>Not Linked</div>";
+                    } else
+                    if (strpos($logLine,"Unlinking")) {
+                        return "<div class='inactive-mode-cell'>Not Linked</div>";
+                    } else
+                    if (strpos($logLine,"Unlinked")) {
+                        $num = 0;
+                        $nxdncache = fopen("/tmp/NXDNLink.txt", "w");
+                        $num = fwrite($nxdncache,"Not Linked");
+                        fclose($nxdncache);
+                        return "<div class='inactive-mode-cell'>Not Linked</div>";
+                    } else
+                    if(!file_exists("/tmp/NDXNLink.txt")) {
+                        return "<div class='inactive-mode-cell'>Not Linked</div>";
+                    } else {
+                        $to = file_get_contents("/tmp/NXDNLink.txt");
+                        return "TG".$to;
+                    }
+                }
+                return "<div class='inactive-mode-cell'>Not Linked</div>";
+            }
 	    else {
 		return "<div class='inactive-mode-cell'>Service Not Started</div>";
             }
@@ -1802,9 +1824,6 @@ function getActualLink($logLines, $mode) {
 		    	return "TG".$to;
 		    } else
 		    if (strpos($logLine,"Starting P25Gateway")) {
-		    	return "<div class='inactive-mode-cell'>Not Linked</div>";
-		    } else
-		    if (strpos($logLine,"unlinking")) {
 		    	return "<div class='inactive-mode-cell'>Not Linked</div>";
 		    } else
 		    if (strpos($logLine,"Unlinking")) {
