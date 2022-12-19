@@ -82,7 +82,8 @@ if(empty($_POST['func'])) {
             $('.nxdnLinkHost').select2({searchInputPlaceholder: 'Search...'});
             $(".RefName").select2({
               tags: true,
-              dropdownAutoWidth : true,
+	      width: '125px',
+              dropdownAutoWidth : false,
               createTag: function (params) {
                 return {
                   id: params.term,
@@ -103,9 +104,9 @@ if(empty($_POST['func'])) {
               }
             });
             $('.dmrMasterHost3').select2();
-            $('.dmrMasterHost3Startup').select2({searchInputPlaceholder: 'Search...'});
+            $('.dmrMasterHost3Startup').select2({searchInputPlaceholder: 'Search...', width: '125px'});
             $('.ModSel').select2();
-            $('.M17Ref').select2({searchInputPlaceholder: 'Search...'});
+            $('.M17Ref').select2({searchInputPlaceholder: 'Search...', width: '125px'});
           });
           $(document).ready(function(){
             setInterval(function(){
