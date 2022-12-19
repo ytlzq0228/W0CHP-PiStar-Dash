@@ -136,18 +136,18 @@ sudo WPSD-Installer -rd
   * Added ability to mass-drop your static talk groups; and mass re-add the previously
     linked static talk groups.
   * Added ability to batch add/delete up to 10 static talk groups at a time.
-* TGIF Manager; now displays connected actual talk group names. (**NOTE**: Since TGIF has moved to a new platform with no API available, this currently does not work until TGIF's API is made available.)
+* ~~TGIF Manager; now displays connected actual talk group names.~~ (**NOTE**: Since TGIF has moved to a new platform with no API available, this currently does not work until TGIF's API is made available.)
 * "Instant Mode Manager" added to admin page; allows you to instantly pause or resume selected radio modes. Handy for attending
   nets, quieting a busy mode, to temporarily eliminate "mode monopolization", etc.
 * "System Manager" added to admin page; allows you to instantly:
   * Disable / Enable the intrusive and slow Pi-Star Firewall.
   * Disable / Enable Cron, in order to prevent updates and Pi-Star services restarting during middle-of-the-night/early AM operation.
-  * Enable / Disable Pi-Star Remote and Pi-Star Watchdog
 * Ability to configure POCSAG hang-time from the config page.
 
 ### User Interface / Design Features
 
 * Updated user interface elements galore, styling, wider, bigger, updated fonts, etc.
+* Optional "Simple View"; shows only activity: no mode status, hardware status, etc. Just activiy data. Accessed via `http://your-hotspot-url/simple/`
 * Country-of-origin flags for callsigns.
 * Improved and graphical CSS/color styling configuration page; easily change the look and feel of the dashboard.
 * User-Configurable number of displayed Last Heard dashboard rows (defaults to 40, and 100 is the maximum).
@@ -165,7 +165,7 @@ sudo WPSD-Installer -rd
 ### Features in Official Pi-Star Which are Intentionally Omitted in `W0CHP-PiStar-Dash`
 
 * Upgrade notice/nag in header (unnecessary and a hacky implementation). This has been replaced by my own
-  unobtrusive dashboard update notifier; displayed in the upper-right hand side of the top header.
+  unobtrusive and configurable dashboard update notifier; displayed in the upper-right hand side of the top header.
 * "GPS" link in Call Sign column of dashboard (superfluous and unreliable).
 * Selectable Call Sign link to either QRZ.com or RadioID.com (both services
   suck, and the implementation of this feature is poor and unintuitive. Left
@@ -179,8 +179,7 @@ sudo WPSD-Installer -rd
   issue (poor/inaccurate and taxing implementation, and can confuse power users that
   utilize my Instant Mode Manager, where the default cell is amber colored for
   paused modes [color is user-configurable].).
-
-    Instead, the *actual* network name is highlighted in red when there's a login issue (courtesy of `F1RMB`'s excellent code).
+  Instead, the *actual* network name is highlighted in red when there's a login issue (courtesy of `F1RMB`'s excellent code).
 
 ## Notes about CSS, and custom CSS you may have previously applied
 
@@ -247,14 +246,18 @@ Not all pages shown here. Note, that you can customize the colors to your prefer
 ### BrandMeister Manager
 ![alt text](https://w0chp.net/w0chp-pistar-dash/BM.png "BrandMeister Manager")
 
+### D-Star Manager
+![alt text](https://w0chp.net/w0chp-pistar-dash/DSman.png "D-Star Manager")
+
 ### Instant Mode Manager
 ![alt text](https://w0chp.net/w0chp-pistar-dash/IMM.png "Mode Manager")
 
-### System Manager
-![alt text](https://w0chp.net/w0chp-pistar-dash/SM.png "System Manager")
-
 ### Live Caller Screen
 ![alt-text](https://w0chp.net/w0chp-pistar-dash/LC.png "Live Caller Screen")
+
+### Moblie Device View
+![alt-text](https://w0chp.net/w0chp-pistar-dash/Mobile.png "Mobile Device View")
+
 
 ## Credits
 

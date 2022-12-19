@@ -10,7 +10,6 @@ if (!isset($_SESSION) || !is_array($_SESSION)) {
     checkSessionValidity();
 }
 
-// Pull in some config
 require_once $_SERVER['DOCUMENT_ROOT'].'/config/config.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/functions.php';
@@ -290,8 +289,7 @@ $M17GatewayAPRS     = $configm17gateway['APRS']['Enable'];
 $DMRBeaconEnable    = $configmmdvm['DMR']['Beacons'];
 $DMRBeaconModeNet   = "0" ;
 
-
-// Check for newer MMDVMHost, which by default uses DMRGW and DMR2*****
+// newer MMDVMHost, which by default uses DMRGW and DMR2*****
 if ((($configmmdvm['DMR Network']['Address'] == "127.0.0.1") || ($configmmdvm['DMR Network']['Address'] == "127.0.0.2") || ($configmmdvm['DMR Network']['Address'] == "127.0.0.3")) === FALSE) {
     // Convert DMR Network section to use DMRGateway instead of direct access
     $configmmdvm['DMR Network']['Address'] = "127.0.0.1";
@@ -395,7 +393,6 @@ function ensureOptionsIsQuoted(&$opt) {
     }
 }
 
-
 $MYCALL=strtoupper($callsign);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -421,7 +418,7 @@ $MYCALL=strtoupper($callsign);
     <script type="text/javascript" src="/js/jquery.min.js?version=<?php echo $versionCmd; ?>"></script>
     <link href="/js/select2/css/select2.min.css?version=<?php echo $versionCmd; ?>" rel="stylesheet" />
     <script src="/js/select2/js/select2.full.min.js?version=<?php echo $versionCmd; ?>"></script>
-   <script src="/js/select2/js/select2-searchInputPlaceholder.js?version=<?php echo $versionCmd; ?>"></script>  
+    <script src="/js/select2/js/select2-searchInputPlaceholder.js?version=<?php echo $versionCmd; ?>"></script>  
     <script type="text/javascript">
 	function disablesubmitbuttons() {
 		var inputs = document.getElementsByTagName('input');
@@ -463,15 +460,13 @@ $MYCALL=strtoupper($callsign);
 		document.getElementById("confLatitude").value = position.coords.latitude.toFixed(5);
 		document.getElementById("confLongitude").value = position.coords.longitude.toFixed(5);
 	}
-    </script>
-    <script>
-      $(document).ready(function() {
+	$(document).ready(function() {
           $('.ysfStartupHost').select2({searchInputPlaceholder: 'Search...'});
           $('.ysf2dmrMasterHost').select2({searchInputPlaceholder: 'Search...'});
-          $('.dmrMasterHost').select2({searchInputPlaceholder: 'Search...'});
-          $('.dmrMasterHost1').select2({searchInputPlaceholder: 'Search...'});
-          $('.dmrMasterHost2').select2({searchInputPlaceholder: 'Search...'});
-          $('.dmrMasterHost3').select2({searchInputPlaceholder: 'Search...'});
+          $('.dmrMasterHost').select2({searchInputPlaceholder: 'Search...', width: '125px'});
+          $('.dmrMasterHost1').select2({searchInputPlaceholder: 'Search...', width: '225px'});
+          $('.dmrMasterHost2').select2({searchInputPlaceholder: 'Search...', width: '225px'});
+          $('.dmrMasterHost3').select2({searchInputPlaceholder: 'Search...', width: '125px'});
           $('.dmrMasterHost3Startup').select2({searchInputPlaceholder: 'Search...'});
           $('.ysf2nxdnStartupDstId').select2({searchInputPlaceholder: 'Search...'});
           $('.ysf2p25StartupDstId').select2({searchInputPlaceholder: 'Search...'});
@@ -480,7 +475,8 @@ $MYCALL=strtoupper($callsign);
           $('.systemTimezone').select2({searchInputPlaceholder: 'Search...'});
 	  $(".confDefRef").select2({
 	    tags: true,
-	    dropdownAutoWidth : true,
+	    width: '125px',
+	    dropdownAutoWidth : false,
 	    createTag: function (params) {
 	      return {
 	        id: params.term,
@@ -500,9 +496,21 @@ $MYCALL=strtoupper($callsign);
 	      return $result;
 	    }
 	  });
-          $('.ModSel').select2();
-          $('.M17Ref').select2({searchInputPlaceholder: 'Search...'});
-      });
+	  $('.ModSel').select2();
+	  $('.M17Ref').select2({searchInputPlaceholder: 'Search...',width: '125px'});
+	});
+
+	$(document).on('click', '.toggle-bm-password', function() {
+	  $(this).toggleClass("fa-eye fa-eye-slash");
+	  var input = $("#bmHSSecurity");
+	  input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
+	});
+	$(document).on('click', '.toggle-tgif-password', function() {
+	  $(this).toggleClass("fa-eye fa-eye-slash");
+	  var input = $("#tgifHSSecurity");
+	  input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
+	});
+
     </script>
     <script type="text/javascript" src="/js/functions.js?version=<?php echo $versionCmd; ?>"></script>
 </head>
@@ -614,7 +622,6 @@ if (!empty($is_paused)) {
     die();
 } else { // no modes paued. continue on! (end of pause check near end of file)
 if ($_SERVER["PHP_SELF"] == "/admin/configure.php") {
-    // Hardware Detail
 	//HTML output starts here
      echo '<div class="contentwide">'."\n";
 if (!empty($_POST)):
@@ -638,7 +645,7 @@ if (!empty($_POST)):
 		  echo '<a href="https://w0chp.net/w0chp-pistar-dash/" style="color: #ffffff; text-decoration:underline;">W0CHP-PiStar-Dash</a> enhancements by W0CHP';
           echo "<br />\n</div>\n</div>\n</body>\n</html>\n";
 	  die();
-	  }
+	}
 
 	// AutoAP PSK Change
 	if (empty($_POST['autoapPsk']) != TRUE ) {
@@ -657,7 +664,7 @@ if (!empty($_POST)):
 		  echo '<a href="https://w0chp.net/w0chp-pistar-dash/" style="color: #ffffff; text-decoration:underline;">W0CHP-PiStar-Dash</a> enhancements by W0CHP';
           echo "<br />\n</div>\n</div>\n</body>\n</html>\n";
 	  die();
-	  }
+	}
 
 	// Stop Cron and all serivices
 	system('sudo REMOUNT_RO="NO" pistar-services fullstop > /dev/null 2>/dev/null');
@@ -666,9 +673,6 @@ if (!empty($_POST)):
 	echo "<tr><th>Working...</th></tr>\n";
 	echo "<tr><td>Stopping services and applying your configuration changes...</td></tr>\n";
 	echo "</table>\n";
-
-	// Let the services actualy stop
-	sleep(3);
 
 	// Factory Reset Handler Here
 	if (empty($_POST['factoryReset']) != TRUE ) {
@@ -688,14 +692,12 @@ if (!empty($_POST)):
 	  exec('sudo git --work-tree=/usr/local/bin --git-dir=/usr/local/bin/.git reset --hard origin/master');
 	  exec('sudo git --work-tree=/var/www/dashboard --git-dir=/var/www/dashboard/.git reset --hard origin/master');
           echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},5000);</script>';
-	  // Make the root filesystem read-only
-          //system('sudo sync && sudo sync && sudo sync && sudo mount -o remount,ro /');
 	  echo "<br />\n</div>\n";
           echo "<div class=\"footer\">\nPi-Star web config, &copy; Andy Taylor (MW0MWZ) 2014-".date("Y").".<br />\n";
 		  echo '<a href="https://w0chp.net/w0chp-pistar-dash/" style="color: #ffffff; text-decoration:underline;">W0CHP-PiStar-Dash</a> enhancements by W0CHP';
           echo "<br />\n</div>\n</div>\n</body>\n</html>\n";
 	  die();
-	  }
+	}
 
 	// Handle the case where the config is not read correctly
 	if (count($configmmdvm) <= 18) {
@@ -712,26 +714,26 @@ if (!empty($_POST)):
 		  echo '<a href="https://w0chp.net/w0chp-pistar-dash/" style="color: #ffffff; text-decoration:underline;">W0CHP-PiStar-Dash</a> enhancements by W0CHP';
           echo "<br />\n</div>\n</div>\n</body>\n</html>\n";
 	  die();
-	  }
+	}
 
 	// Change Radio Control Software
 	if (empty($_POST['controllerSoft']) != TRUE ) {
 	  system('sudo rm -rf /etc/dstar-radio.*');
 	  if (escapeshellcmd($_POST['controllerSoft']) == 'DSTAR') { system('sudo touch /etc/dstar-radio.dstarrepeater'); }
 	  if (escapeshellcmd($_POST['controllerSoft']) == 'MMDVM') { system('sudo touch /etc/dstar-radio.mmdvmhost'); }
-	  }
+	}
 
 	// HostAP
 	if (empty($_POST['autoAP']) != TRUE ) {
 	  if (escapeshellcmd($_POST['autoAP']) == 'OFF') { system('sudo touch /etc/hostap.off'); }
 	  if (escapeshellcmd($_POST['autoAP']) == 'ON') { system('sudo rm -rf /etc/hostap.off'); }
-	  }
+	}
 
 	// Change Dashboard Language
 	if (empty($_POST['dashboardLanguage']) != TRUE ) {
 	  $rollDashLang = 'sudo sed -i "/pistarLanguage=/c\\$pistarLanguage=\''.escapeshellcmd($_POST['dashboardLanguage']).'\';" /var/www/dashboard/config/language.php';
 	  system($rollDashLang);
-	  }
+	}
 
 	// Set the ircDDBGAteway Remote Password and Port
 	if (empty($_POST['confPassword']) != TRUE ) {
@@ -741,7 +743,7 @@ if (!empty($_POST)):
 	  system($rollConfPassword0);
 	  system($rollConfPassword1);
 	  system($rollConfRemotePort);
-	  }
+	}
 
 	// Set the ircDDBGateway Defaut Reflector
 	if (empty($_POST['confDefRef']) != TRUE ) {
@@ -754,7 +756,7 @@ if (!empty($_POST)):
 	    $rollconfDefRef = 'sudo sed -i "/reflector1=/c\\reflector1='.$targetRef.escapeshellcmd($_POST['confDefRefLtr']).'" /etc/ircddbgateway';
 	    system($rollconfDefRef);
 	    }
-	  }
+	}
 
 	// Set the ircDDBGAteway Defaut Reflector Autostart
 	if (empty($_POST['confDefRefAuto']) != TRUE ) {
@@ -765,7 +767,7 @@ if (!empty($_POST)):
 	    $rollconfDefRefAuto = 'sudo sed -i "/atStartup1=/c\\atStartup1=0" /etc/ircddbgateway';
 	  }
 	  system($rollconfDefRefAuto);
-	  }
+	}
 
 	// Set random (working) CCS host.
 	if ($configs['ccsEnabled'] == "1") {
@@ -791,7 +793,7 @@ if (!empty($_POST)):
 	  $confignxdngateway['Info']['Latitude'] = $newConfLatitude;
 	  system($rollConfLat0);
 	  system($rollConfLat1);
-	  }
+	}
 
 	// Set the Longitude
 	if (empty($_POST['confLongitude']) != TRUE ) {
@@ -822,11 +824,11 @@ if (!empty($_POST)):
 
 	   if (empty($_POST['gpsdPort']) != TRUE ) {
 		$configdmrgateway['GPSD']['Port'] = escapeshellcmd($_POST['gpsdPort']);
-	    }
+	   }
 
-	    if (empty($_POST['gpsdServer']) != TRUE ) {
+	   if (empty($_POST['gpsdServer']) != TRUE ) {
 		$configdmrgateway['GPSD']['Address'] = escapeshellcmd($_POST['gpsdServer']);
-	    }
+	   }
 
             // Set GPSD daemon On or Off
             $GPSDsvcOn = 'sudo systemctl unmask gpsd.service ; sudo systemctl unmask gpsd.socket ; sudo systemctl enable gpsd.service ; sudo systemctl enable gpsd.service';
@@ -862,7 +864,7 @@ if (!empty($_POST)):
 	  $configm1ngateway['Info']['Name'] = '"'.$newConfDesc1.'"';
 	  system($rollDesc1);
 	  system($rollDesc11);
-	  }
+	}
 
 	// Set the Country
 	if (empty($_POST['confDesc2']) != TRUE ) {
@@ -877,7 +879,7 @@ if (!empty($_POST)):
 	  $confignxdngateway['Info']['Description'] = '"'.$newConfDesc2.'"';
 	  system($rollDesc2);
 	  system($rollDesc22);
-	  }
+	}
 
 	// Set the URL
 	if (empty($_POST['confURL']) != TRUE ) {
@@ -893,7 +895,7 @@ if (!empty($_POST)):
 	  $configdmrgateway['Info']['URL'] = $txtURL;
 	  $configm17gateway['Info']['URL'] = $txtURL;
 	  system($rollURL0);
-	  }
+	}
 
 	// Set the APRS Host for ircDDBGateway
 	if (empty($_POST['selectedAPRSHost']) != TRUE ) {
@@ -1067,7 +1069,7 @@ if (!empty($_POST)):
 	  system($rollGatewayType);
 	  system($rollFREQOffset);
 
-	// Set RPT1 and RPT2
+	  // Set RPT1 and RPT2
 	  if (empty($_POST['confDStarModuleSuffix'])) {
 	    if ($newFREQtx >= 1240000000 && $newFREQtx <= 1300000000) {
 		$confRPT1 = str_pad(escapeshellcmd($_POST['confCallsign']), 7, " ")."A";
@@ -1176,7 +1178,7 @@ if (!empty($_POST)):
 	  system($rollGatewayType);
 	  system($rollFREQOffset);
 
-	// Set RPT1 and RPT2
+	  // Set RPT1 and RPT2
 	  if (empty($_POST['confDStarModuleSuffix'])) {
 	    if ($newFREQ >= 1240000000 && $newFREQ <= 1300000000) {
 		$confRPT1 = str_pad(escapeshellcmd($_POST['confCallsign']), 7, " ")."A";
@@ -1232,7 +1234,7 @@ if (!empty($_POST)):
 	  system($rollBEACONTEXT);
 	  system($rollIRCrepeaterBand1);
 	  system($rollIRCrepeaterCall1);
-	  }
+	}
 
 	// Set Callsign
 	if (empty($_POST['confCallsign']) != TRUE ) {
@@ -1292,11 +1294,10 @@ if (!empty($_POST)):
 	    unset($configs['aprsPassword']);
 	    $rollircDDBGatewayAprsPass = 'sudo sed -i "/aprsPassword/d" /etc/ircddbgateway';
 	    system($rollircDDBGatewayAprsPass);
-       if (empty($_POST['APRSGatewayEnable']) != TRUE ) {
-            if (escapeshellcmd($_POST['APRSGatewayEnable']) == 'ON' )  { $rollAPRSGatewayEnable = 'sudo sed -i "/Enabled=/c\\Enabled=1" /etc/aprsgateway'; }
-            if (escapeshellcmd($_POST['APRSGatewayEnable']) == 'OFF' ) { $rollAPRSGatewayEnable = 'sudo sed -i "/Enabled=/c\\Enabled=0" /etc/aprsgateway'; }
-
-        }
+	    if (empty($_POST['APRSGatewayEnable']) != TRUE ) {
+		if (escapeshellcmd($_POST['APRSGatewayEnable']) == 'ON' )  { $rollAPRSGatewayEnable = 'sudo sed -i "/Enabled=/c\\Enabled=1" /etc/aprsgateway'; }
+ 		if (escapeshellcmd($_POST['APRSGatewayEnable']) == 'OFF' ) { $rollAPRSGatewayEnable = 'sudo sed -i "/Enabled=/c\\Enabled=0" /etc/aprsgateway'; }
+	    }
 	    system($rollAPRSGatewayEnable);
 	  }
 
@@ -1611,7 +1612,7 @@ if (!empty($_POST)):
 			$configmmdvm['DMR Network']['Password'] = '"'.$_POST['tgifHSSecurity'].'"';
 		    }
 	    } else {
-		    unset ($configModem['TGIF']['Password']);
+		unset ($configModem['TGIF']['Password']);
 	    }
 
 	    // DMR Gateway
@@ -1733,11 +1734,6 @@ if (!empty($_POST)):
 	    }
 	}
 
-	// Set JitterBuffer Option
-	//if (empty($_POST['dmrDMRnetJitterBufer']) != TRUE ) {
-	//  if (escapeshellcmd($_POST['dmrDMRnetJitterBufer']) == 'ON' ) { $configmmdvm['DMR Network']['JitterEnabled'] = "1"; $configysf2dmr['DMR Network']['JitterEnabled'] = "1"; }
-	//  if (escapeshellcmd($_POST['dmrDMRnetJitterBufer']) == 'OFF' ) { $configmmdvm['DMR Network']['JitterEnabled'] = "0"; $configysf2dmr['DMR Network']['JitterEnabled'] = "0"; }
-	//}
 	unset($configmmdvm['DMR Network']['JitterEnabled']);
 
 	// Set Talker Alias Option
@@ -1846,7 +1842,7 @@ if (!empty($_POST)):
 	  $configmmdvm['M17 Network']['ModeHang'] = preg_replace('/[^0-9]/', '', $_POST['m17NetHangTime']);
 	  $configm17gateway['Network']['NetHangTime'] = "0";
 	}
-    // Set POCSAG Hang Timer
+	// Set POCSAG Hang Timer
 	if (empty($_POST['POCSAGHangTime']) != TRUE ) {
 	  $configmmdvm['POCSAG Network']['ModeHang'] = preg_replace('/[^0-9]/', '', $_POST['POCSAGHangTime']);
 	}
@@ -1875,8 +1871,8 @@ if (!empty($_POST)):
 	    if (substr($testNeworkConfig, 0, 1) === '0') {
 	      system('sudo sed -i "$ a\ \\nauto eth0:1\\nallow-hotplug eth0:1\\niface eth0:1 inet static\\n    address 172.16.0.20\\n    netmask 255.255.255.0" /etc/network/interfaces');
 	    }
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'icomTerminalAuto' ) {
@@ -1884,9 +1880,9 @@ if (!empty($_POST)):
 	    $rollIcomPort = 'sudo sed -i "/icomPort=/c\\icomPort=/dev/icom_ta" /etc/dstarrepeater';
 	    $rollRpt1Validation = 'sudo sed -i "/rpt1Validation=/c\\rpt1Validation=0" /etc/dstarrepeater';
 	    system($rollModemType);
-        system($rollIcomPort);
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    system($rollIcomPort);
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvmpis' ) {
@@ -1901,8 +1897,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvmpid' ) {
@@ -1917,15 +1913,15 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvmuadu' ) {
 	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=DVMEGA" /etc/dstarrepeater';
 	    $rollDVMegaPort = 'sudo sed -i "/dvmegaPort=/c\\dvmegaPort=/dev/ttyUSB0" /etc/dstarrepeater';
 	    $rollDVMegaVariant = 'sudo sed -i "/dvmegaVariant=/c\\dvmegaVariant=3" /etc/dstarrepeater';
-        $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollDVMegaPort);
@@ -1933,15 +1929,15 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvmuada' ) {
 	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=DVMEGA" /etc/dstarrepeater';
 	    $rollDVMegaPort = 'sudo sed -i "/dvmegaPort=/c\\dvmegaPort=/dev/ttyACM0" /etc/dstarrepeater';
 	    $rollDVMegaVariant = 'sudo sed -i "/dvmegaVariant=/c\\dvmegaVariant=3" /etc/dstarrepeater';
-        $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollDVMegaPort);
@@ -1949,8 +1945,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvmbss' ) {
@@ -1959,7 +1955,7 @@ if (!empty($_POST)):
 	    $rollDVMegaVariant = 'sudo sed -i "/dvmegaVariant=/c\\dvmegaVariant=2" /etc/dstarrepeater';
 	    $rollDstarRepeaterStartDelay = 'sudo sed -i "/OnStartupSec=/c\\OnStartupSec=60" /lib/systemd/system/dstarrepeater.timer';
 	    $rollMMDVMHostStartDelay = 'sudo sed -i "/OnStartupSec=/c\\OnStartupSec=60" /lib/systemd/system/mmdvmhost.timer';
-        $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollDVMegaPort);
@@ -1967,8 +1963,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvmbsd' ) {
@@ -1977,7 +1973,7 @@ if (!empty($_POST)):
 	    $rollDVMegaVariant = 'sudo sed -i "/dvmegaVariant=/c\\dvmegaVariant=3" /etc/dstarrepeater';
 	    $rollDstarRepeaterStartDelay = 'sudo sed -i "/OnStartupSec=/c\\OnStartupSec=60" /lib/systemd/system/dstarrepeater.timer';
 	    $rollMMDVMHostStartDelay = 'sudo sed -i "/OnStartupSec=/c\\OnStartupSec=60" /lib/systemd/system/mmdvmhost.timer';
-        $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollDVMegaPort);
@@ -1985,72 +1981,72 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvmuagmsku' ) {
 	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=DVMEGA" /etc/dstarrepeater';
 	    $rollDVMegaPort = 'sudo sed -i "/dvmegaPort=/c\\dvmegaPort=/dev/ttyUSB0" /etc/dstarrepeater';
 	    $rollDVMegaVariant = 'sudo sed -i "/dvmegaVariant=/c\\dvmegaVariant=0" /etc/dstarrepeater';
-        $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollDVMegaPort);
 	    system($rollDVMegaVariant);
 	    system($rollRepeaterType1);
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvmuagmska' ) {
 	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=DVMEGA" /etc/dstarrepeater';
 	    $rollDVMegaPort = 'sudo sed -i "/dvmegaPort=/c\\dvmegaPort=/dev/ttyACM0" /etc/dstarrepeater';
 	    $rollDVMegaVariant = 'sudo sed -i "/dvmegaVariant=/c\\dvmegaVariant=0" /etc/dstarrepeater';
-        $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollDVMegaPort);
 	    system($rollDVMegaVariant);
 	    system($rollRepeaterType1);
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvrptr1' ) {
 	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=DV-RPTR V1" /etc/dstarrepeater';
 	    $rollDVRPTRPort = 'sudo sed -i "/dvrptr1Port=/c\\dvrptr1Port=/dev/ttyACM0" /etc/dstarrepeater';
-        $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollDVRPTRPort);
 	    system($rollRepeaterType1);
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvrptr2' ) {
 	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=DV-RPTR V2" /etc/dstarrepeater';
 	    $rollDVRPTRPort = 'sudo sed -i "/dvrptr1Port=/c\\dvrptr1Port=/dev/ttyACM0" /etc/dstarrepeater';
-        $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollDVRPTRPort);
 	    system($rollRepeaterType1);
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvrptr3' ) {
 	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=DV-RPTR V3" /etc/dstarrepeater';
 	    $rollDVRPTRPort = 'sudo sed -i "/dvrptr1Port=/c\\dvrptr1Port=/dev/ttyACM0" /etc/dstarrepeater';
-        $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollDVRPTRPort);
 	    system($rollRepeaterType1);
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'gmsk_modem' ) {
@@ -2058,18 +2054,18 @@ if (!empty($_POST)):
 	    system($rollModemType);
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollRepeaterType1);
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvap' ) {
 	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=DVAP" /etc/dstarrepeater';
-        $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollRepeaterType1);
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'zumspotlibre' ) {
@@ -2080,8 +2076,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'zumspotusb' ) {
@@ -2092,8 +2088,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'lsusb' ) {
@@ -2104,8 +2100,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'zumspotgpio' ) {
@@ -2116,8 +2112,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'zumspotdualgpio' ) {
@@ -2128,8 +2124,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'zumspotduplexgpio' ) {
@@ -2139,8 +2135,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 1;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
           if ( $confHardware == 'zumradiopiusb' ) {
@@ -2162,8 +2158,8 @@ if (!empty($_POST)):
 	    system($rollMMDVMPort);
 	    system($rollRepeaterType1);
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'zum' ) {
@@ -2173,9 +2169,9 @@ if (!empty($_POST)):
 	    system($rollModemType);
 	    system($rollMMDVMPort);
 	    system($rollRepeaterType1);
-        $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'stm32dvm' ) {
@@ -2186,8 +2182,8 @@ if (!empty($_POST)):
 	    system($rollMMDVMPort);
 	    system($rollRepeaterType1);
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'stm32usb' ) {
@@ -2198,8 +2194,8 @@ if (!empty($_POST)):
 	    system($rollMMDVMPort);
 	    system($rollRepeaterType1);
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'f4mgpio' ) {
@@ -2210,8 +2206,8 @@ if (!empty($_POST)):
 	    system($rollMMDVMPort);
 	    system($rollRepeaterType1);
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'f4mf7m' ) {
@@ -2221,8 +2217,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
 	    $configmmdvm['General']['Duplex'] = 1;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'mmdvmhshat' ) {
@@ -2233,8 +2229,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'lshshatgpio' ) {
@@ -2245,8 +2241,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'mmdvmhshatambe' ) {
@@ -2257,8 +2253,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttySC0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'mmdvmhsdualbandgpio' ) {
@@ -2266,11 +2262,11 @@ if (!empty($_POST)):
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollRepeaterType1);
-		$configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+      	    $configmmdvm['Modem']['Protocol'] = "uart";
+      	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'sbhsdualbandgpio' ) {
@@ -2278,11 +2274,11 @@ if (!empty($_POST)):
 	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
 	    system($rollModemType);
 	    system($rollRepeaterType1);
-		$configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+      	    $configmmdvm['Modem']['Protocol'] = "uart";
+      	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	   if ( $confHardware == 'genesishat' ) {
@@ -2315,8 +2311,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 1;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'lshsdualhatgpio' ) {
@@ -2326,8 +2322,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 1;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'mmdvmhsdualhatusb' ) {
@@ -2346,8 +2342,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 1;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'mmdvmmdohat' ) {
@@ -2358,8 +2354,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'mmdvmvyehat' ) {
@@ -2370,8 +2366,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'mmdvmvyehatdual' ) {
@@ -2381,8 +2377,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 1;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'mnnano-spot' ) {
@@ -2393,8 +2389,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'mnnano-teensy' ) {
@@ -2407,8 +2403,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'nanodv' ) {
@@ -2419,8 +2415,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'nanodvusb' ) {
@@ -2431,8 +2427,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvmpicast' ) {
@@ -2447,8 +2443,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvmpicasths' ) {
@@ -2463,8 +2459,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  if ( $confHardware == 'dvmpicasthd' ) {
@@ -2479,8 +2475,8 @@ if (!empty($_POST)):
 	    system($rollRepeaterType1);
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 	  
 	  if ( $confHardware == 'opengd77' ) {
@@ -2491,8 +2487,8 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['Port'] = "/dev/ttyACM0";
 	    $configmmdvm['General']['Duplex'] = 0;
 	    $configmmdvm['DMR Network']['Slot1'] = 0;
-        $configmmdvm['Modem']['Protocol'] = "uart";
-        $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+       	    $configmmdvm['Modem']['Protocol'] = "uart";
+       	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
 	  // Set the Service start delay
@@ -3408,9 +3404,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($mmdvmValues as $mmdvmKey=>$mmdvmValue) {
 			$mmdvmContent .= $mmdvmKey."=".$mmdvmValue."\n";
-			}
-			$mmdvmContent .= "\n";
 		}
+		$mmdvmContent .= "\n";
+	}
 
 	if (!$handleMMDVMHostConfig = fopen('/tmp/bW1kdm1ob3N0DQo.tmp', 'w')) {
 		return false;
@@ -3453,9 +3449,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($ysfgwValues as $ysfgwKey=>$ysfgwValue) {
                         $ysfgwContent .= $ysfgwKey."=".$ysfgwValue."\n";
-                        }
-                        $ysfgwContent .= "\n";
                 }
+                $ysfgwContent .= "\n";
+        }
 
         if (!$handleYSFGWconfig = fopen('/tmp/eXNmZ2F0ZXdheQ.tmp', 'w')) {
                 return false;
@@ -3491,9 +3487,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($nxdngwValues as $nxdngwKey=>$nxdngwValue) {
                         $nxdngwContent .= $nxdngwKey."=".$nxdngwValue."\n";
-                        }
-                        $nxdngwContent .= "\n";
                 }
+                $nxdngwContent .= "\n";
+        }
 
         if (!$handleNXDNGWconfig = fopen('/tmp/kXKwkDKy793HF5.tmp', 'w')) {
                 return false;
@@ -3529,9 +3525,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($m17gwValues as $m17gwKey=>$m17gwValue) {
                         $m17gwContent .= $m17gwKey."=".$m17gwValue."\n";
-                        }
-                        $m17gwContent .= "\n";
                 }
+                $m17gwContent .= "\n";
+        }
 
         if (!$handleM17GWconfig = fopen('/tmp/Edr2FxEdr2FxEdr2Fx.tmp', 'w')) {
                 return false;
@@ -3566,9 +3562,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($p25gwValues as $p25gwKey=>$p25gwValue) {
                         $p25gwContent .= $p25gwKey."=".$p25gwValue."\n";
-                        }
-                        $p25gwContent .= "\n";
                 }
+                $p25gwContent .= "\n";
+        }
 
         if (!$handleP25GWconfig = fopen('/tmp/sJSySkheSgrelJX.tmp', 'w')) {
                 return false;
@@ -3604,9 +3600,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($ysf2dmrValues as $ysf2dmrKey=>$ysf2dmrValue) {
                         $ysf2dmrContent .= $ysf2dmrKey."=".$ysf2dmrValue."\n";
-                        }
-                        $ysf2dmrContent .= "\n";
                 }
+                $ysf2dmrContent .= "\n";
+        }
 
         if (!$handleYSF2DMRconfig = fopen('/tmp/dsWGR34tHRrSFFGA.tmp', 'w')) {
                 return false;
@@ -3642,9 +3638,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($ysf2nxdnValues as $ysf2nxdnKey=>$ysf2nxdnValue) {
                         $ysf2nxdnContent .= $ysf2nxdnKey."=".$ysf2nxdnValue."\n";
-                        }
-                        $ysf2nxdnContent .= "\n";
                 }
+                $ysf2nxdnContent .= "\n";
+        }
         if (!$handleYSF2NXDNconfig = fopen('/tmp/dsWGR34tHRrSFFGb.tmp', 'w')) {
                 return false;
         }
@@ -3678,9 +3674,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($ysf2p25Values as $ysf2p25Key=>$ysf2p25Value) {
                         $ysf2p25Content .= $ysf2p25Key."=".$ysf2p25Value."\n";
-                        }
-                        $ysf2p25Content .= "\n";
                 }
+                $ysf2p25Content .= "\n";
+        }
         if (!$handleYSF2P25config = fopen('/tmp/dsWGR34tHRrSFFGc.tmp', 'w')) {
                 return false;
         }
@@ -3715,9 +3711,9 @@ if (!empty($_POST)):
 			// append the values
 			foreach($dgidgatewayValues as $dgidgatewayKey=>$dgidgatewayValue) {
 				$dgidgatewayContent .= $dgidgatewayKey."=".$dgidgatewayValue."\n";
-				}
-				$dgidgatewayContent .= "\n";
 			}
+			$dgidgatewayContent .= "\n";
+		}
 		if (!$handleDGIdGatewayConfig = fopen('/tmp/cu0G4tG3CA45Z9B.tmp', 'w')) {
 			return false;
 		}
@@ -3752,9 +3748,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($dmr2ysfValues as $dmr2ysfKey=>$dmr2ysfValue) {
                         $dmr2ysfContent .= $dmr2ysfKey."=".$dmr2ysfValue."\n";
-                        }
-                        $dmr2ysfContent .= "\n";
                 }
+                $dmr2ysfContent .= "\n";
+        }
         if (!$handleDMR2YSFconfig = fopen('/tmp/dhJSgdy7755HGc.tmp', 'w')) {
                 return false;
         }
@@ -3788,9 +3784,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($dmr2nxdnValues as $dmr2nxdnKey=>$dmr2nxdnValue) {
                         $dmr2nxdnContent .= $dmr2nxdnKey."=".$dmr2nxdnValue."\n";
-                        }
-                        $dmr2nxdnContent .= "\n";
                 }
+                $dmr2nxdnContent .= "\n";
+        }
         if (!$handleDMR2NXDNconfig = fopen('/tmp/nthfheS55HGc.tmp', 'w')) {
                 return false;
         }
@@ -3824,9 +3820,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($dapnetValues as $dapnetKey=>$dapnetValue) {
                         $dapnetContent .= $dapnetKey."=".$dapnetValue."\n";
-                        }
-                        $dapnetContent .= "\n";
                 }
+                $dapnetContent .= "\n";
+        }
         if (!$handledapnetconfig = fopen('/tmp/lsHWie734HS.tmp', 'w')) {
                 return false;
         }
@@ -3860,9 +3856,9 @@ if (!empty($_POST)):
                 // append the values
                 foreach($dmrgwValues as $dmrgwKey=>$dmrgwValue) {
                         $dmrgwContent .= $dmrgwKey."=".$dmrgwValue."\n";
-                        }
-                        $dmrgwContent .= "\n";
                 }
+                $dmrgwContent .= "\n";
+        }
         if (!$handledmrGWconfig = fopen('/tmp/k4jhdd34jeFr8f.tmp', 'w')) {
                 return false;
         }
@@ -3899,9 +3895,9 @@ if (!empty($_POST)):
                 foreach($configModemValues as $modemKey=>$modemValue) {
 			if ($modemKey == "Password") { $configModemContent .= $modemKey."=".'"'.str_replace('"', "", $modemValue).'"'."\n"; }
 			else { $configModemContent .= $modemKey."=".$modemValue."\n"; }
-                        }
-                        $configModemContent .= "\n";
                 }
+                $configModemContent .= "\n";
+        }
 
         if (!$handleModemConfig = fopen('/tmp/sja7hFRkw4euG7.tmp', 'w')) {
                 return false;
@@ -3962,10 +3958,6 @@ if (!empty($_POST)):
 
 	unset($_POST);
 	echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},7500);</script>';
-
-	// Make the root filesystem read-only
-	//system('sudo sync && sudo sync && sudo sync && sudo mount -o remount,ro /');
-
 
 else:
 	// Output the HTML Form here
@@ -4146,7 +4138,7 @@ else:
     <td align="left" colspan="3"><select name="confHardware">
 		<option<?php if (!$configModem['Modem']['Hardware']) { echo ' selected="selected"';}?> value="">--</option>
 	        <?php if (file_exists('/dev/icom_ta')) { ?>
-	    		<option<?php if ($configModem['Modem']['Hardware'] === 'icomTerminalAuto') {		echo ' selected="selected"';}?> value="icomTerminalAuto">Icom Radio in Terminal Mode (DStarRepeater Only)</option>
+	    	<option<?php if ($configModem['Modem']['Hardware'] === 'icomTerminalAuto') {		echo ' selected="selected"';}?> value="icomTerminalAuto">Icom Radio in Terminal Mode (DStarRepeater Only)</option>
 	        <?php } ?>
 	        <option<?php if ($configModem['Modem']['Hardware'] === 'idrp2c') {		echo ' selected="selected"';}?> value="idrp2c">Icom Repeater Controller ID-RP2C (DStarRepeater Only)</option>
 		<option<?php if ($configModem['Modem']['Hardware'] === 'dvmpis') {		echo ' selected="selected"';}?> value="dvmpis">DV-Mega Raspberry Pi Hat (GPIO) - Single Band (70cm)</option>
@@ -4158,9 +4150,9 @@ else:
 		<option<?php if ($configModem['Modem']['Hardware'] === 'dvmbss') {		echo ' selected="selected"';}?> value="dvmbss">DV-Mega on Bluestack (USB) - Single Band (70cm)</option>
 		<option<?php if ($configModem['Modem']['Hardware'] === 'dvmbsd') {		echo ' selected="selected"';}?> value="dvmbsd">DV-Mega on Bluestack (USB) - Dual Band</option>
 	    	<?php if (file_exists('/dev/ttyS2')) { ?>
-	    		<option<?php if ($configModem['Modem']['Hardware'] === 'dvmpicast') {	echo ' selected="selected"';}?> value="dvmpicast">DV-Mega Cast Base Radio (Main Unit)</option>
-	    		<option<?php if ($configModem['Modem']['Hardware'] === 'dvmpicasths') {	echo ' selected="selected"';}?> value="dvmpicasths">DV-Mega Cast Hotspot - Single Band (70cm)</option>
-	    		<option<?php if ($configModem['Modem']['Hardware'] === 'dvmpicasthd') {	echo ' selected="selected"';}?> value="dvmpicasthd">DV-Mega Cast Hotspot - Dual Band (2m/70cm)</option>
+	    	<option<?php if ($configModem['Modem']['Hardware'] === 'dvmpicast') {	echo ' selected="selected"';}?> value="dvmpicast">DV-Mega Cast Base Radio (Main Unit)</option>
+	    	<option<?php if ($configModem['Modem']['Hardware'] === 'dvmpicasths') {	echo ' selected="selected"';}?> value="dvmpicasths">DV-Mega Cast Hotspot - Single Band (70cm)</option>
+	    	<option<?php if ($configModem['Modem']['Hardware'] === 'dvmpicasthd') {	echo ' selected="selected"';}?> value="dvmpicasthd">DV-Mega Cast Hotspot - Dual Band (2m/70cm)</option>
 	    	<?php } ?>
 		<option<?php if ($configModem['Modem']['Hardware'] === 'gmsk_modem') {		echo ' selected="selected"';}?> value="gmsk_modem">GMSK Modem (USB DStarRepeater Only)</option>
 	        <option<?php if ($configModem['Modem']['Hardware'] === 'dvrptr1') {		echo ' selected="selected"';}?> value="dvrptr1">DV-RPTR V1 (USB)</option>
@@ -4278,7 +4270,6 @@ else:
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['aprs_host'];?>:<span><b>APRS Gateway Host Pool</b>Set your preferred APRS host pool here.</span></a></td>
     <td colspan="3" style="text-align: left;"><select name="selectedAPRSHost">
 <?php 
-        //$testAPSRHost = $configs['aprsHostname']; // I see no def. of this in the upstream code, so we'll define it below by loading & parsing the config...
     	$aprsHostFile = fopen("/usr/local/etc/APRSHosts.txt", "r");
         $aprsGatewayConfigFile = '/etc/aprsgateway';
         if (fopen($aprsGatewayConfigFile,'r')) { $configaprsgateway = parse_ini_file($aprsGatewayConfigFile, true); }
@@ -4589,10 +4580,6 @@ else:
 	    <option <?php if ($configmmdvm['Nextion']['ScreenLayout'] == "4") {echo 'selected="selected" ';}; ?>value="ON7LDSL3HS">ON7LDS L3 HS</option>
 	    </select>
     </td></tr>
-    <!--<tr>
-    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['mode_hangtime'];?>:<span><b>Net Hang Time</b>Stay in the last mode for this many seconds</span></a></td>
-    <td align="left" colspan="2"><input type="text" name="hangTime" size="13" maxlength="3" value="<?php echo $configmmdvm['General']['RFModeHang']; ?>" /> in seconds (90 secs works well for Multi-Mode)</td>
-    </tr>-->
     </table>
 	<div><input type="button" value="<?php echo $lang['apply'];?>" onclick="submitform()" /><br /><br /></div>
     <?php } ?>
@@ -4666,7 +4653,8 @@ fclose($dmrMasterFile);
     <tr>
       <td align="left"><a class="tooltip2" href="#">BM Hotspot Security:<span><b>BrandMeister Password</b>Override the Password for BrandMeister with your own custom password, make sure you already configured this using BM Self Care. Empty the field to use the default.</span></a></td>
       <td align="left" colspan="3">
-        <input type="password" name="bmHSSecurity" size="30" maxlength="30" value="<?php if (isset($configModem['BrandMeister']['Password'])) {echo $configModem['BrandMeister']['Password'];} ?>"></input>
+        <input type="password" name="bmHSSecurity" id="bmHSSecurity" size="30" maxlength="30" value="<?php if (isset($configModem['BrandMeister']['Password'])) {echo $configModem['BrandMeister']['Password'];} ?>"></input>
+	<span toggle="#password-field" class="fa fa-fw fa-eye field_icon toggle-bm-password"></span>
       </td>
     </tr>
     <tr>
@@ -4832,7 +4820,8 @@ fclose($dmrMasterFile);
     <tr>
       <td align="left"><a class="tooltip2" href="#">TGIF Security Key:<span><b>TGIF Security Key</b>Override the default login with your own TGIF security key, Make sure you already configured this using TGIF Self Care. Empty the field to use the default.</span></a></td>
       <td align="left" colspan="2">
-        <input type="password" name="tgifHSSecurity" size="30" maxlength="30" value="<?php if (isset($configModem['TGIF']['Password'])) {echo $configModem['TGIF']['Password'];} ?>"></input>
+        <input type="password" name="tgifHSSecurity" id="tgifHSSecurity" size="30" maxlength="30" value="<?php if (isset($configModem['TGIF']['Password'])) {echo $configModem['TGIF']['Password'];} ?>"></input>
+	<span toggle="#password-field" class="fa fa-fw fa-eye field_icon toggle-tgif-password"></span>
       </td>
       <td align="left"><a href="https://tgif.network/profile.php?tab=Security" target="_new">Get your TGIF Security Key here...</a></td>
     </tr>
@@ -5022,13 +5011,6 @@ fclose($dmrMasterFile);
     <?php if ($configmmdvm['DMR']['DumpTAData'] == 1) { echo "<div class=\"switch\"><input id=\"toggle-dmrDumpTAData\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrDumpTAData\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrDumpTADataCr." /><label id=\"aria-toggle-dmrDumpTAData\" role=\"checkbox\" tabindex=\"0\" aria-label=\"DMR Dump TA Data\" aria-checked=\"true\" onKeyPress=\"toggleDmrDumpTAData()\" onclick=\"toggleDmrDumpTAData()\" for=\"toggle-dmrDumpTAData\"><font style=\"font-size:0px\">DMR Dump T-A Data</font></label></div>\n"; }
     else { echo "<div class=\"switch\"><input id=\"toggle-dmrDumpTAData\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrDumpTAData\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrDumpTADataCr." /><label id=\"aria-toggle-dmrDumpTAData\" role=\"checkbox\" tabindex=\"0\" aria-label=\"DMR Dump TA Data\" aria-checked=\"false\" onKeyPress=\"toggleDmrDumpTAData()\" onclick=\"toggleDmrDumpTAData()\" for=\"toggle-dmrDumpTAData\"><font style=\"font-size:0px\">DMR Dump T-A Data</font></label></div>\n"; } ?>
     </td></tr>
-    <!-- <tr>
-    <td align="left"><a class="tooltip2" href="#"><?php echo "DMR JitterBuffer";?>:<span><b>DMR JitterBuffer</b>Turn on for improved network resiliancy, in high Latency networks.</span></a></td>
-    <td align="left">
-    <?php // if ((isset($configmmdvm['DMR Network']['JitterEnabled'])) && ($configmmdvm['DMR Network']['JitterEnabled'] == 0)) { echo "<div class=\"switch\"><input id=\"toggle-dmrJitterBufer\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrDMRnetJitterBufer\" value=\"ON\"/><label for=\"toggle-dmrJitterBufer\"></label></div>\n"; }
-    // else { echo "<div class=\"switch\"><input id=\"toggle-dmrJitterBufer\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrDMRnetJitterBufer\" value=\"ON\" checked=\"checked\" /><label for=\"toggle-dmrJitterBufer\"></label></div>\n"; }
-    ?>
-    </td></tr>. -->
     </table>
 	<div><input type="button" value="<?php echo $lang['apply'];?>" onclick="submitform()" /><br /><br /></div>
 <?php } ?>
@@ -5097,7 +5079,7 @@ $dplusFile = fopen("/usr/local/etc/DPlus_Hosts.txt", "r");
 $dextraFile = fopen("/usr/local/etc/DExtra_Hosts.txt", "r");
 
 echo "    <option value=\"".substr($configs['reflector1'], 0, 6)."\" selected=\"selected\">".substr($configs['reflector1'], 0, 6)."</option>\n";
-//echo "    <option value=\"customOption\">Text Entry</option>\n";
+//echo "    <option value=\"customOption\">Text Entry</option>\n" // now handled by select2 js
 
 while (!feof($dcsFile)) {
 	$dcsLine = fgets($dcsFile);
@@ -5402,7 +5384,8 @@ $ysfHosts = fopen("/usr/local/etc/YSFHosts.txt", "r"); ?>
     <tr>
       <td align="left"><a class="tooltip2" href="#">Hotspot Security:<span><b>DMR Master Password</b>Override the Password for DMR with your own custom password, make sure you already configured this on your chosed DMR Master. Empty the field to use the default.</span></a></td>
       <td align="left" colspan="2">
-        <input type="password" name="bmHSSecurity" size="30" maxlength="30" value="<?php if (isset($configModem['BrandMeister']['Password'])) {echo $configModem['BrandMeister']['Password'];} ?>"></input>
+        <input type="password" name="bmHSSecurity" id="bmHSSecurity" size="30" maxlength="30" value="<?php if (isset($configModem['BrandMeister']['Password'])) {echo $configModem['BrandMeister']['Password'];} ?>"></input>
+	<span toggle="#password-field" class="fa fa-fw fa-eye field_icon toggle-bm-password"></span>
       </td>
     </tr>
     <tr>
@@ -5494,11 +5477,7 @@ $ysfHosts = fopen("/usr/local/etc/YSFHosts.txt", "r"); ?>
     </select></td>
     </tr>
     <?php } ?>
-	    
-	    
-	    
-	    
-	    
+ 
     </table>
 	<div><input type="button" value="<?php echo $lang['apply'];?>" onclick="submitform()" /><br /><br /></div>
 <?php } ?>
@@ -5569,9 +5548,9 @@ $p25Hosts = fopen("/usr/local/etc/P25Hosts.txt", "r");
 <?php
 	if (file_exists('/etc/nxdngateway')) {
 	   $nxdnHosts = fopen("/usr/local/etc/NXDNHosts.txt", "r");
-       if (isset($confignxdngateway['Network']['Startup'])) { $testNXDNHost = $confignxdngateway['Network']['Startup']; }
-       elseif (isset($confignxdngateway['Network']['Static'])) { $testNXDNHost = $confignxdngateway['Network']['Static']; }
-       else { $testNXDNHost = ""; }
+	if (isset($confignxdngateway['Network']['Startup'])) { $testNXDNHost = $confignxdngateway['Network']['Startup']; }
+	elseif (isset($confignxdngateway['Network']['Static'])) { $testNXDNHost = $confignxdngateway['Network']['Static']; }
+	else { $testNXDNHost = ""; }
 		if ($testNXDNHost == "") { echo "      <option value=\"none\" selected=\"selected\">None</option>\n"; }
 	        else { echo "      <option value=\"none\">None</option>\n"; }
 		if ($testNXDNHost == "10") { echo "      <option value=\"10\" selected=\"selected\">10 - Parrot</option>\n"; }
@@ -5612,7 +5591,6 @@ $p25Hosts = fopen("/usr/local/etc/P25Hosts.txt", "r");
     </table>
 	<div><input type="button" value="<?php echo $lang['apply'];?>" onclick="submitform()" /><br /><br /></div>
 			<?php } ?>
-			
 			<!-- M17 -->
 			<?php if (file_exists('/etc/dstar-radio.mmdvmhost') && $configmmdvm['M17 Network']['Enable'] == 1 ) { ?>
 			    <h2>M17 Configuration</h2>
