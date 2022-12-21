@@ -2198,6 +2198,19 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
+	  if ( $confHardware == 'stm32usbv4' ) {
+	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=MMDVM" /etc/dstarrepeater';
+	    $rollMMDVMPort = 'sudo sed -i "/mmdvmPort=/c\\mmdvmPort=/dev/ttyUSB0" /etc/dstarrepeater';
+	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
+	    system($rollModemType);
+	    system($rollMMDVMPort);
+	    system($rollRepeaterType1);
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyUSB0";
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['UARTSpeed'] = "460800";
+	  }
+
 	  if ( $confHardware == 'f4mgpio' ) {
 	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=MMDVM" /etc/dstarrepeater';
 	    $rollMMDVMPort = 'sudo sed -i "/mmdvmPort=/c\\mmdvmPort=/dev/ttyAMA0" /etc/dstarrepeater';
@@ -4162,6 +4175,7 @@ else:
 		<option<?php if ($configModem['Modem']['Hardware'] === 'zum') {			echo ' selected="selected"';}?> value="zum">MMDVM / MMDVM_HS / Teensy / ZUM (USB)</option>
 		<option<?php if ($configModem['Modem']['Hardware'] === 'stm32dvm') {		echo ' selected="selected"';}?> value="stm32dvm">STM32-DVM / MMDVM_HS - Raspberry Pi Hat (GPIO)</option>
 		<option<?php if ($configModem['Modem']['Hardware'] === 'stm32usb') {		echo ' selected="selected"';}?> value="stm32usb">STM32-DVM (USB)</option>
+		<option<?php if ($configModem['Modem']['Hardware'] === 'stm32usbv4') {		echo ' selected="selected"';}?> value="stm32usbv4">STM32-DVM (USB v4 460800 baud)</option>
 	        <option<?php if ($configModem['Modem']['Hardware'] === 'zumspotlibre') {	echo ' selected="selected"';}?> value="zumspotlibre">ZUMspot - Libre (USB)</option>
 		<option<?php if ($configModem['Modem']['Hardware'] === 'zumspotusb') {		echo ' selected="selected"';}?> value="zumspotusb">ZUMspot - USB Stick</option>
 		<option<?php if ($configModem['Modem']['Hardware'] === 'zumspotgpio') {		echo ' selected="selected"';}?> value="zumspotgpio">ZUMspot - Single Band Raspberry Pi Hat (GPIO)</option>
@@ -4195,8 +4209,13 @@ else:
     </tr>
 	<tr id="modem_speed">
 	    <td align="left"><a class="tooltip2" href="#">Modem Baud Rate:<span><b>Baudrate</b>Serial speed (most Hats are using 115200)</span></a></td>
+            <?php if($configModem['Modem']['Hardware'] === "stm32usbv4") { ?>
+            <td align="left" colspan="3"><select disabled="disabled" name="confHardwareSpeed">
+		<option value=\"$modemSpeed\">460800</option>
+	    </select></td>
+            <?php } else { ?>
 	    <td align="left" colspan="3"><select name="confHardwareSpeed">
-		<?php
+		<?php 
 		$modemSpeeds = [115200, 57600, 38400, 19200, 9600, 4800, 2400, 1200];
 		foreach($modemSpeeds as $modemSpeed) {
 		    if ($configmmdvm['Modem']['UARTSpeed'] == $modemSpeed) {
@@ -4208,6 +4227,7 @@ else:
 		}
 		?>
 		</select></td>
+	    <?php } ?>
 	</tr>
 <?php } ?>
 <?php if (file_exists('/etc/aprsgateway')) {
