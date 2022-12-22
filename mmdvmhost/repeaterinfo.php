@@ -467,11 +467,26 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
+			    } else if (substr( $slot1Link, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
+				$target_lookup = exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+				if (strlen($target_lookup) > 20) {
+				    $target_lookup = substr($target_lookup, 0, 15) . '...';
+				}
+				$TGname = $target_lookup;
+			    } else if (substr( $slot1Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
+				$target_lookup = exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
+				if (strlen($target_lookup) > 20) {
+				    $target_lookup = substr($target_lookup, 0, 15) . '...';
+				}
+				$TGname = $target_lookup;
 			    } else {
 				$target_lookup = trim(exec("grep -w \"$slot1Link\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'"));
 				$TGname = str_replace("$slot1Link: ", "", $target_lookup);
 				$stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
 				$TGname = preg_replace($stupid_bm, "", $TGname); // strip stupid fucking comments from BM admins in TG names. Idiots.
+				if (strlen($TGname) > 20) {
+				    $TGname = substr($TGname, 0, 15) . '...';
+				}
 			    }
 			    if (!empty($target_lookup)) {
 				echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled: TG $slot1Link' style='border: .5px solid $tableBorderColor;'>TG $slot1Link<br /><small>($TGname)</small></div>\n";
@@ -511,11 +526,26 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
+			    } else if (substr( $slot2Link, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
+				$target_lookup = exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+				if (strlen($target_lookup) > 20) {
+				    $target_lookup = substr($target_lookup, 0, 15) . '...';
+				}
+				$TGname = $target_lookup;
+			    } else if (substr( $slot2Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
+				$target_lookup = exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
+				if (strlen($target_lookup) > 20) {
+				    $target_lookup = substr($target_lookup, 0, 15) . '...';
+				}
+				$TGname = $target_lookup;
 			    } else {
 				$target_lookup = trim(exec("grep -w \"$slot2Link\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'"));
 				$TGname = str_replace("$slot2Link: ", "", $target_lookup);
 				$stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
 				$TGname = preg_replace($stupid_bm, "", $TGname); // strip stupid fucking comments from BM admins in TG names. Idiots.
+				if (strlen($TGname) > 20) {
+				    $TGname = substr($TGname, 0, 15) . '...';
+				}
 			    }
 			    if (!empty($target_lookup)) {
 				echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 2 Enabled: TG $slot2Link' style='border: .5px solid $tableBorderColor;'>TG $slot2Link<br /><small>($TGname)</small></div>\n";

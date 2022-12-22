@@ -174,7 +174,6 @@ if (!is_numeric($listElem[2])) {
 	$country = $Name;
     }
 }
-
  
 if (strlen($target) >= 2) {
     if (strpos($mode, 'DMR') !== false) {
@@ -182,6 +181,20 @@ if (strlen($target) >= 2) {
 	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 	    if (!empty($target_lookup)) {
 		$target = "TG $target ($target_lookup)";
+	    } else {
+		$target = "TG $target";
+	    }
+	} else if (substr( $target, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") { 
+	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");                                     
+	    if (!empty($target_lookup)) {
+		$target = "TG $target ($target_lookup)";                                                                                                
+	    } else {
+		$target = "TG $target";
+	    }
+	} else if (substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
+	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
+	    if (!empty($target_lookup)) {
+		$target = "TG $target ($target_lookup)";                                                                                                
 	    } else {
 		$target = "TG $target";
 	    }
