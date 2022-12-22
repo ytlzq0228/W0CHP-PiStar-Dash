@@ -198,6 +198,13 @@ if (strlen($target) >= 2) {
 	    } else {
 		$target = "TG $target";
 	    }
+	} else if (substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
+	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeDMR.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
+	    if (!empty($target_lookup)) {
+		$target = "TG $target ($target_lookup)";                                                                                                
+	    } else {
+		$target = "TG $target";
+	    }
 	} else {
 	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
 	    if (!empty($target_lookup)) {
