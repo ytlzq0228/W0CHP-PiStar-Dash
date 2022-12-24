@@ -467,25 +467,25 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
-			    } else if (substr( $slot1Link, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
+			    } else if (strlen($slot1Link) >= 6 && substr( $slot1Link, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
 				$target_lookup = exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 				if (strlen($target_lookup) > 20) {
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
-			    } else if (substr( $slot1Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
+			    } else if (strlen($slot1Link) >= 6 && substr( $slot1Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
 				$target_lookup = exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
 				if (strlen($target_lookup) > 20) {
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
-			    } else if (substr( $slot1Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
+			    } else if (trlen($slot1Link) >= 6 && ubstr( $slot1Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
 				$target_lookup = exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_FreeDMR.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
 				if (strlen($target_lookup) > 20) {
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
-			    } else if (substr( $slot1Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
+			    } else if (strlen($slot1Link) >= 6 && substr( $slot1Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
 				$target_lookup = exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_DMRp.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
 				if (strlen($target_lookup) > 20) {
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
@@ -538,25 +538,25 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
-			    } else if (substr( $slot2Link, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
+			    } else if (strlen($slot2Link) >= 6 && substr( $slot2Link, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
 				$target_lookup = exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 				if (strlen($target_lookup) > 20) {
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
-			    } else if (substr( $slot2Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
+			    } else if (strlen($slot2Link) >= 6 && substr( $slot2Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
 				$target_lookup = exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
 				if (strlen($target_lookup) > 20) {
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
-			    } else if (substr( $slot2Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
+			    } else if (strlen($slot2Link) >= 6 && substr( $slot2Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
 				$target_lookup = exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_FreeDMR.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
 				if (strlen($target_lookup) > 20) {
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
-			    } else if (substr( $slot2Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
+			    } else if (strlen($slot2Link) >= 6 && substr( $slot2Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
 				$target_lookup = exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_DMRp.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
 				if (strlen($target_lookup) > 20) {
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';

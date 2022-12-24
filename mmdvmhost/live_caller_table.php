@@ -161,28 +161,28 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
 			    } else {
 				$target = "TG $target";
 			    }
-			} else if (substr( $target, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
+			} else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
 			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 			    if (!empty($target_lookup)) {
 				$target = "TG $target <span class='noMob'>($target_lookup)</span>";
 			    } else {
 				$target = "TG $target";
 			    }
-			} else if (substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
+			} else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
 			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 			    if (!empty($target_lookup)) {
 				$target = "TG $target <span class='noMob'>($target_lookup)</span>";
 			    } else {
 				$target = "TG $target";
 			    }
-			} else if (substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
+			} else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
 			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeDMR_.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 			    if (!empty($target_lookup)) {
 				$target = "TG $target <span class='noMob'>($target_lookup)</span>";
 			    } else {
 				$target = "TG $target";
 			    }
-			} else if (substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
+			} else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
 			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_DMRp.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 			    if (!empty($target_lookup)) {
 				$target = "TG $target <span class='noMob'>($target_lookup)</span>";
