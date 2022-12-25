@@ -7,7 +7,7 @@ body {
   margin-right: auto;
   margin-left: auto;
   background-color: #1B1B1B;
-  font-family: 'Inconsolata', monospace;
+  font-family: 'Source Sans Pro', sans-serif;
 }
 
 .row {
@@ -34,6 +34,7 @@ body {
   color: #000;
   font-size: 14em; 
   font-weight: bold;
+  font-family: 'Inconsolata', monospace;
 }
 
 .oc_caller {
@@ -63,6 +64,7 @@ body {
 
 .dc_info_def {
   color:#D8D8D8;
+  font-family: 'Inconsolata', monospace;
 }
 
 
@@ -84,6 +86,7 @@ body {
 
 .hw_info_def {
   color:#D8D8D8;
+  font-family: 'Inconsolata', monospace;
 }
 
 .footer-column {
