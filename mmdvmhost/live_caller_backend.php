@@ -337,7 +337,7 @@ if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE || !p
 	  <span class='dc_info_def'>
 	    <?php echo $ber ?>
 	  </span>
-    <span class="last-caller" style="display:none;"><br />Last Caller ID: <span class='dc_info_def'></span></span>
+	  <span class="last-caller" style="display:none;"><br />Last Caller ID: <span class='dc_info_def'></span></span>
 	</span>
       </div>
     </div>
