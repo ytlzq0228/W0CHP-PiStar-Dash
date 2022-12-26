@@ -107,7 +107,7 @@ function getMMDVMConfigContent() {
     return $confs;
 }
 
-// Load any non sectionned config file
+// Load any non-sectioned config files
 function getNoSectionsConfigContent($configFile) {
     $confs = array();
     if ($handle = @fopen($configFile, 'r')) {
@@ -133,26 +133,6 @@ function getGatewayConfig($configFile) {
 	fclose($configs);
     }
     return $conf;
-}
-
-function getYSFGatewayConfig() {
-    return getGatewayConfig(YSFGATEWAYINIPATH."/".YSFGATEWAYINIFILENAME);
-}
-
-function getP25GatewayConfig() {
-    return getGatewayConfig(P25GATEWAYINIPATH."/".P25GATEWAYINIFILENAME);
-}
-
-function getNXDNGatewayConfig() {
-    return getGatewayConfig('/etc/nxdngateway');
-}
-
-function getDAPNETGatewayConfig() {
-    return getGatewayConfig('/etc/dapnetgateway');
-}
-
-function getDAPNETAPIConfig() {
-    return getGatewayConfig('/etc/dapnetapi.key');
 }
 
 // retrieves the corresponding config-entry within a [section]
@@ -1306,15 +1286,6 @@ function getHeardList($logLines) {
 	    }
 	}
 	
-	$timestamp = substr($logLine, 3, 19);
-	$mode = substr($logLine, 27, strpos($logLine,",") - 27);
-	$callsign2 = substr($logLine, strpos($logLine,"from") + 5, strpos($logLine,"to") - strpos($logLine,"from") - 6);
-	if (strpos($callsign2,"/") > 0) {
-	    $callsign = substr($callsign2, 0, strpos($callsign2,"/"));
-	}
-	$callsign = $callsign2;
-	$callsign = trim($callsign);
-
 	$timestamp = substr($logLine, 3, 19);
 	$mode = substr($logLine, 27, strpos($logLine,",") - 27);
 	$callsign2 = substr($logLine, strpos($logLine,"from") + 5, strpos($logLine,"to") - strpos($logLine,"from") - 6);                                                                   
