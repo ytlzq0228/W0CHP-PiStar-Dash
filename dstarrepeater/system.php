@@ -53,7 +53,11 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/tools.php';
   <div class="grid-item <?php getServiceStatusClass(isProcessRunning('P25Parrot')); ?>">P25Parrot</div> 
   <div class="grid-item <?php getServiceStatusClass(isProcessRunning('DAPNETGateway')); ?>">DAPNETGateway</div> 
   <div class="grid-item <?php getServiceStatusClass(isProcessRunning('timeserverd')); ?>">TimeServer</div>
-  <div class="grid-item <?php getServiceStatusClass(isProcessRunning('ntp')); ?>">NTPd</div> 
+  <?php if (getPSWstate()=='0' ) { ?>
+  <div class='grid-item paused-mode-cell' title="Disabled">Pi-Star Watchdog</div>
+  <?php } else { ?>
+  <div class="grid-item <?php getServiceStatusClass(isProcessRunning('/usr/local/sbin/pistar-watchdog',true)); ?>">Pi-Star Watchdog</div> 
+  <?php } ?>
 
   <div class="grid-item <?php getServiceStatusClass(UPnPenabled()); ?>">UPnP</div>  
   <div class="grid-item <?php getServiceStatusClass(isProcessRunning('gpsd'));  ?>">GPSd</div>  
