@@ -705,6 +705,15 @@ if (file_exists('/etc/hostap.off')) {
     }
 }
 
+// Pi-Star Watchdog status
+function getPSWState () {
+    if (isProcessRunning('/usr/local/sbin/pistar-watchdog',true) == 1) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 function getModeClass($status, $disabled = false) {
     if ($status) {
 	    echo '<div class="active-mode-cell" title="Active">';
