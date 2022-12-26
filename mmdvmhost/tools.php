@@ -44,8 +44,7 @@ function endsWith($haystack, $needle) {
 }
 
 function getMHZ($freq) {
-    return number_format($freq, 0, '.', '.') . " MHz";
-
+    return number_format($freq, -1, '.', '.') . " MHz";
 }
 
 function isProcessRunning($processName, $full = false, $refresh = false) {
