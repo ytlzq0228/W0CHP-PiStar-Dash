@@ -192,15 +192,52 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 		    $target = preg_replace('/TG /', '', $listElem[4]);
 		    if (strlen($target) >= 2) {
 		    	if (strpos($mode, 'DMR') !== false) {
-			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
-			    if (!empty($target_lookup)) {
-			        $target = $target_lookup;
-			        $stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
-			        $target = preg_replace($stupid_bm, "", $target); // strip stupid fucking comments from BM admins in TG names. Idiots.
-				$target = explode(": ", $target);
-			        $target = "TG $target[0] <span class='noMob'style='float:right';>(BM $target[1])</span>";
-			    } else {
-			        $target = "TG $target";
+                            if (strlen($target) >= 7 && substr( $target, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1") {
+                                $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+                                if (!empty($target_lookup)) {
+                                    $target = "TG $target <span class='noMob' style='float:right;'>($target_lookup)</span>";
+                                } else {
+                                    $target = "TG $target";
+                                }
+                            } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
+                                $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+                                if (!empty($target_lookup)) {
+                                    $target = "TG $target <span class='noMob' style='float:right;'>($target_lookup)</span>";                                                                       
+                                } else {
+                                    $target = "TG $target";
+                                }
+                            } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
+                                $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+                                if (!empty($target_lookup)) {
+                                    $target = "TG $target <span class='noMob' style='float:right;'>($target_lookup)</span>";
+                                } else {
+                                    $target = "TG $target";
+                                }
+                            } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
+                                $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeDMR_.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+                                if (!empty($target_lookup)) {
+                                    $target = "TG $target <span class='noMob' style='float:right;'>($target_lookup)</span>";
+                                } else {
+                                    $target = "TG $target";
+                                }
+                            } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
+                                $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_DMRp.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+                                if (!empty($target_lookup)) {
+                                    $target = "TG $target <span class='noMob' style='float:right;'>($target_lookup)</span>";
+                                } else {
+                                    $target = "TG $target";
+                                }
+                            } else {
+				$target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
+				if (!empty($target_lookup)) {
+				    $target = $target_lookup;
+				    $stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
+				    $target = preg_replace($stupid_bm, "", $target); // strip stupid fucking comments from BM admins in TG names. Idiots.
+				    $target = explode(": ", $target);
+				    $target = "TG $target[0] <span class='noMob'style='float:right';>(BM $target[1])</span>";
+				} else {
+				    $target = "TG $target";
+				}
 			    }
 			} else if (strpos($mode, 'NXDN') !== false) {
 			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
