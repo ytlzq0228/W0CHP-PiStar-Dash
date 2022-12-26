@@ -43,8 +43,9 @@ function endsWith($haystack, $needle) {
     return (strcasecmp(substr($haystack, -$length), $needle) == 0);
 }
 
-function getMHZ($freq) {
-    return number_format($freq, -1, '.', '.') . " MHz";
+function getMHZ( $freq ) {
+	$freq = number_format($freq, 0, '.', '.') ;
+	return preg_replace( '/\.000$/', '', $freq ) . " MHz";
 }
 
 function isProcessRunning($processName, $full = false, $refresh = false) {
