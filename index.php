@@ -591,6 +591,34 @@ if(empty($_POST['func'])) {
 	        echo '    }'."\n";
 	        echo '}'."\n";
     		echo '</script>'."\n";
+		echo '<script type="text/javascript">'."\n";
+        	echo 'function setTalkerAlias(obj) {'."\n";
+        	echo '    if (obj.checked) {'."\n";
+        	echo "        $.ajax({
+                	        type: \"POST\",
+  	          	        url: '/mmdvmhost/talkeralias_ajax.php',
+                	        data:{action:'enable'},
+				success: function(data) { 
+     				    $('#lcmsg').html(data).fadeIn('slow');
+				    $('#lcmsg').html(\"<div style='padding:8px;font-style:italic;font-weight:bold;'>For optimal performance, the number of Last Heard rows will be decreased while Talker Alias function is enabled.</div>\").fadeIn('slow')
+     				    $('#lcmsg').delay(4000).fadeOut('slow');
+				}
+         	             });";
+	        echo '    }'."\n";
+	        echo '    else {'."\n";
+	        echo "        $.ajax({
+	                        type: \"POST\",
+	                        url: '/mmdvmhost/talkeralias_ajax.php',
+	                        data:{action:'disable'},
+				success: function(data) { 
+     				    $('#lcmsg').html(data).fadeIn('slow');
+				    $('#lcmsg').html(\"<div style='padding:8px;font-style:italic;font-weight:bold;'>Talker Alias function disabled. Increasing Last Heard table rows to user preference (if set) or default (40).</div>\").fadeIn('slow')
+     				    $('#lcmsg').delay(4000).fadeOut('slow');
+				}
+	                      });";
+	        echo '    }'."\n";
+	        echo '}'."\n";
+    		echo '</script>'."\n";
 		echo '<div id="lcmsg" style="background:#d6d6d6;color:black; margin:0 0 10px 0;"></div>'."\n";
     		echo '<script type="text/javascript">'."\n";
     		echo 'function LiveCallerDetails(){'."\n";

@@ -27,6 +27,20 @@ $Flags->LoadFlags();
 // for name column
 $testMMDVModeDMR = getConfigItem("DMR", "Enable", $_SESSION['MMDVMHostConfigs']);
 ?>
+<?php if (getEnabled("DMR", $_SESSION['MMDVMHostConfigs']) == 1) { ?>
+<input type="hidden" name="lh-talias" value="OFF" />
+  <div style="float: right; vertical-align: bottom; padding-top: 0px;" id="lhTA">
+        <div class="grid-container" style="display: inline-grid; grid-template-columns: auto 40px; padding: 1px; grid-column-gap: 5px;">
+            <div class="grid-item menuta" style="padding: 10px 0 0 20px;">DMR Talker Alias
+            </div>
+            <div class="grid-item">
+                <div style="padding: 6px 0 0 0;">
+                  <input id="toggle-lh-talias" class="toggle toggle-round-flat" type="checkbox" name="lh-talias" value="ON" <?php if(file_exists('/etc/.SHOWDMRTA')) { echo 'checked="checked"';}?> aria-checked="true" aria-label="Show Talker Alias" onchange="setTalkerAlias(this)" /><label for="toggle-lh-talias" ></label>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
             <input type="hidden" name="display-lastcaller" value="OFF" />
             <div style="float: right; vertical-align: bottom; padding-top: 0px;" id="lhCN">
                <div class="grid-container" style="display: inline-grid; grid-template-columns: auto 40px; padding: 1px;; grid-column-gap: 5px;">
