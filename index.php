@@ -639,7 +639,7 @@ if(empty($_POST['func'])) {
                 	        data:{action:'enable'},
                                 success: function(data) { 
                                     $('#lcmsg').html(data).fadeIn('slow');
-                                    $('#lcmsg').html(\"<div style='padding:8px;font-style:italic;font-weight:bold;'>Talkgroup Names display enabled: Please wait until data populated.</div>\").fadeIn('slow')
+                                    $('#lcmsg').html(\"<div style='padding:8px;font-style:italic;font-weight:bold;'>Talkgroup Names display enabled: Please wait until data populated. For optimal performance, the number of Last Heard rows will be decreased while TG Names function is enabled.</div>\").fadeIn('slow')
                                     $('#lcmsg').delay(4000).fadeOut('slow');
                                 }
          	             });";
@@ -651,7 +651,7 @@ if(empty($_POST['func'])) {
 	                        data:{action:'disable'},
                                 success: function(data) { 
                                     $('#lcmsg').html(data).fadeIn('slow');
-                                    $('#lcmsg').html(\"<div style='padding:8px;font-style:italic;font-weight:bold;'>Talkgroup Names display disabled: Please wait until data is cleared.</div>\").fadeIn('slow')
+                                    $('#lcmsg').html(\"<div style='padding:8px;font-style:italic;font-weight:bold;'>Talkgroup Names display disabled: Please wait until data is cleared. Increasing Last Heard table rows to user preference (if set) or default (40).</div>\").fadeIn('slow')
                                     $('#lcmsg').delay(4000).fadeOut('slow');
                                 }
 	                      });";
