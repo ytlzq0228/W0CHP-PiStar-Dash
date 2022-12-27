@@ -2186,6 +2186,19 @@ if (!empty($_POST)):
 	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
 	  }
 
+	  if ( $confHardware == 'stm32dvmv3+' ) {
+	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=MMDVM" /etc/dstarrepeater';
+	    $rollMMDVMPort = 'sudo sed -i "/mmdvmPort=/c\\mmdvmPort=/dev/ttyAMA0" /etc/dstarrepeater';
+	    $rollRepeaterType1 = 'sudo sed -i "/repeaterType1=/c\\repeaterType1=0" /etc/ircddbgateway';
+	    system($rollModemType);
+	    system($rollMMDVMPort);
+	    system($rollRepeaterType1);
+	    $configmmdvm['Modem']['Port'] = "/dev/ttyAMA0";
+	    $configmmdvm['Modem']['Protocol'] = "uart";
+	    $configmmdvm['Modem']['UARTPort'] = $configmmdvm['Modem']['Port'];
+	    $configmmdvm['Modem']['UARTSpeed'] = "460800";
+	  }
+
 	  if ( $confHardware == 'stm32usb' ) {
 	    $rollModemType = 'sudo sed -i "/modemType=/c\\modemType=MMDVM" /etc/dstarrepeater';
 	    $rollMMDVMPort = 'sudo sed -i "/mmdvmPort=/c\\mmdvmPort=/dev/ttyUSB0" /etc/dstarrepeater';
@@ -4174,6 +4187,7 @@ else:
 		<option<?php if ($configModem['Modem']['Hardware'] === 'dvap') {		echo ' selected="selected"';}?> value="dvap">DVAP (USB)</option>
 		<option<?php if ($configModem['Modem']['Hardware'] === 'zum') {			echo ' selected="selected"';}?> value="zum">MMDVM / MMDVM_HS / Teensy / ZUM (USB)</option>
 		<option<?php if ($configModem['Modem']['Hardware'] === 'stm32dvm') {		echo ' selected="selected"';}?> value="stm32dvm">STM32-DVM / MMDVM_HS - Raspberry Pi Hat (GPIO)</option>
+		<option<?php if ($configModem['Modem']['Hardware'] === 'stm32dvmv3+') {		echo ' selected="selected"';}?> value="stm32dvmv3+">STM32-DVM (GPIO v3+ 460800 baud)</option>
 		<option<?php if ($configModem['Modem']['Hardware'] === 'stm32usb') {		echo ' selected="selected"';}?> value="stm32usb">STM32-DVM (USB)</option>
 		<option<?php if ($configModem['Modem']['Hardware'] === 'stm32usbv3+') {		echo ' selected="selected"';}?> value="stm32usbv3+">STM32-DVM (USB v3+ 460800 baud)</option>
 	        <option<?php if ($configModem['Modem']['Hardware'] === 'zumspotlibre') {	echo ' selected="selected"';}?> value="zumspotlibre">ZUMspot - Libre (USB)</option>
@@ -4209,7 +4223,7 @@ else:
     </tr>
 	<tr id="modem_speed">
 	    <td align="left"><a class="tooltip2" href="#">Modem Baud Rate:<span><b>Baudrate</b>Serial speed (most Hats are using 115200)</span></a></td>
-            <?php if($configModem['Modem']['Hardware'] === "stm32usbv3+") { ?>
+            <?php if(in_array($configModem['Modem']['Hardware'], array("stm32dvmv3+","stm32usbv3+"))) { ?>
             <td align="left" colspan="3"><select disabled="disabled" name="confHardwareSpeed">
 		<option value=\"$modemSpeed\">460800</option>
 	    </select></td>
