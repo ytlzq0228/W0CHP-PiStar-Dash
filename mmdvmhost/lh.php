@@ -27,7 +27,10 @@ $Flags->LoadFlags();
 // for name column
 $testMMDVModeDMR = getConfigItem("DMR", "Enable", $_SESSION['MMDVMHostConfigs']);
 ?>
-<?php if (getEnabled("DMR", $_SESSION['MMDVMHostConfigs']) == 1) { ?>
+<?php 
+if (getEnabled("DMR", $_SESSION['MMDVMHostConfigs']) == 1) {
+    if(file_exists('/etc/.CALLERDETAILS')) {
+?>
 <input type="hidden" name="lh-talias" value="OFF" />
   <div style="float: right; vertical-align: bottom; padding-top: 0px;" id="lhTA">
         <div class="grid-container" style="display: inline-grid; grid-template-columns: auto 40px; padding: 1px; grid-column-gap: 5px;">
@@ -40,7 +43,10 @@ $testMMDVModeDMR = getConfigItem("DMR", "Enable", $_SESSION['MMDVMHostConfigs'])
             </div>
         </div>
     </div>
-<?php } ?>
+<?php
+    }
+}
+?>
             <input type="hidden" name="display-lastcaller" value="OFF" />
             <div style="float: right; vertical-align: bottom; padding-top: 0px;" id="lhCN">
                <div class="grid-container" style="display: inline-grid; grid-template-columns: auto 40px; padding: 1px;; grid-column-gap: 5px;">
@@ -326,20 +332,9 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 			else { echo "<td class='noMob'><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>$listElem[8]</span></td>"; }
 		}
 		echo"</tr>\n";
-		if (!empty($listElem[10] && file_exists("/etc/.SHOWDMRTA")) && (!file_exists('/etc/.CALLERDETAILS'))) {
-		    echo "<tr>";
-		    echo "<td style='background:$backgroundContent;'></td>";
-		    echo "<td colspan='8' style=\"text-align:left;background:#0000ff;color:#fff;\">&#8593; $listElem[10]</td>";
-		    echo "</tr>";
-		} elseif (!empty($listElem[10] && file_exists("/etc/.SHOWDMRTA")) && (file_exists('/etc/.CALLERDETAILS'))) {
-		    echo "<tr>";
-		    echo "<td style='background:$backgroundContent;'></td>";
-		    echo "<td colspan='9' style=\"text-align:left;background:#0000ff;color:#fff;\">&#8593; $listElem[10]</td>";
-		    echo "</tr>";
-		}
 	    }
 	}
-    }
+}
 ?>
   </table>
 
