@@ -1418,7 +1418,7 @@ function getLastHeard($logLines) {
 
 	    $callUuid = $listElem[2]."#".$listElem[1].$listElem[3].$listElem[5];
 	    if (!empty($listElem[10])) {
-		$listElem[10] = "Alias: ".$listElem[10]."";
+		$listElem[10] = "Talker Alias: ".$listElem[10]."";
 	    }
 	    if(!(array_search($callUuid, $heardCalls) > -1)) {
 		array_push($heardCalls, $callUuid);
