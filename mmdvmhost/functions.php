@@ -826,7 +826,7 @@ function getMMDVMLog() {
     $logLines2 = array();
     if (file_exists(MMDVMLOGPATH."/".MMDVMLOGPREFIX."-".gmdate("Y-m-d").".log")) {
         $logPath = MMDVMLOGPATH."/".MMDVMLOGPREFIX."-".gmdate("Y-m-d").".log";
-        $fileList = array_filter(array("/etc/.GETNAMES", "/etc/.CALLERDETAILS", "/etc/.SHOWDMRTA"), 'file_exists');
+        $fileList = array_filter(array("/etc/.GETNAMES", "/etc/.CALLERDETAILS", "/etc/.SHOWDMRTA", "/etc/.TGNAMES"), 'file_exists');
         if (!$file = array_shift($fileList)) { // no caller names/last caller selected
 	    if(isset($_SESSION['PiStarRelease']['Pi-Star']['ProcNum']) && ($_SESSION['PiStarRelease']['Pi-Star']['ProcNum'] >= 4)) { // multi-core
 		if ($_SESSION['CSSConfigs']['ExtraSettings']['LastHeardRows'] > 40 ) { // more than 40 rows selected
