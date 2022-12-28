@@ -125,6 +125,7 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
                             	   exec("sudo cp /etc/.CALLERDETAILS $backupDir > /dev/null")."\n";
                             	   exec("sudo cp /etc/.pistar-css.ini.user $backupDir > /dev/null")."\n";
                             	   exec("sudo cp /etc/.TGNAMES $backupDir > /dev/null")."\n";
+                            	   exec("sudo cp /etc/.SHOWDMRTA $backupDir > /dev/null")."\n";
                             	   exec("sudo cp /usr/local/etc/RSSI.dat $backupDir > /dev/null")."\n";
                             	   exec("sudo cp /var/www/dashboard/config/ircddblocal.php $backupDir > /dev/null")."\n";
                             	   exec("sudo cp /var/www/dashboard/config/config.php $backupDir > /dev/null")."\n";
@@ -149,6 +150,7 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 				   exec("sudo sh -c 'cp -a $backupDir/* /etc/' > /dev/null");
 				   exec("sudo sh -c 'cp -a $backupDir/.CALLERDETAILS /etc/' > /dev/null");
 				   exec("sudo sh -c 'cp -a $backupDir/.TGNAMES /etc/' > /dev/null");
+				   exec("sudo sh -c 'cp -a $backupDir/.SHOWDMRTA /etc/' > /dev/null");
 				   exec("sudo sh -c 'cp -a $backupDir/.pistar-css.ini.user /etc/' > /dev/null");
                                    exec("sudo cp /var/www/dashboard/config/ircddblocal.php $backupDir > /dev/null")."\n";
                                    exec("sudo cp /var/www/dashboard/config/config.php $backupDir > /dev/null")."\n";
