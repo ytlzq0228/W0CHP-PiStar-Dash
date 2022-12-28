@@ -212,6 +212,12 @@ if (strlen($target) >= 2) {
 	    } else {
 		$target = "TG $target";
 	    }
+	} else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "7" && $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Enabled'] == "1") {                             
+	    if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2YSF_Cross-over") {                                                                             
+		$target = "TG $target (DMR2YSF)";
+	    } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2NXDN_Cross-over") {                                                                     
+		$target = "TG $target (DMR2NXDN)";
+            }
 	} else {
 	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
 	    if (!empty($target_lookup)) {
