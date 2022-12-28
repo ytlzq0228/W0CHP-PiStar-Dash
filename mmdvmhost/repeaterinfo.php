@@ -491,6 +491,14 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
+                            } else if (strlen($slot1Link) >= 6 && substr( $slot1Link, 0, 1 ) === "7" && $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Enabled'] == "1") {
+                                if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2YSF_Cross-over") {
+				    $target_lookup = "DMR2YSF";
+				    $TGname = $target_lookup;
+                                } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2NXDN_Cross-over") {
+				    $target_lookup = "DMR2NXDN";
+				    $TGname = $target_lookup;
+                                }
 			    } else {
 				$target_lookup = trim(exec("grep -w \"$slot1Link\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'"));
 				$TGname = str_replace("$slot1Link: ", "", $target_lookup);
@@ -562,6 +570,14 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
 				    $target_lookup = substr($target_lookup, 0, 15) . '...';
 				}
 				$TGname = $target_lookup;
+                            } else if (strlen($slot2Link) >= 6 && substr( $slot2Link, 0, 1 ) === "7" && $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Enabled'] == "1") {
+                                if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2YSF_Cross-over") {
+				    $target_lookup = "DMR2YSF";
+				    $TGname = $target_lookup;
+                                } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2NXDN_Cross-over") {
+				    $target_lookup = "DMR2NXDN";
+				    $TGname = $target_lookup;
+                                }
 			    } else {
 				$target_lookup = trim(exec("grep -w \"$slot2Link\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'"));
 				$TGname = str_replace("$slot2Link: ", "", $target_lookup);

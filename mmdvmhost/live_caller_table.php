@@ -189,6 +189,12 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
 			    } else {
 				$target = "TG $target";
 			    }
+			} else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "7" && $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Enabled'] == "1") {                             
+			    if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2YSF_Cross-over") {                                                                             
+				$target = "TG $target <span class='noMob'>(DMR2YSF)</span>";
+			    } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2NXDN_Cross-over") {                                                                     
+				$target = "TG $target <span class='noMob'>(DMR2NXDN)</span>";
+			    }
 			} else {
 			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
 			    if (!empty($target_lookup)) {
