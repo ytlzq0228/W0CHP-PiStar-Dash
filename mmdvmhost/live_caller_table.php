@@ -296,7 +296,7 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
 if (!empty($listElem[10] && file_exists("/etc/.SHOWDMRTA")) && (file_exists('/etc/.CALLERDETAILS'))) {
     echo "<tr>";
     echo "<td colspan='2'></td>";
-    echo "<td colspan='6'>&#8593; $listElem[10]</td>";
+    echo "<td colspan='6' style='text-align:left'>&#8593; $listElem[10]</td>";
     echo "</tr>";
 }
 ?>
