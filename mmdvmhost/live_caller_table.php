@@ -90,7 +90,7 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
 		$now = new DateTime("now", $utc_tz);
  		$dt = new DateTime($utc_time, $utc_tz);
 		$TA = timeago( $dt->getTimestamp(), $now->getTimestamp() );
-		$duration = "<td style='font-size:1.3em;'>$listElem[6]s <span class='noMob'>($TA)</span></td>";
+		$duration = "<td style='text-align:left;font-size:1.3em;'>$listElem[6]s <span class='noMob'>($TA)</span></td>";
 		// dynamic <title> reset
 		echo "<script>if(typeof window.original_title !== 'undefined'){jQuery('title').text(window.original_title)}</script>";
 	    }
@@ -250,8 +250,8 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
 	    } else {
 		$flContent = "---";
 	    }
-
 ?>
+
 <div style="vertical-align: bottom; font-weight:bold;text-align:left;margin-top:-12px;">Current / Last Caller Details</div>
   <table style="word-wrap: break-word; white-space:normal;">
     <tr>
@@ -266,10 +266,10 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
     </tr>
 
     <tr>
-      <td style="padding:3px 20px 5px 20px;"><strong style="font-size:1.5em;"><?php echo $callsign ?? ' '; ?></strong></td>
+      <td style="text-align:left;padding:3px 20px 5px 20px;"><strong style="font-size:1.5em;"><?php echo $callsign ?? ' '; ?></strong></td>
       <td><?php echo $flContent; ?></td>
-      <td style="font-size:1.3em;"><?php echo $name ?? ' '; ?></td>
-      <td class='noMob' style="font-size:1.3em;"><?php
+      <td style="text-align:left;font-size:1.3em;"><?php echo $name ?? ' '; ?></td>
+      <td class='noMob' style="text-align:left;font-size:1.3em;"><?php
 		if (!empty($city)) {
 			echo $city .", ";
 		}
@@ -278,20 +278,20 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
 		} if (!empty($country)) { 
 			echo $country; 
 		} ?></td>
-      <td style="font-size:1.3em;"><?php echo $mode ?? ' '; ?></td>
-      <td style="font-size:1.3em;"><?php echo $target ?? ' '; ?></td>
+      <td style="text-align:left;font-size:1.3em;"><?php echo $mode ?? ' '; ?></td>
+      <td style="text-align:left;font-size:1.3em;"><?php echo $target ?? ' '; ?></td>
       <?php
 	if ($listElem[5] == "RF") {
-		echo "<td style='font-size:1.3em;'><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>RF</span></td>";
+		echo "<td style='text-align:left;font-size:1.3em;'><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>RF</span></td>";
 	} else {
-    		echo" <td style='font-size:1.3em;'>".$source ?? ' '."</td>";
+    		echo" <td style='text-align:left;font-size:1.3em;'>".$source ?? ' '."</td>";
 	}
         echo $duration;
     ?>
      </tr>
 <?php
-	    }
 	}
+    }
 }
 if (!empty($listElem[10] && file_exists("/etc/.SHOWDMRTA")) && (file_exists('/etc/.CALLERDETAILS'))) {
     echo "<tr>";
