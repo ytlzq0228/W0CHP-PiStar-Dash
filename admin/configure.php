@@ -289,6 +289,9 @@ $M17GatewayAPRS     = $configm17gateway['APRS']['Enable'];
 $DMRBeaconEnable    = $configmmdvm['DMR']['Beacons'];
 $DMRBeaconModeNet   = "0" ;
 
+// form handler for XLX DMR slot select
+$xlxTimeSlot	    = $configdmrgateway['XLX Network']['Slot'];
+
 // newer MMDVMHost, which by default uses DMRGW and DMR2*****
 if ((($configmmdvm['DMR Network']['Address'] == "127.0.0.1") || ($configmmdvm['DMR Network']['Address'] == "127.0.0.2") || ($configmmdvm['DMR Network']['Address'] == "127.0.0.3")) === FALSE) {
     // Convert DMR Network section to use DMRGateway instead of direct access
@@ -1732,6 +1735,12 @@ if (!empty($_POST)):
 	    } else {
 		$configdmrgateway['XLX Network']['Module'] = $dmrMasterHost3StartupModule;
 	    }
+	}
+
+	// Set XLX Network TimeSlot for duplex modems
+	if (empty($_POST['xlxTimeSlot']) != TRUE ) {
+	  if (escapeshellcmd($_POST['xlxTimeSlot']) == '1' ) { $configdmrgateway['XLX Network']['Slot'] = "1"; }
+	  if (escapeshellcmd($_POST['xlxTimeSlot']) == '2' ) { $configdmrgateway['XLX Network']['Slot'] = "2"; }
 	}
 
 	unset($configmmdvm['DMR Network']['JitterEnabled']);
@@ -4965,6 +4974,20 @@ fclose($dmrMasterFile);
     </select></td>
     </tr>
     <?php } ?>
+    <tr>
+    <td align="left"><a class="tooltip2" href="#">Time Slot:<span><b>Time Slot</b>If running duplex, select which timeslot to use for XLX traffic.</span></a></td>
+    <td align="left" colspan="3">
+    <?php if ($configmmdvm['DMR Network']['Slot1'] == "1") { ?>
+      <input type="radio" name="xlxTimeSlot" value="1" id="xlxTS1" <?php if ($configdmrgateway['XLX Network']['Slot'] == "1") {  echo 'checked="checked"'; } ?> />
+        <label for="xlxTS1">TS1</label>
+    <?php } else { ?>
+      <input type="radio" name="xlxTimeSlot" value="1" id="xlxTS1" disabled="disabled" />
+        <label for="xlxTS1">TS1</label>
+    <?php } ?>
+      <input type="radio" name="xlxTimeSlot" value="2" id="xlxTS2" <?php if ($configdmrgateway['XLX Network']['Slot'] == "2") { echo 'checked="checked"'; } ?> />
+        <label for="xlxTS2">TS2</label>
+    </td>
+    </tr>
     <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['xlx_enable'];?>:<span><b>XLX Master Enable</b>Turn your XLX connection on or off.</span></a></td>
     <td align="left" colspan="3">
