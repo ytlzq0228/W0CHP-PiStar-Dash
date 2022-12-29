@@ -92,6 +92,12 @@ if (file_exists('/etc/dmr2nxdn')) {
 	if (fopen($dmr2nxdnConfigFile,'r')) { $configdmr2nxdn = parse_ini_file($dmr2nxdnConfigFile, true); }
 }
 
+// Load the dmr2nxdn config file
+if (file_exists('/etc/dmr2m17')) {
+	$dmr2m17ConfigFile = '/etc/dmr2m17';
+	if (fopen($dmr2m17ConfigFile,'r')) { $configdmr2m17 = parse_ini_file($dmr2m17ConfigFile, true); }
+}
+
 // Load the p25gateway config file
 if (file_exists('/etc/p25gateway')) {
 	$p25gatewayConfigFile = '/etc/p25gateway';
@@ -841,7 +847,7 @@ if (!empty($_POST)):
             if ($configdmrgateway['GPSD']['Enable'] == "1") { system($GPSDsvcOn); }
             if ($configdmrgateway['GPSD']['Enable'] == "0")  { system($GPSDsvcStop); system($GPSDsvcOff); }
 
-	    // Port and Address for YSF, GDId, M17 and NXDN gateways
+	    // Port and Address for YSF, DGId, M17 and NXDN gateways
 	    $configysfgateway['GPSD']['Port'] = $configdmrgateway['GPSD']['Port'];
 	    $configysfgateway['GPSD']['Address'] = $configdmrgateway['GPSD']['Address'];
 	    $configdgidgateway['GPSD']['Port'] = $configdmrgateway['GPSD']['Port'];
@@ -1391,6 +1397,17 @@ if (!empty($_POST)):
 			$newM17StartupModule = strtoupper(escapeshellcmd($_POST['m17StartupModule']));
 			$configm17gateway['Network']['Startup'] = "${newM17StartupReflector}_${newM17StartupModule}";
 	  }
+	}
+
+	// Set the DMR2M17 Startup Reflector
+	if (empty($_POST['dmr2m17StartupRef']) != TRUE ) {
+		$newDMR2M17StartupReflector = strtoupper(escapeshellcmd($_POST['dmr2m17StartupRef']));
+		if ($newDMR2M17StartupReflector === "NONE") {
+			if (isset($configdmr2m17['M17 Network']['DstName'])) { unset($configm17gateway['M17 Network']['DstName']); }
+		} else {
+		    $newDMR2M17StartupModule = strtoupper(escapeshellcmd($_POST['dmr2m17StartupModule']));
+		    $configdmr2m17['M17 Network']['DstName'] = "${newdmr2M17StartupReflector} ${newdmr2M17StartupModule}";
+		}
 	}
 
 	// Set the YSF Startup Host
@@ -2689,6 +2706,11 @@ if (!empty($_POST)):
 				$configysf2nxdn['Enabled']['Enabled'] = "0";
 		  	}
 	  	  }
+		  if (empty($_POST['MMDVMModeDMR2M17']) != TRUE ) {
+		  	if (escapeshellcmd($_POST['MMDVMModeYSFM17']) == 'ON' )  {
+				$configysf2m17['Enabled']['Enabled'] = "0";
+		  	}
+	  	  }
 		  $configdmr2nxdn['Enabled']['Enabled'] = "1";
 		  unset($configdmrgateway['DMR Network 3']);
 		  $configdmrgateway['DMR Network 3']['Enabled'] = "0";
@@ -2708,6 +2730,44 @@ if (!empty($_POST)):
 	  }
           if (escapeshellcmd($_POST['MMDVMModeDMR2NXDN']) == 'OFF' ) {
 		  $configdmr2nxdn['Enabled']['Enabled'] = "0";
+		  $configdmrgateway['DMR Network 3']['Enabled'] = "0";
+	  }
+	}
+
+	// Set DMR2M17 Mode
+	if (empty($_POST['MMDVMModeDMR2M17']) != TRUE ) {
+          if (escapeshellcmd($_POST['MMDVMModeDMR2M17']) == 'ON' )  {
+		  if (empty($_POST['MMDVMModeDMR2YSF']) != TRUE ) {
+		  	if (escapeshellcmd($_POST['MMDVMModeDMR2YSF']) == 'ON' )  {
+				$configdmr2ysf['Enabled']['Enabled'] = "0";
+		  	}
+	  	  }
+		  if (empty($_POST['MMDVMModeYSF2NXDN']) != TRUE ) {
+		  	if (escapeshellcmd($_POST['MMDVMModeYSF2NXDN']) == 'ON' )  {
+				$configysf2nxdn['Enabled']['Enabled'] = "0";
+		  	}
+	  	  }
+
+/* need dmrgw and dmr2m17 config here */
+		  $configdmr2m17['Enabled']['Enabled'] = "1";
+		  unset($configdmrgateway['DMR Network 3']);
+		  $configdmrgateway['DMR Network 3']['Enabled'] = "0";
+		  $configdmrgateway['DMR Network 3']['Name'] = "DMR2NXDN_Cross-over";
+		  $configdmrgateway['DMR Network 3']['Id'] = $configdmrgateway['DMR Network 2']['Id'];
+		  $configdmrgateway['DMR Network 3']['Address'] = "127.0.0.1";
+		  $configdmrgateway['DMR Network 3']['Port'] = "62035";
+		  $configdmrgateway['DMR Network 3']['Local'] = "62036";
+		  $configdmrgateway['DMR Network 3']['TGRewrite0'] = "2,7000001,2,1,999998";
+		  $configdmrgateway['DMR Network 3']['SrcRewrite0'] = "2,1,2,7000001,999998";
+		  $configdmrgateway['DMR Network 3']['PCRewrite0'] = "2,7000001,2,1,999998";
+		  $configdmrgateway['DMR Network 3']['Password'] = '"'."PASSWORD".'"';
+		  $configdmrgateway['DMR Network 3']['Location'] = "0";
+		  $configdmrgateway['DMR Network 3']['Debug'] = "0";
+		  $configmmdvm['M17']['Enable'] = "0";
+		  $configmmdvm['M17 Network']['Enable'] = "0";
+	  }
+          if (escapeshellcmd($_POST['MMDVMModeDMR2M17']) == 'OFF' ) {
+		  $configdmr2m17['Enabled']['Enabled'] = "0";
 		  $configdmrgateway['DMR Network 3']['Enabled'] = "0";
 	  }
 	}
