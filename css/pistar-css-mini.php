@@ -14,7 +14,7 @@ include_once('css-base.php');
 body, font {
     font: 18px 'Source Sans Pro', sans-serif;
     -webkit-text-size-adjust: none;
-    color: #fffff;
+    color: <?php echo $textContent; ?>;
     -moz-text-size-adjust: none;
     -ms-text-size-adjust: none;
     text-size-adjust: none;
@@ -97,6 +97,8 @@ body, font {
 }
 
 table {
+    background: <?php echo $backgroundContent; ?>;
+    color: <?php echo $textContent; ?>;
     vertical-align: middle;
     text-align: center;
     empty-cells: show;
