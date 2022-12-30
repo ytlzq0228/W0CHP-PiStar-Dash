@@ -78,6 +78,11 @@ body, font {
     margin: 0px;
 }
 
+h2.ConfSec {
+    font-size: 1.3em;
+    text-align: left;
+}
+
 .footer {
     background : <?php echo $backgroundBanners; ?>;
     text-decoration : none;
