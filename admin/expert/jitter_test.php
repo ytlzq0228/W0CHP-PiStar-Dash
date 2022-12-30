@@ -27,13 +27,14 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 // Sanity Check that this file has been opened correctly
 if ($_SERVER["PHP_SELF"] == "/admin/expert/jitter_test.php") {
 
-  if (isset($_GET['group'])) {
-    if ($_GET['group'] == "brandmeister") { $target = "BM"; }
-    if ($_GET['group'] == "dmrplus")      { $target = "DMR+"; }
-    if ($_GET['group'] == "hblink")       { $target = "HB"; }
-    if ($_GET['group'] == "freedmr")      { $target = "FreeDMR"; }
-    if ($_GET['group'] == "freedmr_sa")   { $target = "FD"; }
-    if ($_GET['group'] == "xlx")          { $target = "XLX"; }
+  if (isset($_POST['group'])) {
+    if ($_POST['group'] == "brandmeister") { $target = "BM"; }
+    if ($_POST['group'] == "dmrplus")      { $target = "DMR+"; }
+    if ($_POST['group'] == "hblink")       { $target = "HB"; }
+    if ($_POST['group'] == "freedmr")      { $target = "FreeDMR"; }
+    if ($_POST['group'] == "freedmr_sa")   { $target = "FD"; }
+    if ($_POST['group'] == "sysx")	   { $target = "SystemX"; }
+    if ($_POST['group'] == "xlx")          { $target = "XLX"; }
   } else { $target = ""; }
 
     if (!isset($_GET['ajax'])) {
@@ -82,9 +83,9 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/jitter_test.php") {
 		{
 		    unset($_SESSION['jittertest-isrunning']);
 		    echo "<pre>
-			--------------
-			Test Complete.
-			--------------
+--------------
+Test Complete.
+--------------
 			</pre>";
 		}
 	    }
@@ -137,16 +138,17 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/jitter_test.php") {
   <?php if (empty($target)) { ?>
   <tr><th>DMR Network Jitter Test</th></tr>
   <tr><td>
-  <form method="get" action="<?php ($_SERVER["PHP_SELF"]); ?>">
+  <form method="post" action="./jitter_test.php">
   <p>
     BrandMeister:<input type="radio" value="brandmeister" name="group" /> |
     HB-Link:<input type="radio" value="hblink" name="group" /> |
-    FreeDMR:<input type="radio" value="freedmr" name="group" /><br />
-    FreeDMR/FreeStar/System-X Stand-alone Hosts:<input type="radio" value="freedmr_sa" name="group" /> |
+    FreeDMR:<input type="radio" value="freedmr" name="group" /> | 
+    FreeDMR Stand-alone Hosts:<input type="radio" value="freedmr_sa" name="group" /><br />
+    SystemX (FreeSTAR):<input type="radio" value="sysx" name="group" /> |
     XLX Hosts:<input type="radio" value="xlx" name="group" /> |
     DMR+:<input type="radio" value="dmrplus" name="group" />
     <input type="submit" name="sumbit" value="Start Test" />
-    </p>
+  </p>
   </form>
   </td</tr>
   <tr><td><p><b>Please select a network above.</b></p></td></tr>
@@ -163,16 +165,17 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/jitter_test.php") {
 
   <tr><th>DMR Network Jitter Test</th></tr>
   <tr><td>
-  <form method="get" action="<?php ($_SERVER["PHP_SELF"]); ?>">
+  <form method="post" action="./jitter_test.php">
   <p>
     BrandMeister:<input type="radio" value="brandmeister" name="group" /> |
     HB-Link:<input type="radio" value="hblink" name="group" /> |
-    FreeDMR:<input type="radio" value="freedmr" name="group" /><br />
-    FreeDMR/FreeStar/System-X Stand-alone Hosts:<input type="radio" value="freedmr_sa" name="group" /> |
+    FreeDMR:<input type="radio" value="freedmr" name="group" /> | 
+    FreeDMR Stand-alone Hosts:<input type="radio" value="freedmr_sa" name="group" /><br />
+    SystemX (FreeSTAR):<input type="radio" value="sysx" name="group" /> |
     XLX Hosts:<input type="radio" value="xlx" name="group" /> |
     DMR+:<input type="radio" value="dmrplus" name="group" />
     <input type="submit" name="sumbit" value="Start Test" />
-    </p>
+  </p>
   </form>
   </td</tr>
   <tr><td><b>Test Results:</b></td></tr>
