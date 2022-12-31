@@ -260,7 +260,7 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 				    $stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
 				    $target = preg_replace($stupid_bm, "", $target); // strip stupid fucking comments from BM admins in TG names. Idiots.
 				    $target = explode(": ", $target);
-				    $target = "TG $target[0] <span class='noMob'style='float:right';>($target[1])</span>";
+				    $target = "TG $target[0] <span class='noMob' style='float:right';>($target[1])</span>";
 				} else {
 				    $target = "TG $target";
 				}
@@ -268,12 +268,12 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 			} else if (strpos($mode, 'NXDN') !== false) {
 			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
 			    if (!empty($target_lookup)) {
-				$target = "TG $target <span class='noMob'style='float:right';>($target_lookup)</span>";
+				$target = "TG $target <span class='noMob' style='float:right';>($target_lookup)</span>";
 			    }
 			} else if (strpos($mode, 'P25') !== false) {
 			    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_P25.txt | awk -F';' '{print $2}'");
 			    if (!empty($target_lookup)) {
-				$target = "TG $target <span class='noMob'style='float:right';>($target_lookup)</span>";
+				$target = "TG $target <span class='noMob 'style='float:right';>($target_lookup)</span>";
 			    }
 			} else {
 			    $target = $target;
