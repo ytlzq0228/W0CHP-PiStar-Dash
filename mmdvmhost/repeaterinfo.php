@@ -159,7 +159,7 @@ $numDMRmasters = exec('cd /var/log/pi-star ; /usr/local/bin/RemoteCommand 7643 s
   <div class="mode_flex row">
     <div class="mode_flex column">
       <div class="divTableCell">
-	<?php showMode("YSF X-Mode", $_SESSION['MMDVMHostConfigs']);?>
+	    <?php if (isPaused("M17")) { echo '<div class="paused-mode-cell" title="Mode Paused">M17</div>'; } else { showMode("M17", $_SESSION['MMDVMHostConfigs']); } ?>
       </div>
     </div>
     <div class="mode_flex column">
@@ -177,7 +177,7 @@ $numDMRmasters = exec('cd /var/log/pi-star ; /usr/local/bin/RemoteCommand 7643 s
     </div>
     <div class="mode_flex column">
       <div class="divTableCell">
-	<?php if (isPaused("M17")) { echo '<div class="paused-mode-cell" title="Mode Paused">M17</div>'; } else { showMode("M17", $_SESSION['MMDVMHostConfigs']); } ?>
+	    <?php showMode("YSF X-Mode", $_SESSION['MMDVMHostConfigs']);?>
       </div>
     </div>
   </div>
