@@ -482,6 +482,7 @@ $MYCALL=strtoupper($callsign);
           $('.p25StartupHost').select2({searchInputPlaceholder: 'Search...'});
           $('.nxdnStartupHost').select2({searchInputPlaceholder: 'Search...'});
           $('.systemTimezone').select2({searchInputPlaceholder: 'Search...'});
+          $('.confHardware').select2({searchInputPlaceholder: 'Search...', width: '400px'});
 	  $(".confDefRef").select2({
 	    tags: true,
 	    width: '125px',
@@ -4230,7 +4231,7 @@ else:
 <?php if ( (file_exists('/etc/dstar-radio.dstarrepeater')) || (file_exists('/etc/dstar-radio.mmdvmhost')) ) { ?>
     <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['radio_type'];?>:<span><b>Radio/Modem</b>What kind of radio or modem hardware do you have?</span></a></td>
-    <td align="left" colspan="3"><select name="confHardware">
+    <td align="left" colspan="3"><select name="confHardware" class="confHardware">
 		<option<?php if (!$configModem['Modem']['Hardware']) { echo ' selected="selected"';}?> value="">--</option>
 	        <?php if (file_exists('/dev/icom_ta')) { ?>
 	    	<option<?php if ($configModem['Modem']['Hardware'] === 'icomTerminalAuto') {		echo ' selected="selected"';}?> value="icomTerminalAuto">Icom Radio in Terminal Mode (DStarRepeater Only)</option>
