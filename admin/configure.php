@@ -1401,16 +1401,15 @@ if (!empty($_POST)):
 	}
 
 	// Set M17 CAN
-	if (empty($_POST['m17can']) != TRUE ) {
-		$m17canNew = strtolower(escapeshellcmd($_POST['m17can']));
-		$m17canNew = preg_replace('/[^0-9]/', '', $m17canNew);
+	if (!empty($_POST['m17can']) && '' !== $_POST['m17can']) {
+		$m17canNew = (int) preg_replace('/[^0-9]/', '', $m17canNew);
 		if (($m17canNew >= 0) && ($m17canNew <= 15)) {
 			$configmmdvm['M17']['CAN'] = $m17canNew;
 		}
 	}
 
 	// Set M17 Callsign Suffix
-	if (empty($_POST['m17CallsignSuffix']) != TRUE ) {
+	if (!empty($_POST['m17CallsignSuffix']) && '' !== $_POST['m17CallsignSuffix'] ) {
 		$m17SuffixNew = strtoupper(escapeshellcmd($_POST['m17CallsignSuffix']));
 		$m17SuffixNew = preg_replace('/[^A-Z]/', '', $m17SuffixNew);
 		if (preg_match('/[A-Za-z]/i', $m17SuffixNew)) {
