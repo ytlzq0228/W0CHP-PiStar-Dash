@@ -1050,7 +1050,7 @@ if (!empty($_POST)):
 	  $configdmrgateway['Info']['TXFrequency'] = $newFREQtx;
 	  $configm17gateway['Info']['RXFrequency'] = $newFREQrx;
 	  $configm17gateway['Info']['TXFrequency'] = $newFREQtx;
-	  $configm17gateway['General']['Suffix'] = "H";
+	  // $configm17gateway['General']['Suffix'] = "H";
 	  $configysfgateway['Info']['RXFrequency'] = $newFREQrx;
 	  $configysfgateway['Info']['TXFrequency'] = $newFREQtx;
 	  $configysfgateway['General']['Suffix'] = "Y";
@@ -1159,7 +1159,7 @@ if (!empty($_POST)):
 	  $configdmrgateway['Info']['TXFrequency'] = $newFREQ;
 	  $configm17gateway['Info']['RXFrequency'] = $newFREQ;
 	  $configm17gateway['Info']['TXFrequency'] = $newFREQ;
-	  $configm17gateway['General']['Suffix'] = "M";
+	  // $configm17gateway['General']['Suffix'] = "M";
 	  $configysfgateway['Info']['RXFrequency'] = $newFREQ;
 	  $configysfgateway['Info']['TXFrequency'] = $newFREQ;
 	  $configysfgateway['General']['Suffix'] = "Y";
@@ -1398,6 +1398,24 @@ if (!empty($_POST)):
 			$newM17StartupModule = strtoupper(escapeshellcmd($_POST['m17StartupModule']));
 			$configm17gateway['Network']['Startup'] = "${newM17StartupReflector}_${newM17StartupModule}";
 	  }
+	}
+
+	// Set M17 CAN
+	if (empty($_POST['m17can']) != TRUE ) {
+		$m17canNew = strtolower(escapeshellcmd($_POST['m17can']));
+		$m17canNew = preg_replace('/[^0-9]/', '', $m17canNew);
+		if (($m17canNew >= 0) && ($m17canNew <= 15)) {
+			$configmmdvm['M17']['CAN'] = $m17canNew;
+		}
+	}
+
+	// Set M17 Callsign Suffix
+	if (empty($_POST['m17CallsignSuffix']) != TRUE ) {
+		$m17SuffixNew = strtoupper(escapeshellcmd($_POST['m17CallsignSuffix']));
+		$m17SuffixNew = preg_replace('/[^0-9]/', '', $m17SuffixNew);
+		if (preg_match('/[A-Za-z]/i', $m17SuffixNew)) {
+			$configm17gateway['General']['Suffix'] = $m17SuffixNew;
+		}
 	}
 
 	// Set the DMR2M17 Startup Reflector
@@ -3024,19 +3042,19 @@ if (!empty($_POST)):
 	$configm17gateway['Network']['Revert'] = "1";
 	$configm17gateway['Network']['Debug'] = "0";
 	$configm17gateway['APRS']['Enable'] = $M17GatewayAPRS;
-       	$configm17gateway['APRS']['Address'] = "127.0.0.1";
-       	$configm17gateway['APRS']['Port'] = "8673";
-       	$configm17gateway['APRS']['Description'] = "APRS for M17Gateway";
-       	$configm17gateway['APRS']['Suffix'] = "M";
-        $configm17gateway['Remote Commands']['Enable'] = "1";
-        $configm17gateway['Remote Commands']['Port'] = "6076";
-        $configm17gateway['Log']['DisplayLevel'] = "0";
-        $configm17gateway['Log']['FileLevel'] = "2";
-        $configm17gateway['Log']['FilePath'] = "/var/log/pi-star";
-        $configm17gateway['Log']['FileRoot'] = "M17Gateway";
-        $configm17gateway['Voice']['Enabled'] = "1";
-        $configm17gateway['Voice']['Language'] = "en_US";
-        $configm17gateway['Voice']['Directory'] = "/usr/local/etc/M17_Audio";
+    $configm17gateway['APRS']['Address'] = "127.0.0.1";
+    $configm17gateway['APRS']['Port'] = "8673";
+    $configm17gateway['APRS']['Description'] = "APRS for M17Gateway";
+    $configm17gateway['APRS']['Suffix'] = "M";
+    $configm17gateway['Remote Commands']['Enable'] = "1";
+    $configm17gateway['Remote Commands']['Port'] = "6076";
+    $configm17gateway['Log']['DisplayLevel'] = "0";
+    $configm17gateway['Log']['FileLevel'] = "2";
+    $configm17gateway['Log']['FilePath'] = "/var/log/pi-star";
+    $configm17gateway['Log']['FileRoot'] = "M17Gateway";
+    $configm17gateway['Voice']['Enabled'] = "1";
+    $configm17gateway['Voice']['Language'] = "en_US";
+    $configm17gateway['Voice']['Directory'] = "/usr/local/etc/M17_Audio";
 
 	// Add missing options to MMDVMHost
 	if (!isset($configmmdvm['Modem']['RFLevel'])) { $configmmdvm['Modem']['RFLevel'] = "100"; }
@@ -5774,6 +5792,18 @@ $p25Hosts = fopen("/usr/local/etc/P25Hosts.txt", "r");
 				    
 				    </td>
 				</tr>
+				<?php if (isset($configmmdvm['M17']['CAN'])) { ?>
+					<tr>
+						<td align="left"><a class="tooltip2" href="#"><?php echo $lang['m17_can'];?>:<span><b>M17 CAN</b>Set your CAN code here, sane values are 0-15</span></a></td>
+						<td align="left"><input type="text" name="m17can" size="13" maxlength="2" value="<?php echo $configmmdvm['M17']['CAN'];?>" /></td>
+					</tr>
+				<?php } ?>
+				<?php if (isset($configm17gateway['General']['Suffix'])) { ?>
+					<tr>
+						<td align="left"><a class="tooltip2" href="#">M17 Callsign Suffix:<span><b>Callsign Suffix</b>Set your preferred callsign suffix here. Typical values are "H" for Hotspots, "R" for Repeaters.</span></a></td>
+						<td align="left"><input type="text" name="m17CallsignSuffix" size="2" maxlength="1" value="<?php echo $configm17gateway['General']['Suffix'];?>" /></td>
+					</tr>
+				<?php } ?>
 			    </table>
 			    <div><input type="button" value="<?php echo $lang['apply'];?>" onclick="submitform()" /><br /><br /></div>
 			<?php } ?>
