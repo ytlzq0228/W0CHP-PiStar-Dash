@@ -1412,7 +1412,7 @@ if (!empty($_POST)):
 	// Set M17 Callsign Suffix
 	if (empty($_POST['m17CallsignSuffix']) != TRUE ) {
 		$m17SuffixNew = strtoupper(escapeshellcmd($_POST['m17CallsignSuffix']));
-		$m17SuffixNew = preg_replace('/[^0-9]/', '', $m17SuffixNew);
+		$m17SuffixNew = preg_replace('/[^A-Z]/', '', $m17SuffixNew);
 		if (preg_match('/[A-Za-z]/i', $m17SuffixNew)) {
 			$configm17gateway['General']['Suffix'] = $m17SuffixNew;
 		}
