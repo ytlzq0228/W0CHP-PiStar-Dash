@@ -3,7 +3,7 @@
 // Enhanced version status; W0CHP
 
 // format = YYYYMMDDnn
-$configUpdateRequired = 20230104;
+$configUpdateRequired = 2023010400;
 
 $gitBranch = exec("git --work-tree=/var/www/dashboard --git-dir=/var/www/dashboard/.git branch | grep '*' | cut -f2 -d ' '");
 $versionCmd = exec("git --work-tree=/var/www/dashboard --git-dir=/var/www/dashboard/.git rev-parse --short=10 $gitBranch");
