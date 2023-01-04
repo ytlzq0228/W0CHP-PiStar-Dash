@@ -912,16 +912,15 @@ function getP25GatewayLog() {
     }
     $logLines1 = array_filter($logLines1);
     if (sizeof($logLines1) == 0) {
-        if (file_exists(P25GATEWAYLOGPATH."/".P25GATEWAYLOGPREFIX."-".gmdate("Y-m-d", time() - 86340).".log")) {
+	if (file_exists(P25GATEWAYLOGPATH."/".P25GATEWAYLOGPREFIX."-".gmdate("Y-m-d", time() - 86340).".log")) {
 	    $logPath2 = P25GATEWAYLOGPATH."/".P25GATEWAYLOGPREFIX."-".gmdate("Y-m-d", time() - 86340).".log";
-	    $logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(ink|Starting|witched)" $logPath1 | cut -d" " -f2- | tail -1`);
-        }
-	$logLines2 = array_filter($logLines2);
+	    $logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(ink|Starting|witched)" $logPath2 | cut -d" " -f2- | tail -1`);
+	}
+    $logLines2 = array_filter($logLines2);
     }
     if (sizeof($logLines1) == 0) {
 	$logLines = $logLines2;
-    }
-    else {
+    } else {
 	$logLines = $logLines1;
     }
     return array_filter($logLines);
@@ -934,20 +933,19 @@ function getNXDNGatewayLog() {
     $logLines2 = array();
     if (file_exists("/var/log/pi-star/NXDNGateway-".gmdate("Y-m-d").".log")) {
 	$logPath1 = "/var/log/pi-star/NXDNGateway-".gmdate("Y-m-d").".log";
-    $logLines1 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(ink|witched|Starting)" $logPath1 | cut -d" " -f2- | tail -1`);
+	$logLines1 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(ink|Starting|witched)" $logPath1 | cut -d" " -f2- | tail -1`);
     }
     $logLines1 = array_filter($logLines1);
     if (sizeof($logLines1) == 0) {
-        if (file_exists("/var/log/pi-star/NXDNGateway-".gmdate("Y-m-d", time() - 86340).".log")) {
+	if (file_exists("/var/log/pi-star/NXDNGateway-".gmdate("Y-m-d", time() - 86340).".log")) {
 	    $logPath2 = "/var/log/pi-star/NXDNGateway-".gmdate("Y-m-d", time() - 86340).".log";
-        $logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(ink|witched|Starting)" $logPath2 | cut -d" " -f2- | tail -1`);
-        }
+	    $logLines2 = preg_split('/\r\n|\r|\n/', `egrep -h "^M.*(ink|Starting|witched)" $logPath2 | cut -d" " -f2- | tail -1`);
+	}
 	$logLines2 = array_filter($logLines2);
     }
     if (sizeof($logLines1) == 0) {
 	$logLines = $logLines2;
-    }
-    else {
+    } else {
 	$logLines = $logLines1;
     }
     return array_filter($logLines);
@@ -1700,52 +1698,48 @@ function getActualLink($logLines, $mode) {
             // 2020-11-04 08:47:48.297 Unlinking from 65000 due to inactivity
             // 2020-11-04 08:47:48.297 Unlinked from reflector 65000 by remote command
             if (isProcessRunning("NXDNGateway")) {
-                foreach ( array_reverse($logLines) as $logLine ) {
-                    $to = "";
-                    if (strpos($logLine,"Statically linked to")) {
-                        $to = preg_replace('/[^0-9]/', '', substr($logLine, 55, 5));
-                        $to = preg_replace('/[^0-9]/', '', $to);
-                        $nxdncache = fopen("/tmp/NXDNLink.txt", "w");
-                        $num = fwrite($nxdncache,$to);
-                        fclose($nxdncache);
-                        return "TG".$to;
-                    } else
-                    if (strpos($logLine,"Switched to reflector")) {
-                        $to = preg_replace('/[^0-9]/', '', substr($logLine, 46, 5));
-                        $to = preg_replace('/[^0-9]/', '', $to);
-                        $nxdncache = fopen("/tmp/NXDNLink.txt", "w");
-                        $num = fwrite($nxdncache,$to);
-                        fclose($nxdncache);
-                        return "TG".$to;
-                    } else
-                    if (strpos($logLine,"Starting NXDNGateway")) {
-                        return "<div class='inactive-mode-cell'>Not Linked</div>";
-                    } else
-                    if (strpos($logLine,"Unlinking")) {
-                        return "<div class='inactive-mode-cell'>Not Linked</div>";
-                    } else
-                    if (strpos($logLine,"Unlinked")) {
-                        $num = 0;
-                        $nxdncache = fopen("/tmp/NXDNLink.txt", "w");
-                        $num = fwrite($nxdncache,"Not Linked");
-                        fclose($nxdncache);
-                        return "<div class='inactive-mode-cell'>Not Linked</div>";
-                    } else
-                    if(!file_exists("/tmp/NDXNLink.txt")) {
-                        return "<div class='inactive-mode-cell'>Not Linked</div>";
-                    } else {
-                        $to = file_get_contents("/tmp/NXDNLink.txt");
-                        return "TG".$to;
-                    }
-                }
-                return "<div class='inactive-mode-cell'>Not Linked</div>";
-            }
-	    else {
+		foreach($logLines as $logLine) {
+		    $to = "";
+		    if (strpos($logLine,"Linked to")) {
+			$to = preg_replace('/[^0-9]/', '', substr($logLine, 44, 5));
+			$to = preg_replace('/[^0-9]/', '', $to);
+			return "TG".$to;
+		    }
+		    if (strpos($logLine,"Linked at start")) {
+			$to = preg_replace('/[^0-9]/', '', substr($logLine, 55, 5));
+			$to = preg_replace('/[^0-9]/', '', $to);
+			return "TG".$to;
+		    }
+		    if (strpos($logLine,"Statically linked to reflector")) {
+			$to = preg_replace('/[^0-9]/', '', substr($logLine, 55, 5));
+			$to = preg_replace('/[^0-9]/', '', $to);
+			return "TG".$to;
+		    }
+		    if (strpos($logLine,"Switched to reflector")) {
+			$to = preg_replace('/[^0-9]/', '', substr($logLine, 46, 5));
+			$to = preg_replace('/[^0-9]/', '', $to);
+			return "TG".$to;
+		    }
+		    if (strpos($logLine,"Starting NXDNGateway")) {
+			return "<div class='inactive-mode-cell'>Not Linked</div>";
+		    }
+		    if (strpos($logLine,"unlinking")) {
+			return "<div class='inactive-mode-cell'>Not Linked</div>";
+		    }
+		    if (strpos($logLine,"Unlinked from")) {
+			return "<div class='inactive-mode-cell'>Not Linked</div>";
+		    }
+		    if (strpos($logLine,"Unlinking from")) {
+			return "<div class='inactive-mode-cell'>Not Linked</div>";
+		    }
+		}
+		return "<div class='inactive-mode-cell'>Not Linked</div>";
+	    } else {
 		return "<div class='inactive-mode-cell'>Service Not Started</div>";
-            }
-            break;
+	    }
+	    break;
 
-    case "M17":
+	case "M17":
             if (isProcessRunning("M17Gateway")) {
 		foreach($logLines as $logLine) {
 		    if(preg_match_all('/Linked .* reflector (M17-.{3} [A-Z])/', $logLine, $linx) > 0) {
@@ -1785,49 +1779,48 @@ function getActualLink($logLines, $mode) {
         // 2020-11-04 08:40:35.499 Unlinking from reflector 10100 by M1ABC
         // 2020-11-04 08:40:35.499 Unlinked from reflector 10100 by remote command
 	    if (isProcessRunning("P25Gateway")) {
-		foreach ( array_reverse($logLines) as $logLine ) {
+		foreach($logLines as $logLine) {
 		    $to = "";
-                    if (strpos($logLine,"Statically linked to")) {
-                        $to = preg_replace('/[^0-9]/', '', substr($logLine, 55, 5));
-                        $to = preg_replace('/[^0-9]/', '', $to);
-                        $p25cache = fopen("/tmp/P25Link.txt", "w");
-                        $num = fwrite($p25cache,$to);
-                        fclose($p25cache);
-                        return "TG".$to;
-		    } else
-		    if (strpos($logLine,"Switched to reflector")) {
-		    	$to = preg_replace('/[^0-9]/', '', substr($logLine, 46, 5));
-		    	$to = preg_replace('/[^0-9]/', '', $to);
-		    	$p25cache = fopen("/tmp/P25Link.txt", "w");
-		    	$num = fwrite($p25cache,$to);
-		    	fclose($p25cache);
-		    	return "TG".$to;
-		    } else
-		    if (strpos($logLine,"Starting P25Gateway")) {
-		    	return "<div class='inactive-mode-cell'>Not Linked</div>";
-		    } else
-		    if (strpos($logLine,"Unlinking")) {
-		    	return "<div class='inactive-mode-cell'>Not Linked</div>";
-		    } else
-		    if (strpos($logLine,"Unlinked")) {
-		    	$num = 0;
-		    	$p25cache = fopen("/tmp/P25Link.txt", "w");
-		    	$num = fwrite($p25cache,"Not Linked");
-		    	fclose($p25cache);
-		    	return "<div class='inactive-mode-cell'>Not Linked</div>";
-		    } else 
-		    if(!file_exists("/tmp/P25Link.txt")) {
-		    	return "<div class='inactive-mode-cell'>Not Linked</div>";
-		    } else {
-			$to = file_get_contents("/tmp/P25Link.txt");
+		    if (strpos($logLine,"Linked to")) {
+			$to = preg_replace('/[^0-9]/', '', substr($logLine, 44, 5));
+			$to = preg_replace('/[^0-9]/', '', $to);
 			return "TG".$to;
 		    }
+		    if (strpos($logLine,"Linked at startup to")) {
+			$to = preg_replace('/[^0-9]/', '', substr($logLine, 55, 5));
+			$to = preg_replace('/[^0-9]/', '', $to);
+			return "TG".$to;
+		    }
+		    if (strpos($logLine,"Statically linked to reflector")) {
+			$to = preg_replace('/[^0-9]/', '', substr($logLine, 55, 5));
+			$to = preg_replace('/[^0-9]/', '', $to);
+			return "TG".$to;
+		    }
+		    if (strpos($logLine,"Switched to reflector")) {
+			$to = preg_replace('/[^0-9]/', '', substr($logLine, 46, 5));
+			$to = preg_replace('/[^0-9]/', '', $to);
+			return "TG".$to;
+		    }
+		    if (strpos($logLine,"Starting P25Gateway")) {
+			return "<div class='inactive-mode-cell'>Not Linked</div>";
+		    }
+		    if (strpos($logLine,"unlinking")) {
+			return "<div class='inactive-mode-cell'>Not Linked</div>";
+		    }
+		    if (strpos($logLine,"Unlinking")) {
+			return "<div class='inactive-mode-cell'>Not Linked</div>";
+		    }
+		    if (strpos($logLine,"Unlinked")) {
+			return "<div class='inactive-mode-cell'>Not Linked</div>";
+		    }
 		}
+		return "<div class='inactive-mode-cell'>Not Linked</div>";
 	    } else {
 		return "<div class='inactive-mode-cell'>Service Not Started</div>";
 	    }
 	    break;
-        }
+	}
+	return "<div class='inactive-mode-cell'>Service Not Started</div>";
 }
 
 function decodeAlias($logLine) {
