@@ -3335,8 +3335,10 @@ if (!empty($_POST)):
 	if (!isset($configp25gateway['Remote Commands']['Enable'])) { $configp25gateway['Remote Commands']['Enable'] = "1"; }
 	if (!isset($configp25gateway['Remote Commands']['Port'])) { $configp25gateway['Remote Commands']['Port'] = "6074"; }
 	if (isset($configp25gateway['General']['Announcements'])) { unset($configp25gateway['General']['Announcements']); }
-	if (isset($configp25gateway['Log']['DisplayLevel'])) { $configp25gateway['Log']['DisplayLevel'] = "0"; }
-	if (isset($configp25gateway['Log']['FileLevel'])) { $configp25gateway['Log']['FileLevel'] = "2"; }
+	if (!isset($configp25gateway['Log']['FilePath'])) { $configp25gateway['Log']['FilePath'] = "/var/log/pi-star"; }
+	if (!isset($configp25gateway['Log']['FileRoot'])) { $configp25gateway['Log']['FileRoot'] = "P25Gateway"; }
+	if (!isset($configp25gateway['Log']['DisplayLevel'])) { $configp25gateway['Log']['DisplayLevel'] = "0"; }
+	if (!isset($configp25gateway['Log']['FileLevel'])) { $configp25gateway['Log']['FileLevel'] = "2"; }
 	if (!isset($configp25gateway['Network']['P252DMRAddress'])) { $configp25gateway['Network']['P252DMRAddress'] = "127.0.0.1"; }
 	if (!isset($configp25gateway['Network']['P252DMRPort'])) { $configp25gateway['Network']['P252DMRPort'] = "42012"; }
 	if (isset($configp25gateway['Network']['Startup'])) {
@@ -3349,8 +3351,10 @@ if (!empty($_POST)):
 	if (!isset($confignxdngateway['Remote Commands']['Port'])) { $confignxdngateway['Remote Commands']['Port'] = "6075"; }
 	if (isset($confignxdngateway['aprs.fi'])) { unset($confignxdngateway['aprs.fi']); }
 	if (!isset($confignxdngateway['General']['RptProtocol'])) { $confignxdngateway['General']['RptProtocol'] = "Icom"; }
-	if (isset($confignxdngateway['Log']['DisplayLevel'])) { $confignxdngateway['Log']['DisplayLevel'] = "0"; }
-	if (isset($confignxdngateway['Log']['FileLevel'])) { $confignxdngateway['Log']['FileLevel'] = "2"; }
+        if (!isset($confignxdngateway['Log']['FilePath'])) { $confignxdngateway['Log']['FilePath'] = "/var/log/pi-star"; }
+        if (!isset($confignxdngateway['Log']['FileRoot'])) { $confignxdngateway['Log']['FileRoot'] = "NXDNGateway"; }
+	if (!isset($confignxdngateway['Log']['DisplayLevel'])) { $confignxdngateway['Log']['DisplayLevel'] = "0"; }
+	if (!isset($confignxdngateway['Log']['FileLevel'])) { $confignxdngateway['Log']['FileLevel'] = "2"; }
 	if (!isset($confignxdngateway['APRS']['Enable'])) { $$confignxdngateway['APRS']['Enable'] = $NXDNGatewayAPRS; }
 	if (!isset($confignxdngateway['APRS']['Address'])) { $confignxdngateway['APRS']['Address'] = "127.0.0.1"; }
 	if (!isset($confignxdngateway['APRS']['Port'])) { $confignxdngateway['APRS']['Port'] = "8673"; }
