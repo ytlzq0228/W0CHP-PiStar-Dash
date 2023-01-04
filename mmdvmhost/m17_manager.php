@@ -107,12 +107,14 @@ if ($_SERVER["PHP_SELF"] == "/admin/index.php") { // Stop this working outside o
 				    }
 
 				    if ($m17MasterHandle = @fopen("/usr/local/etc/M17Hosts.txt", 'r')) {
+					$m17gatewayConfigFile = '/etc/m17gateway';
+					$configm17gateway = $configm17gateway = parse_ini_file($m17gatewayConfigFile, true);
 					$m17StartupHostWithModule = (isset($configm17gateway['Network']['Startup']) ? $configm17gateway['Network']['Startup'] : "");
 					$m17StartupHost = "";
 					$m17StartupModule = "A";
 					if ($m17StartupHostWithModule != "") {
 					    $m17StartupHost = substr($m17StartupHostWithModule, 0, -2);
-						$m17StartupModule = substr($m17StartupHostWithModule, -1);
+					    $m17StartupModule = substr($m17StartupHostWithModule, -1);
 					}
 					if ($m17StartupHost == "") {
 					    echo "      <option value=\"NONE\" selected=\"selected\">None</option>\n";
@@ -137,7 +139,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/index.php") { // Stop this working outside o
 				    <?php
 				    $m17ModuleList = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 				    foreach ($m17ModuleList as $module) {
-					if ($m17CurrentModule == $module) {
+					if ($m17StartupModule == $module) {
 					    echo "  <option value=\"".$module."\" selected=\"selected\">".$module."</option>\n";
 					}
 					else {

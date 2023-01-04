@@ -1404,7 +1404,7 @@ if (!empty($_POST)):
 	if (empty($_POST['dmr2m17StartupRef']) != TRUE ) {
 		$newDMR2M17StartupReflector = strtoupper(escapeshellcmd($_POST['dmr2m17StartupRef']));
 		if ($newDMR2M17StartupReflector === "NONE") {
-			if (isset($configdmr2m17['M17 Network']['DstName'])) { unset($configm17gateway['M17 Network']['DstName']); }
+			if (isset($configdmr2m17['M17 Network']['DstName'])) { unset($configdmr2m17['M17 Network']['DstName']); }
 		} else {
 		    $newDMR2M17StartupModule = strtoupper(escapeshellcmd($_POST['dmr2m17StartupModule']));
 		    $configdmr2m17['M17 Network']['DstName'] = "${newdmr2M17StartupReflector} ${newdmr2M17StartupModule}";
