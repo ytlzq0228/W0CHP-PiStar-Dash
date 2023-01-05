@@ -975,6 +975,7 @@ if (getConfigItem("NXDN", "RAN", $_SESSION['MMDVMHostConfigs'])) {
   }
 }
 	$testMMDVModeM17 = getConfigItem("M17", "Enable", $_SESSION['MMDVMHostConfigs']);
+	$M17can = getConfigItem("M17", "CAN", $_SESSION['MMDVMHostConfigs']);
         $configm17gateway = $_SESSION['M17GatewayConfigs'];
 	if ( $testMMDVModeM17 == 1 || isPaused("M17") ) { //Hide the M17 Reflector information when M17 Network not enabled.
 ?>
@@ -985,12 +986,14 @@ if (getConfigItem("NXDN", "RAN", $_SESSION['MMDVMHostConfigs'])) {
 <?php
 	echo "<div class='divTableHeadCell'>RPT</div>\n<div class='divTableCell cell_content'>\n<div style=\"background: $tableRowEvenBg;\">".str_replace(' ', '&nbsp;', $configm17gateway['General']['Callsign'])."&nbsp;".str_replace(' ', '&nbsp;', $configm17gateway['General']['Suffix'])."</div></div>\n";
 	echo "</div>\n<div class='divTableRow center'>";
-		echo "<div class='divTableHeadCell'>Reflector</div>\n";
-                if (isPaused("M17")) {
-                    echo "<div class='divTableCell cell_content'><div style=\"background: $tableRowEvenBg;\">Mode Paused</div></div>\n";
-                } else {
-		    echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteM17GWResults, "m17").">".getActualLink($reverseLogLinesM17Gateway, "M17")."</div></div>\n";
-                }
+	echo "<div class='divTableHeadCell'>CAN</div>\n<div class='divTableCell cell_content'>\n<div style=\"background: $tableRowEvenBg;\">$M17can</div></div>\n";
+	echo "</div>\n<div class='divTableRow center'>";
+	echo "<div class='divTableHeadCell'>Reflector</div>\n";
+	if (isPaused("M17")) {
+	    echo "<div class='divTableCell cell_content'><div style=\"background: $tableRowEvenBg;\">Mode Paused</div></div>\n";
+	} else {
+	    echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteM17GWResults, "m17").">".getActualLink($reverseLogLinesM17Gateway, "M17")."</div></div>\n";
+	}
 ?>
     </div>
   </div>
@@ -1039,7 +1042,9 @@ if (getConfigItem("NXDN", "RAN", $_SESSION['MMDVMHostConfigs'])) {
 <?php
 	}
     $m17gatewayConfigFile = '/etc/m17gateway';
+    $mmdvmhostConfigFile = '/etc/mmdvmhost';
     if (fopen($m17gatewayConfigFile,'r')) { $configm17gateway = parse_ini_file($m17gatewayConfigFile, true); }
+    $configmmdvm = parse_ini_file($mmdvmhostConfigFile, true);
     $testAPRSdmr = $_SESSION['DMRGatewayConfigs']['APRS']['Enable'];
     $testAPRSysf = $_SESSION['YSFGatewayConfigs']['APRS']['Enable'];
     $testAPRSm17 = $configm17gateway['APRS']['Enable'];
