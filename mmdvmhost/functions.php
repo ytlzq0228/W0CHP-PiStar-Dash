@@ -1747,8 +1747,8 @@ function getActualLink($logLines, $mode) {
 
     case "M17":
             if (isProcessRunning("M17Gateway")) {
-		foreach($logLines as $logLine) {
-		    if(preg_match_all('/Linked .* reflector (.{3} [A-Z])/', $logLine, $linx) > 0) {
+		foreach ( array_reverse($logLines) as $logLine ) {
+		    if(preg_match_all('/Linked .* reflector ([A-Z,0-9]{3} [A-Z]{1})/', $logLine, $linx) > 0) {
 			return $linx[1][0];
 		    }
 		    else if (strpos($logLine, "Switched to reflector")) {
@@ -1763,7 +1763,7 @@ function getActualLink($logLines, $mode) {
 		    else if (strpos($logLine, "Relinking to")) {
 			return (substr($logLine, 47, 9));
 		    }
-		    else if (strpos($logLine,"Starting M17Gateway") || strpos($logLine,"Unlinking") || strpos($logLine,"Unlinked")) {
+		    else if (strpos($logLine,"is starting") || strpos($logLine,"Unlinking") || strpos($logLine,"Unlinked")) {
 			return "<div class='inactive-mode-cell'>Not Linked</div>";
 		    }
 		}
