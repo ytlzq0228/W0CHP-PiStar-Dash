@@ -5794,7 +5794,7 @@ $p25Hosts = fopen("/usr/local/etc/P25Hosts.txt", "r");
 				</tr>
 				<?php if (isset($configmmdvm['M17']['CAN'])) { ?>
 					<tr>
-						<td align="left"><a class="tooltip2" href="#"><?php echo $lang['m17_can'];?>:<span><b>M17 CAN</b>Set your CAN code here, sane values are 0-15</span></a></td>
+						<td align="left"><a class="tooltip2" href="#"><?php echo $lang['m17_can'];?>:<span><b>M17 CAN</b>Set your CAN (Channel Access Number) code here, sane values are 0-15</span></a></td>
 						<td align="left"><input type="text" name="m17can" size="13" maxlength="2" value="<?php echo $configmmdvm['M17']['CAN'];?>" /></td>
 					</tr>
 				<?php } ?>
