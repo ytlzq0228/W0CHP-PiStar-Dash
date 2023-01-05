@@ -156,6 +156,7 @@ $lang = array (
   "m17_config"                  =>  "Configuration M17",
   "m17_mode"                    =>  "Mode M17",
   "m17_startup_reflector"       =>  "R&eacute;flecteur M17 au d&eacute;marrage",
+  "m17_can"                     =>  "M17 CAN",
   "m17_repeater"                =>  "Relais M17",
   "m17_net"                     =>  "R&eacute;seau M17"
 );
