@@ -124,17 +124,6 @@ function getNoSectionsConfigContent($configFile) {
     return $confs;
 }
 
-function getGatewayConfig($configFile) {
-    $conf = array();
-    if ($configs = @fopen($configFile, 'r')) {
-	while ($config = fgets($configs)) {
-	    array_push($conf, trim($config, " \t\n\r\0\x0B"));
-	}
-	fclose($configs);
-    }
-    return $conf;
-}
-
 // retrieves the corresponding config-entry within a [section]
 function getConfigItem($section, $key, $configs) {
     if (empty($section)) {
