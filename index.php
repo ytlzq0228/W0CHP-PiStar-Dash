@@ -35,6 +35,8 @@ unset($_SESSION['P25GatewayConfigs']);
 unset($_SESSION['CSSConfigs']);
 unset($_SESSION['DvModemFWVersion']);
 unset($_SESSION['DvModemTCXOFreq']);
+unset($_SESSION['M17GatewayConfigs']);
+
 checkSessionValidity();
 
 if (isset($_SESSION['CSSConfigs']['Text'])) {
