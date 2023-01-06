@@ -1041,11 +1041,9 @@ if (getConfigItem("NXDN", "RAN", $_SESSION['MMDVMHostConfigs'])) {
 <br />
 <?php
 	}
-    $m17gatewayConfigFile = '/etc/m17gateway';
-    if (fopen($m17gatewayConfigFile,'r')) { $configm17gateway = parse_ini_file($m17gatewayConfigFile, true); }
     $testAPRSdmr = $_SESSION['DMRGatewayConfigs']['APRS']['Enable'];
     $testAPRSysf = $_SESSION['YSFGatewayConfigs']['APRS']['Enable'];
-    $testAPRSm17 = $configm17gateway['APRS']['Enable'];
+    $testAPRSm17 = $_SESSION['M17GatewayConfigs']['APRS']['Enable'];
     $testAPRSnxdn = $_SESSION['NXDNGatewayConfigs']['APRS']['Enable'];
     $testAPRSdgid = $_SESSION['DGIdGatewayConfigs']['APRS']['Enable'];
     $testAPRSircddb = $_SESSION['ircDDBConfigs']['aprsEnabled'];
