@@ -984,15 +984,27 @@ if (getConfigItem("NXDN", "RAN", $_SESSION['MMDVMHostConfigs'])) {
   <div class="divTableBody">
     <div class="divTableRow center">
 <?php
-	echo "<div class='divTableHeadCell'>RPT</div>\n<div class='divTableCell cell_content'>\n<div style=\"background: $tableRowEvenBg;\">".str_replace(' ', '&nbsp;', $configm17gateway['General']['Callsign'])."&nbsp;".str_replace(' ', '&nbsp;', $configm17gateway['General']['Suffix'])."</div></div>\n";
-	echo "</div>\n<div class='divTableRow center'>";
-	echo "<div class='divTableHeadCell'>CAN</div>\n<div class='divTableCell cell_content'>\n<div style=\"background: $tableRowEvenBg;\">$M17can</div></div>\n";
-	echo "</div>\n<div class='divTableRow center'>";
-	echo "<div class='divTableHeadCell'>Reflector</div>\n";
+	echo "      <div class='divTableHeadCell'>RPT</div>\n";
+	echo "        <div class='divTableCell cell_content middle'>\n";
+	echo "          <div style=\"background: $tableRowEvenBg;\">".str_replace(' ', '&nbsp;', $configm17gateway['General']['Callsign'])."&nbsp;".str_replace(' ', '&nbsp;', $configm17gateway['General']['Suffix'])."</div>\n";
+	echo "        </div>\n";
+	echo "      </div>\n";
+	echo "    <div class='divTableRow center'>\n";
+	echo "      <div class='divTableHeadCell'>CAN</div>\n";
+	echo "        <div class='divTableCell cell_content middle'>\n";
+	echo "          <div style=\"background: $tableRowEvenBg;\">$M17can</div>\n";
+	echo "        </div>\n";
+	echo "      </div>\n";
+	echo "    <div class='divTableRow center'>\n";
+	echo "      <div class='divTableHeadCell'>Reflector</div>\n";
 	if (isPaused("M17")) {
-	    echo "<div class='divTableCell cell_content'><div style=\"background: $tableRowEvenBg;\">Mode Paused</div></div>\n";
+	    echo "        <div class='divTableCell cell_content middle'\n";
+	    echo "          <div style=\"background: $tableRowEvenBg;\">Mode Paused</div>\n";
+	    echo "        </div>\n";
 	} else {
-	    echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteM17GWResults, "m17").">".getActualLink($reverseLogLinesM17Gateway, "M17")."</div></div>\n";
+	    echo "        <div class='divTableCell cell_content middle'>\n";
+	    echo "          <div ".GetActiveConnectionStyle($remoteM17GWResults, "m17").">".str_replace(' ', '&nbsp;', getActualLink($reverseLogLinesM17Gateway, "M17"))."</div>\n";
+	    echo "        </div>\n";
 	}
 ?>
     </div>
