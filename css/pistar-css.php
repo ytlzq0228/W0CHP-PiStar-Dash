@@ -489,6 +489,20 @@ textarea, input[type='text'], input[type='password'] {
         background: #e2e2e2;
 }
 
+textarea.fulledit {
+    display: inline-block;
+    margin: 0;
+    padding: .2em;
+    width: auto;
+    min-width: 70%;
+    max-width: 100%;
+    height: auto;
+    min-height: 600px;
+    cursor: text;
+    overflow: auto;
+    resize: both;
+}
+
 input[type=button], input[type=submit], input[type=reset], input[type=radio], button {
     font-size: <?php echo $bodyFontSize; ?>px;
     font-family: 'Source Sans Pro', sans-serif;
