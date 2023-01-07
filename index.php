@@ -1,6 +1,6 @@
 <?php
 session_set_cookie_params(0, "/");
-session_name("PiStar Dashboard Session");
+session_name("PiStar_Dashboard_Session");
 session_id('pistardashsess');
 session_start();
 
@@ -492,7 +492,7 @@ if(empty($_POST['func'])) {
 			echo '		<button form="admin_sel" disabled="disabled" type="submit" value="bm_man" name="func"><span>BrandMeister Manager</span></button>'."\n";
 		    }
 		    echo '          </div><div class="mode_flex column">'."\n";
-                    if ($tgifEnabled ==1 && $testMMDVModeDMR ==1) {
+                   if ( isset( $tgifEnabled ) && $tgifEnabled == 1 && $testMMDVModeDMR == 1 ) {
 		        echo '		<button form="admin_sel" type="submit" value="tgif_man" name="func"><span>TGIF Manager</span></button>'."\n";
 		    }
 		    else {
