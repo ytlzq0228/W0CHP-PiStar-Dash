@@ -1,5 +1,5 @@
 <?php
-if (isset($_COOKIE['PHPSESSID']))
+if ( isset( $_COOKIE['PHPSESSID'] ) && ! session_id() )
 {
     session_id($_COOKIE['PHPSESSID']); 
 }
@@ -33,7 +33,7 @@ function checkSessionValidity() {
 	   }
     }
 
-    if ((!isset($_SESSION['BMAPIKey']) || (count($_SESSION['BMAPIKey'], COUNT_RECURSIVE) < 1)) && file_exists('/etc/bmapi.key')) {
+    if ( ! isset( $_SESSION['BMAPIKey'] ) || ( is_countable( $_SESSION['BMAPIKey'] ) && count( $_SESSION['BMAPIKey'], COUNT_RECURSIVE) < 1 ) && file_exists( '/etc/bmapi.key' ) ) {
 	$configBMapi = parse_ini_file('/etc/bmapi.key', true);
 	if (isset($configBMapi['key']['apikey']) && !empty($configBMapi['key']['apikey'])) {
 	    $_SESSION['BMAPIKey'] = $configBMapi['key']['apikey'];
@@ -77,10 +77,10 @@ function checkSessionValidity() {
     loadSessionConfigFile('M17GatewayConfigs', '/etc/m17gateway');
     loadSessionConfigFile('P25GatewayConfigs', '/etc/p25gateway');
     loadSessionConfigFile('CSSConfigs', '/etc/pistar-css.ini');
-    if (!isset($_SESSION['DvModemFWVersion']) || (count($_SESSION['DvModemFWVersion'], COUNT_RECURSIVE) < 1)) {
+    if ( ! isset( $_SESSION['DvModemFWVersion'] ) || ( is_countable( $_SESSION['DvModemFWVersion'] ) && count( $_SESSION['DvModemFWVersion'], COUNT_RECURSIVE ) < 1 ) ) {
 	$_SESSION['DvModemFWVersion'] = getDVModemFirmware();
     }
-    if (!isset($_SESSION['DvModemTCXOFreq']) || (count($_SESSION['DvModemTCXOFreq'], COUNT_RECURSIVE) < 1)) {
+    if ( ! isset( $_SESSION['DvModemTCXOFreq'] ) || ( is_countable( $_SESSION['DvModemTCXOFreq'] ) && count( $_SESSION['DvModemTCXOFreq'], COUNT_RECURSIVE) < 1 ) ) {
 	$_SESSION['DvModemTCXOFreq'] = getDVModemTCXOFreq();
     }
 }
