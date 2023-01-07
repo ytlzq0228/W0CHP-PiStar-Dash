@@ -116,4 +116,22 @@ function checkSetup() {
 	}
 	error_reporting($el);
 }
-?>
+
+/**
+ * is_countable polyfill for users on the old buster images
+ */
+if ( ! function_exists( 'is_countable' ) ) :
+  /**
+   * Verify that the content of a variable is an array or an object
+   * implementing Countable
+   *
+   * @param mixed $var The value to check.
+   * @return bool Returns TRUE if var is countable, FALSE otherwise.
+   */
+  function is_countable( $var ) {
+    return is_array( $var )
+      || $var instanceof \Countable
+      || $var instanceof \SimpleXMLElement
+      || $var instanceof \ResourceBundle;
+  }
+endif;
