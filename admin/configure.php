@@ -481,7 +481,7 @@ $MYCALL=strtoupper($callsign);
           $('.ysf2p25StartupDstId').select2({searchInputPlaceholder: 'Search...'});
           $('.p25StartupHost').select2({searchInputPlaceholder: 'Search...'});
           $('.nxdnStartupHost').select2({searchInputPlaceholder: 'Search...'});
-          $('.systemTimezone').select2({searchInputPlaceholder: 'Search...'});
+          $('.systemTimezone').select2({searchInputPlaceholder: 'Search...', width: '175px'});
           $('.confHardware').select2({searchInputPlaceholder: 'Search...', width: '400px'});
 	  $(".confDefRef").select2({
 	    tags: true,
@@ -518,6 +518,16 @@ $MYCALL=strtoupper($callsign);
 	$(document).on('click', '.toggle-tgif-password', function() {
 	  $(this).toggleClass("fa-eye fa-eye-slash");
 	  var input = $("#tgifHSSecurity");
+	  input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
+	});
+	$(document).on('click', '.toggle-ircddb-password', function() {
+	  $(this).toggleClass("fa-eye fa-eye-slash");
+	  var input = $("#ircddbPass");
+	  input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
+	});
+	$(document).on('click', '.toggle-dapnet-password', function() {
+	  $(this).toggleClass("fa-eye fa-eye-slash");
+	  var input = $("#pocsagAuthKey");
 	  input.attr('type') === 'password' ? input.attr('type','text') : input.attr('type','password')
 	});
 
@@ -4338,65 +4348,17 @@ else:
 <?php } ?>
 <?php if (file_exists('/etc/aprsgateway')) {
     echo "<tr id='APRSgw'>\n";
-    echo "<td align=\"left\"><a class=\"tooltip2\" href=\"#\">APRS Gateway Service:<span><b>APRS Gateway Service</b>Enabling this feature will make your location public on the APRS Network.</span></a></td>\n";
+    echo "<td align=\"left\"><a class=\"tooltip2\" href=\"#\">APRS Gateway:<span><b>APRS Gateway</b>Enabling this feature will make your location public on the APRS Network.</span></a></td>\n";
     if ( $configaprsgw['Enabled']['Enabled'] == 1 ) {
-        echo "<td align=\"left\" colspan=\"2\"><div class=\"switch\"><input id=\"toggle-aprsgateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"APRSGatewayEnable\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleAPRSGatewayCheckboxCr." /><label id=\"aria-toggle-aprsgateway\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable APRS Position Reporting\" aria-checked=\"true\" onKeyPress=\"toggleAPRSGatewayCheckbox()\" onclick=\"toggleAPRSGatewayCheckbox()\" for=\"toggle-aprsgateway\"><font style=\"font-size:0px\">Enable APRS Position Reporting</font></label></div></td>\n";
+        echo "<td align=\"left\"><div class=\"switch\"><input id=\"toggle-aprsgateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"APRSGatewayEnable\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleAPRSGatewayCheckboxCr." /><label id=\"aria-toggle-aprsgateway\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable APRS Position Reporting\" aria-checked=\"true\" onKeyPress=\"toggleAPRSGatewayCheckbox()\" onclick=\"toggleAPRSGatewayCheckbox()\" for=\"toggle-aprsgateway\"><font style=\"font-size:0px\">Enable APRS Position Reporting</font></label></div></td>\n";
     } else {
-        echo "<td align=\"left\" colspan=\"2\"><div class=\"switch\"><input id=\"toggle-aprsgateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"APRSGatewayEnable\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleAPRSGatewayCheckboxCr." /><label id=\"aria-toggle-aprsgateway\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable APRS Position Reporting\" aria-checked=\"false\" onKeyPress=\"toggleAPRSGatewayCheckbox()\" onclick=\"toggleAPRSGatewayCheckbox()\" for=\"toggle-aprsgateway\"><font style=\"font-size:0px\">Enable APRS Position Reporting</font></label></div></td>\n";
+        echo "<td align=\"left\"><div class=\"switch\"><input id=\"toggle-aprsgateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"APRSGatewayEnable\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleAPRSGatewayCheckboxCr." /><label id=\"aria-toggle-aprsgateway\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable APRS Position Reporting\" aria-checked=\"false\" onKeyPress=\"toggleAPRSGatewayCheckbox()\" onclick=\"toggleAPRSGatewayCheckbox()\" for=\"toggle-aprsgateway\"><font style=\"font-size:0px\">Enable APRS Position Reporting</font></label></div></td>\n";
     }
 } ?>
-<td style='word-wrap: break-word;white-space: normal;padding-left: 5px;' align="left">
-<div style="display:block;text-align:left;">
-    <div style="display:block;">
-        <div style="display:block;">
-        <label for="aprsgw-service-selection" style="display: inline-block;">Send APRS Data to Modes:</label>
-            <div style="display: inline-block;vertical-align: middle;">
-                [ <input name="DMRGatewayAPRS" id="aprsgw-service-selection-0" value="DMRGatewayAPRS" type="checkbox"
-				<?php if($DMRGatewayAPRS == '1' && $configmmdvm['DMR Network']['Enable'] == 1) { echo(' checked="checked"'); }
-                      if ($configaprsgw['Enabled']['Enabled'] == 0 || $configmmdvm['DMR Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
-                <label for="aprsgw-service-selection-0">DMR</label> |
-            </div>
-            <div style="display: inline-block;vertical-align: middle;">
-                <input name="YSFGatewayAPRS" id="aprsgw-service-selection-1" value="YSFGatewayAPRS" type="checkbox"
-				<?php if(($YSFGatewayAPRS == '1' && $configmmdvm['System Fusion Network']['Enable'] == 1) || ($configaprsgw['Enabled']['Enabled'] == 1 && $configdmr2ysf['Enabled']['Enabled'] == "1")) { echo(' checked="checked"'); }
-					if (($configaprsgw['Enabled']['Enabled'] == 0 && $configmmdvm['System Fusion Network']['Enable'] == 0) || ($configaprsgw['Enabled']['Enabled'] == 0 && $configdmr2ysf['Enabled']['Enabled'] == "0"))  { echo(' disabled="disabled"'); }?> >
-                <label for="aprsgw-service-selection-1">YSF</label> |
-            </div>
-            <div style="display: inline-block;vertical-align: middle;">
-                <input name="DGIdGatewayAPRS" id="aprsgw-service-selection-2" value="DGIdGatewayAPRS" type="checkbox"
-				<?php if($DGIdGatewayAPRS == '1' && $configaprsgw['Enabled']['Enabled'] == 1) { echo(' checked="checked"'); }
-					if ($configaprsgw['Enabled']['Enabled'] == 0 ||  $configdgidgateway['Enabled']['Enabled'] == "0")  { echo(' disabled="disabled"'); }?> >
-                <label for="aprsgw-service-selection-2">DGId</label> |
-            </div>
-            <div style="display: inline-block;vertical-align: middle;">
-                <input name="NXDNGatewayAPRS"  id="aprsgw-service-selection-3" value="NXDNGatewayAPRS" type="checkbox"
-				<?php if($NXDNGatewayAPRS == '1' && $configmmdvm['NXDN Network']['Enable'] == 1) { echo(' checked="checked"'); }
-					if ($configaprsgw['Enabled']['Enabled'] == 0 || $configmmdvm['NXDN Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
-                <label for="aprsgw-service-selection-3">NXDN</label> |
-            </div>
-            <div style="display: inline-block;vertical-align: middle;">
-                <input name="M17GatewayAPRS" id="aprsgw-service-selection-4" value="M17GatewayAPRS" type="checkbox"
-				<?php if($M17GatewayAPRS == '1' && $configmmdvm['M17 Network']['Enable'] == 1) { echo(' checked="checked"'); }
-					if ($configaprsgw['Enabled']['Enabled'] == 0 || $configmmdvm['M17 Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
-                <label for="aprsgw-service-selection-4">M17</label> |
-            </div>
-            <div style="display: inline-block;vertical-align: middle;">
-                <input name="IRCDDBGatewayAPRS" id="aprsgw-service-selection-5" value="IRCDDBGatewayAPRS" type="checkbox"
-				<?php if($IRCDDBGatewayAPRS == '1' && $configs['ircddbEnabled'] == "1" && $configmmdvm['D-Star Network']['Enable'] == 1) { echo(' checked="checked"'); }
-					if ($configaprsgw['Enabled']['Enabled'] == 0 || $configs['ircddbEnabled'] == "0" || $configmmdvm['D-Star Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
-                <label for="aprsgw-service-selection-5">ircDDB</label> ]
-            </div>
-	    <br /><br /><em>(Note: Both APRS Gateway and the Radio/MMDVM Mode must be enabled in order to be selected.)</em>
-        </div>
-    </div>
-</div>
-</td>
-</tr>
-    <tr>
-    <td align="left"><a class="tooltip2" href="#"><?php echo $lang['aprs_host'];?>:<span><b>APRS Gateway Host Pool</b>Set your preferred APRS host pool here.</span></a></td>
-    <td colspan="3" style="text-align: left;"><select name="selectedAPRSHost">
-<?php 
-    	$aprsHostFile = fopen("/usr/local/etc/APRSHosts.txt", "r");
+    <td align="left">APRS Host Pool:</a>
+    <select>
+<?php
+        $aprsHostFile = fopen("/usr/local/etc/APRSHosts.txt", "r");
         $aprsGatewayConfigFile = '/etc/aprsgateway';
         if (fopen($aprsGatewayConfigFile,'r')) { $configaprsgateway = parse_ini_file($aprsGatewayConfigFile, true); }
         $testAPRSHost = $configaprsgateway['APRS-IS']['Server'];
@@ -4411,6 +4373,53 @@ else:
         fclose($aprsHostFile);
         ?>
     </select></td>
+    <td style='word-wrap: break-word;white-space: normal;padding-left: 5px;' align="left">
+      <div style="display:block;text-align:left;">
+        <div style="display:block;">
+          <div style="display:block;">
+          <label for="aprsgw-service-selection" style="display: inline-block;">Send APRS Data to Modes:</label>
+	  <br>
+            <div style="display: inline-block;vertical-align: middle;">
+                <input name="DMRGatewayAPRS" id="aprsgw-service-selection-0" value="DMRGatewayAPRS" type="checkbox"
+				<?php if($DMRGatewayAPRS == '1' && $configmmdvm['DMR Network']['Enable'] == 1) { echo(' checked="checked"'); }
+                      if ($configaprsgw['Enabled']['Enabled'] == 0 || $configmmdvm['DMR Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
+                <label for="aprsgw-service-selection-0">DMR</label>
+            </div>
+            <div style="display: inline-block;vertical-align: middle;">
+                <input name="YSFGatewayAPRS" id="aprsgw-service-selection-1" value="YSFGatewayAPRS" type="checkbox"
+				<?php if(($YSFGatewayAPRS == '1' && $configmmdvm['System Fusion Network']['Enable'] == 1) || ($configaprsgw['Enabled']['Enabled'] == 1 && $configdmr2ysf['Enabled']['Enabled'] == "1")) { echo(' checked="checked"'); }
+					if (($configaprsgw['Enabled']['Enabled'] == 0 && $configmmdvm['System Fusion Network']['Enable'] == 0) || ($configaprsgw['Enabled']['Enabled'] == 0 && $configdmr2ysf['Enabled']['Enabled'] == "0"))  { echo(' disabled="disabled"'); }?> >
+                <label for="aprsgw-service-selection-1">YSF</label>
+            </div>
+            <div style="display: inline-block;vertical-align: middle;">
+                <input name="DGIdGatewayAPRS" id="aprsgw-service-selection-2" value="DGIdGatewayAPRS" type="checkbox"
+				<?php if($DGIdGatewayAPRS == '1' && $configaprsgw['Enabled']['Enabled'] == 1) { echo(' checked="checked"'); }
+					if ($configaprsgw['Enabled']['Enabled'] == 0 ||  $configdgidgateway['Enabled']['Enabled'] == "0")  { echo(' disabled="disabled"'); }?> >
+                <label for="aprsgw-service-selection-2">DGId</label>
+            </div>
+            <div style="display: inline-block;vertical-align: middle;">
+                <input name="NXDNGatewayAPRS"  id="aprsgw-service-selection-3" value="NXDNGatewayAPRS" type="checkbox"
+				<?php if($NXDNGatewayAPRS == '1' && $configmmdvm['NXDN Network']['Enable'] == 1) { echo(' checked="checked"'); }
+					if ($configaprsgw['Enabled']['Enabled'] == 0 || $configmmdvm['NXDN Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
+                <label for="aprsgw-service-selection-3">NXDN</label>
+            </div>
+            <div style="display: inline-block;vertical-align: middle;">
+                <input name="M17GatewayAPRS" id="aprsgw-service-selection-4" value="M17GatewayAPRS" type="checkbox"
+				<?php if($M17GatewayAPRS == '1' && $configmmdvm['M17 Network']['Enable'] == 1) { echo(' checked="checked"'); }
+					if ($configaprsgw['Enabled']['Enabled'] == 0 || $configmmdvm['M17 Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
+                <label for="aprsgw-service-selection-4">M17</label>
+            </div>
+            <div style="display: inline-block;vertical-align: middle;">
+                <input name="IRCDDBGatewayAPRS" id="aprsgw-service-selection-5" value="IRCDDBGatewayAPRS" type="checkbox"
+				<?php if($IRCDDBGatewayAPRS == '1' && $configs['ircddbEnabled'] == "1" && $configmmdvm['D-Star Network']['Enable'] == 1) { echo(' checked="checked"'); }
+					if ($configaprsgw['Enabled']['Enabled'] == 0 || $configs['ircddbEnabled'] == "0" || $configmmdvm['D-Star Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
+                <label for="aprsgw-service-selection-5">ircDDB</label>
+            </div>
+	    <br /><em><small>(Note: Both APRS Gateway and the Radio/MMDVM Mode must be enabled in order to be selected.)</em>
+          </div>
+        </div>
+       </div>
+      </td>
     </tr>
     <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['timezone'];?>:<span><b>System TimeZone</b>Set the system timezone</span></a></td>
@@ -5084,7 +5093,7 @@ fclose($dmrMasterFile);
     <th align="left" colspan="4">System-Wide DMR Settings</th>
     </tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#">DMR Roaming Beacon:<span><b>Enable DMR Roaming Beacon</b>Enable DMR Roaming Beacons</span></a></td>
+    <td align="left"><a class="tooltip2" href="#">DMR Roaming Beacon:<span><b>Enable DMR Roaming Beacon</b>Enable DMR Roaming Beacons; Used for repeaters</span></a></td>
     <?php
     if ($configmmdvm['DMR']['Beacons'] == 1) {
         echo "<td align=\"left\" colspan=\"2\"><div class=\"switch\"><input id=\"toggle-dmrbeacon\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"DMRBeaconEnable\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrBeaconCr." /><label id=\"aria-toggle-dmrbeacon\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable Beaconing\" aria-checked=\"true\" onKeyPress=\"toggleDmrBeacon()\" onclick=\"toggleDmrBeacon()\" for=\"toggle-dmrbeacon\"><font style=\"font-size:0px\">Enable DMR Beaconing</font></label></div>\n";
@@ -5204,7 +5213,8 @@ fclose($dmrMasterFile);
     </tr>
     <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['dstar_irc_password'];?>:<span><b>Remote Password</b>Used for ircDDBGateway remote control access</span></a></td>
-    <td align="left" colspan="2"><input type="password" name="confPassword" size="30" maxlength="30" value="<?php echo $configs['remotePassword'] ?>" /></td>
+    <td align="left" colspan="2"><input type="password" name="confPassword" id="ircddbPass" size="30" maxlength="30" value="<?php echo $configs['remotePassword'] ?>" />
+    <span toggle="#password-field" class="fa fa-fw fa-eye field_icon toggle-ircddb-password"></span></td>
     </tr>
     <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['dstar_default_ref'];?>:<span><b>Default Reflector</b>Used for setting the default reflector.</span></a></td>
@@ -5858,7 +5868,8 @@ $p25Hosts = fopen("/usr/local/etc/P25Hosts.txt", "r");
       </tr>
       <tr>
         <td align="left"><a class="tooltip2" href="#">DAPNET AuthKey:<span><b>DAPNET AuthKey</b>Set your DAPNET AuthKey here</span></a></td>
-        <td align="left"><input type="password" name="pocsagAuthKey" size="30" maxlength="50" value="<?php echo $configdapnetgw['DAPNET']['AuthKey'];?>" /></td>
+        <td align="left"><input type="password" name="pocsagAuthKey" id="pocsagAuthKey" size="30" maxlength="50" value="<?php echo $configdapnetgw['DAPNET']['AuthKey'];?>" />
+	<span toggle="#password-field" class="fa fa-fw fa-eye field_icon toggle-dapnet-password"></span>
       </tr>
       <tr>
         <td align="left"><a class="tooltip2" href="#">POCSAG Whitelist:<span><b>POCSAG Whitelist</b>Set your POCSAG RIC Whitelist here, if these are set ONLY these RICs will be transmitted. List is comma seperated.</span></a></td>
