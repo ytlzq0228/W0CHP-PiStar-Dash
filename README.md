@@ -7,7 +7,8 @@ and DO NOT ask me for support.  Nor should you file/report any bugs etc. on any
 official Pi-Star medium...this is not an official Pi-Star release.
 
 It's *strongly* recommended that you read and heed the [warnings and
-caveats](https://w0chp.net/w0chp-pistar-dash/#caveats).
+caveats](https://w0chp.net/w0chp-pistar-dash/#caveats) and the
+[FAQs](https://w0chp.net/wpsd-faqs/).
 
 ## Installing `W0CHP-PiStar-Dash`
 
