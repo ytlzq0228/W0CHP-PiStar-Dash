@@ -1839,51 +1839,83 @@ function tgLookup($mode, $target) {
 	    if (strlen($target) >= 7 && substr( $target, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1") {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
-		    $target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') !== false) {
+		    	$target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
+		    } else {
+		    	$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    }
 		} else {
 		    $target = "TG $target";
 		}
 	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
-		    $target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') !== false) {
+		    	$target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
+		    } else {
+		    	$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    }
 		} else {
 		    $target = "TG $target";
 		}
 	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
-		    if (!empty($target_lookup)) {
-			$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		if (!empty($target_lookup)) {
+		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') !== false) {
+		    	$target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
 		    } else {
-			$target = "TG $target";
+		    	$target = "TG $target <span class='noMob'>($target_lookup)</span>";
 		    }
+		} else {
+		    $target = "TG $target";
+		}
 	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeDMR_.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
-		    if (!empty($target_lookup)) {
-			$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		if (!empty($target_lookup)) {
+		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') !== false) {
+		    	$target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
 		    } else {
-			$target = "TG $target";
+		    	$target = "TG $target <span class='noMob'>($target_lookup)</span>";
 		    }
+		} else {
+		    $target = "TG $target";
+		}
 	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_DMRp.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
-		    if (!empty($target_lookup)) {
-			$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		if (!empty($target_lookup)) {
+		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') !== false) {
+		    	$target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
 		    } else {
-			$target = "TG $target";
+		    	$target = "TG $target <span class='noMob'>($target_lookup)</span>";
 		    }
+		} else {
+		    $target = "TG $target";
+		}
 	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "7" && $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Enabled'] == "1") {                             
 		if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2YSF_Cross-over") {                                                                             
-		    $target = "TG $target <span class='noMob'>(DMR2YSF)</span>";
+		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') !== false) {
+		    	$target = "TG $target <span style='float:right;' class='noMob'>(DMR2YSF)</span>";
+		    } else {
+		    	$target = "TG $target <span class='noMob'>(DMR2YSF)</span>";
+		    }
 		} else if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2NXDN_Cross-over") {                                                                     
-		    $target = "TG $target <span class='noMob'>(DMR2NXDN)</span>";
+		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') !== false) {
+		    	$target = "TG $target <span style='float:right;' class='noMob'>(DMR2NXDN)</span>";
+		    } else {
+		    	$target = "TG $target <span class='noMob'>(DMR2NXDN)</span>";
+		    }
 		}
 	    } else {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    $target = $target_lookup;
 		    $stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
-		    $target = preg_replace($stupid_bm, "", $target); // strip stupid fucking comments from BM admins in TG names. Idiots.
-		    $target = str_replace(": ", " <span class='noMob'>(", $target.")</span>");
+		    $target = preg_replace($stupid_bm, "", $target); // strip comments from BM TG names..
+		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') !== false) {
+		    	$target = str_replace(": ", " <span style='float:right;' class='noMob'>(", $target.")</span>");
+		    } else {
+		    	$target = str_replace(": ", " <span class='noMob'>(", $target.")</span>");
+		    }
 		    $target = "TG $target";
 		} else {
 		    $target = "TG $target";
@@ -1891,13 +1923,25 @@ function tgLookup($mode, $target) {
 	    }
 	} else if (strpos($mode, 'NXDN') !== false) {
 	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
-		if (!empty($target_lookup)) {
-		    $target = "TG $target <span class='noMob'>($target_lookup)</span>";
+	    if (!empty($target_lookup)) {
+		if (strpos($_SERVER["PHP_SELF"], 'lh.php') !== false) {
+	    	    $target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
+		} else {
+	    	    $target = "TG $target <span class='noMob'>($target_lookup)</span>";
 		}
+	    } else {
+		$target = "TG $target";
+	    }
 	} else if (strpos($mode, 'P25') !== false) {
 	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_P25.txt | awk -F';' '{print $2}'");
 	    if (!empty($target_lookup)) {
-		$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		if (strpos($_SERVER["PHP_SELF"], 'lh.php') !== false) {
+	    	    $target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
+		} else {
+	    	    $target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		}
+	    } else {
+		$target = "TG $target";
 	    }
 	} else {
 	    $target = $target;
