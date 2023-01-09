@@ -1003,7 +1003,7 @@ if (getConfigItem("NXDN", "RAN", $_SESSION['MMDVMHostConfigs'])) {
 	    echo "        </div>\n";
 	} else {
 	    echo "        <div class='divTableCell cell_content middle'>\n";
-	    echo "          <div ".GetActiveConnectionStyle($remoteM17GWResults, "m17").">".str_replace(' ', '&nbsp;', getActualLink($reverseLogLinesM17Gateway, "M17"))."</div>\n";
+	    echo "          <div ".GetActiveConnectionStyle($remoteM17GWResults, "m17").">".getActualLink($reverseLogLinesM17Gateway, "M17")."</div>\n";
 	    echo "        </div>\n";
 	}
 ?>
