@@ -1833,6 +1833,86 @@ function decodeAlias($logLine) {
   return $tok1.$tok2.$tok3.$tok4.$tok5.$tok6.$tok7;
 }
 
+function tgLookup($mode, $target) {
+    if (strlen($target) >= 2) {
+	if (strpos($mode, 'DMR') !== false) {
+	    if (strlen($target) >= 7 && substr( $target, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1") {
+		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+		if (!empty($target_lookup)) {
+		    $target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		} else {
+		    $target = "TG $target";
+		}
+	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
+		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+		if (!empty($target_lookup)) {
+		    $target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		} else {
+		    $target = "TG $target";
+		}
+	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
+		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+		    if (!empty($target_lookup)) {
+			$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    } else {
+			$target = "TG $target";
+		    }
+	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
+		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeDMR_.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+		    if (!empty($target_lookup)) {
+			$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    } else {
+			$target = "TG $target";
+		    }
+	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
+		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_DMRp.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+		    if (!empty($target_lookup)) {
+			$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    } else {
+			$target = "TG $target";
+		    }
+	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "7" && $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Enabled'] == "1") {                             
+		if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2YSF_Cross-over") {                                                                             
+		    $target = "TG $target <span class='noMob'>(DMR2YSF)</span>";
+		} else if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2NXDN_Cross-over") {                                                                     
+		    $target = "TG $target <span class='noMob'>(DMR2NXDN)</span>";
+		}
+	    } else {
+		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
+		if (!empty($target_lookup)) {
+		    $target = $target_lookup;
+		    $stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
+		    $target = preg_replace($stupid_bm, "", $target); // strip stupid fucking comments from BM admins in TG names. Idiots.
+		    $target = str_replace(": ", " <span class='noMob'>(", $target.")</span>");
+		    $target = "TG $target";
+		} else {
+		    $target = "TG $target";
+		}
+	    }
+	} else if (strpos($mode, 'NXDN') !== false) {
+	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
+		if (!empty($target_lookup)) {
+		    $target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		}
+	} else if (strpos($mode, 'P25') !== false) {
+	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_P25.txt | awk -F';' '{print $2}'");
+	    if (!empty($target_lookup)) {
+		$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+	    }
+	} else {
+	    $target = $target;
+	}
+    } else {
+	$modeArray = array('DMR', 'NXDN', 'P25');
+	if (strpos($mode, $modeArray[0]) !== false) {
+	    $target = "TG $target";
+    	} else {
+	    $target = $target;
+	}
+    }
+    return $target;
+}
+
 function getName($callsign) {
     ini_set('default_socket_timeout', 2);
     $name = array();

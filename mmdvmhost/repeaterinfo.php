@@ -460,68 +460,14 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
 		    $slot1Link = substr(getActualLink($reverseLogLinesMMDVM, "DMR Slot 1"), -11); 
 		    if (file_exists("/etc/.TGNAMES")) {
 			$slot1Link = str_replace("TG ", "", $slot1Link);
-			if (strlen($slot1Link) >= 2) {
-			    if (strlen($slot1Link) >= 7 && substr( $slot1Link, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1") {
-				$target_lookup = trim(exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"));
-				if (strlen($target_lookup) > 20) {
-				    $target_lookup = substr($target_lookup, 0, 15) . '...';
-				}
-				$TGname = $target_lookup;
-			    } else if (strlen($slot1Link) >= 6 && substr( $slot1Link, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
-				$target_lookup = exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
-				if (strlen($target_lookup) > 20) {
-				    $target_lookup = substr($target_lookup, 0, 15) . '...';
-				}
-				$TGname = $target_lookup;
-			    } else if (strlen($slot1Link) >= 6 && substr( $slot1Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
-				$target_lookup = exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
-				if (strlen($target_lookup) > 20) {
-				    $target_lookup = substr($target_lookup, 0, 15) . '...';
-				}
-				$TGname = $target_lookup;
-			    } else if (strlen($slot1Link) >= 6 && substr( $slot1Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
-				$target_lookup = exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_FreeDMR.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
-				if (strlen($target_lookup) > 20) {
-				    $target_lookup = substr($target_lookup, 0, 15) . '...';
-				}
-				$TGname = $target_lookup;
-			    } else if (strlen($slot1Link) >= 6 && substr( $slot1Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
-				$target_lookup = exec("grep -w \"$slot1Link\" /usr/local/etc/TGList_DMRp.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
-				if (strlen($target_lookup) > 20) {
-				    $target_lookup = substr($target_lookup, 0, 15) . '...';
-				}
-				$TGname = $target_lookup;
-                            } else if (strlen($slot1Link) >= 6 && substr( $slot1Link, 0, 1 ) === "7" && $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Enabled'] == "1") {
-                                if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2YSF_Cross-over") {
-				    $target_lookup = "DMR2YSF";
-				    $TGname = $target_lookup;
-                                } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2NXDN_Cross-over") {
-				    $target_lookup = "DMR2NXDN";
-				    $TGname = $target_lookup;
-                                }
-			    } else {
-				$target_lookup = trim(exec("grep -w \"$slot1Link\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'"));
-				$TGname = str_replace("$slot1Link: ", "", $target_lookup);
-				$stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
-				$TGname = preg_replace($stupid_bm, "", $TGname); // strip stupid fucking comments from BM admins in TG names. Idiots.
-				if (strlen($TGname) > 20) {
-				    $TGname = substr($TGname, 0, 15) . '...';
-				}
-			    }
-			    if (!empty($target_lookup)) {
-				echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled: TG $slot1Link' style='border: .5px solid $tableBorderColor;'>TG $slot1Link<br /><small>($TGname)</small></div>\n";
-			    } else {
-				if ($slot1Link == "Unlinked") {
-				    echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled: $slot1Link' style='border: .5px solid $tableBorderColor;'>$slot1Link</div>\n";
-				} else {
-				    echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled: TG $slot1Link' style='border: .5px solid $tableBorderColor;'>TG $slot1Link</div>\n";
-				}
-			    }
+			if ($slot1Link == "Unlinked") {
+			    echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled' style='border: .5px solid $tableBorderColor;'>$slot1Link</div>\n";
 			} else {
-			    echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled: TG $slot1Link' style='border: .5px solid $tableBorderColor;'>TG $slot1Link</div>\n";
+			    $slot1Link = preg_replace('#\((.*?)\)#', "<br><small>($1)</small>", tgLookup("DMR", $slot1Link));
+			    echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled' style='border: .5px solid $tableBorderColor;'>$slot1Link</div>\n";
 			}
 		    } else {
-			echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled: $slot1Link' style='border: .5px solid $tableBorderColor;'>$slot1Link</div>\n";
+			echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled' style='border: .5px solid $tableBorderColor;'>$slot1Link</div>\n";
 		    }
 		}
 	    } else {
@@ -533,80 +479,25 @@ if ( $testMMDVModeDSTAR == 1 || isPaused("D-Star") ) { //Hide the D-Star Reflect
       <div class="divTableHeadCell">TS2</div>
            <?php
 	    if (getConfigItem("DMR Network", "Slot2", $_SESSION['MMDVMHostConfigs']) == 1) {
-                if (preg_match("/Not/",getActualLink($reverseLogLinesMMDVM, "DMR Slot 2"))) {
+		if (preg_match("/Not/",getActualLink($reverseLogLinesMMDVM, "DMR Slot 2"))) {
 		    echo "<div class='divTableCell cell_content middle' title='Unlinked'><div style=\"background: $tableRowEvenBg;\">Unlinked</div></div>\n";
 		} else {
 		    $slot2Link = substr(getActualLink($reverseLogLinesMMDVM, "DMR Slot 2"), -11); 
 		    if (file_exists("/etc/.TGNAMES")) {
 			$slot2Link = str_replace("TG ", "", $slot2Link);
-			if (strlen($slot2Link) >= 2) {
-			    if (strlen($slot2Link) >= 7 && substr( $slot2Link, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1") {
-				$target_lookup = trim(exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"));
-				if (strlen($target_lookup) > 20) {
-				    $target_lookup = substr($target_lookup, 0, 15) . '...';
-				}
-				$TGname = $target_lookup;
-			    } else if (strlen($slot2Link) >= 6 && substr( $slot2Link, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
-				$target_lookup = exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
-				if (strlen($target_lookup) > 20) {
-				    $target_lookup = substr($target_lookup, 0, 15) . '...';
-				}
-				$TGname = $target_lookup;
-			    } else if (strlen($slot2Link) >= 6 && substr( $slot2Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
-				$target_lookup = exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
-				if (strlen($target_lookup) > 20) {
-				    $target_lookup = substr($target_lookup, 0, 15) . '...';
-				}
-				$TGname = $target_lookup;
-			    } else if (strlen($slot2Link) >= 6 && substr( $slot2Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
-				$target_lookup = exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_FreeDMR.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
-				if (strlen($target_lookup) > 20) {
-				    $target_lookup = substr($target_lookup, 0, 15) . '...';
-				}
-				$TGname = $target_lookup;
-			    } else if (strlen($slot2Link) >= 6 && substr( $slot2Link, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
-				$target_lookup = exec("grep -w \"$slot2Link\" /usr/local/etc/TGList_DMRp.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'"); 
-				if (strlen($target_lookup) > 20) {
-				    $target_lookup = substr($target_lookup, 0, 15) . '...';
-				}
-				$TGname = $target_lookup;
-                            } else if (strlen($slot2Link) >= 6 && substr( $slot2Link, 0, 1 ) === "7" && $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Enabled'] == "1") {
-                                if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2YSF_Cross-over") {
-				    $target_lookup = "DMR2YSF";
-				    $TGname = $target_lookup;
-                                } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'] == "DMR2NXDN_Cross-over") {
-				    $target_lookup = "DMR2NXDN";
-				    $TGname = $target_lookup;
-                                }
-			    } else {
-				$target_lookup = trim(exec("grep -w \"$slot2Link\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'"));
-				$TGname = str_replace("$slot2Link: ", "", $target_lookup);
-				$stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
-				$TGname = preg_replace($stupid_bm, "", $TGname); // strip stupid fucking comments from BM admins in TG names. Idiots.
-				if (strlen($TGname) > 20) {
-				    $TGname = substr($TGname, 0, 15) . '...';
-				}
-			    }
-			    if (!empty($target_lookup)) {
-				echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 2 Enabled: TG $slot2Link' style='border: .5px solid $tableBorderColor;'>TG $slot2Link<br /><small>($TGname)</small></div>\n";
-			    } else {
-				if ($slot2Link == "Unlinked") {
-				    echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled: $slot2Link' style='border: .5px solid $tableBorderColor;'>$slot2Link</div>\n";
-				} else {
-				    echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 1 Enabled: TG $slot2Link' style='border: .5px solid $tableBorderColor;'>TG $slot2Link</div>\n";
-				}
-			    }
+			if ($slot2Link == "Unlinked") {
+			    echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 2 Enabled' style='border: .5px solid $tableBorderColor;'>$slot2Link</div>\n";
 			} else {
-			    echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 2 Enabled: TG $slot2Link' style='border: .5px solid $tableBorderColor;'>TG $slot2Link</div>\n";
+			    $slot2Link = preg_replace('#\((.*?)\)#', "<br><small>($1)</small>", tgLookup("DMR", $slot2Link));
+			    echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 2 Enabled' style='border: .5px solid $tableBorderColor;'>$slot2Link</div>\n";
 			}
 		    } else {
-			echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 2 Enabled: $slot2Link' style='border: .5px solid $tableBorderColor;'>$slot2Link</div>\n";
+			echo "<div class='divTableCell cell_content middle active-mode-cell' title='Time Slot 2 Enabled' style='border: .5px solid $tableBorderColor;'>$slot2Link</div>\n";
 		    }
 		}
 	    } else {
-		echo "<div class='divTableCell cell_content middle title='Time Slot 1 disabled' style='border: .5px solid $tableBorderColor;'>Disabled</div>\n";
+		echo "<div class='divTableCell cell_content middle title='Time Slot 2 disabled' style='border: .5px solid $tableBorderColor;'>Disabled</div>\n";
 	    }
-
 	    ?>
     </div>
     <div class="divTableRow center">
@@ -909,8 +800,9 @@ if (getServiceEnabled('/etc/dgidgateway') == 1 )  { // Hide DGId GW info when GW
 			echo "<div class='divTableCell cell_content'><div class='inactive-mode-cell'>Not Linked</div></div>\n";
 		    } else {
 			if (file_exists("/etc/.TGNAMES")) {
-			    $P25_target = exec("grep -w \"$P25tg\" /usr/local/etc/TGList_P25.txt | awk -F';' '{print $2}'");
-			    echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteP25GResults, "p25").">TG $P25tg<br /><small>($P25_target)</small></div></div>\n";			    } else {
+			    $P25_target = preg_replace('#\((.*?)\)#', "<br><small>($1)</small>", tgLookup("P25", $P25tg));
+			    echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteP25GResults, "p25").">$P25_target</div></div>\n";
+			} else {
 			    echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteP25GResults, "p25").">TG $P25tg</div></div>\n";
 			}
 		    }
@@ -958,8 +850,8 @@ if (getConfigItem("NXDN", "RAN", $_SESSION['MMDVMHostConfigs'])) {
 		    echo "<div class='divTableCell cell_content'><div class='inactive-mode-cell'>Not Linked</div></div>\n";
 		} else {
 		    if (file_exists("/etc/.TGNAMES")) {
-			$NXDN_target = exec("grep -w \"$NXDNtg\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
-			echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteNXDNGResults, "nxdn").">TG $NXDNtg<br /><small>($NXDN_target)</small></div></div>\n";
+			$NXDN_target = preg_replace('#\((.*?)\)#', "<br><small>($1)</small>", tgLookup("NXDN", $NXDNtg));
+			echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteNXDNGResults, "nxdn").">$NXDN_target</div></div>\n";
 		    } else {
 			echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteNXDNGResults, "nxdn").">TG $NXDNtg</div></div>\n";
 		    }
