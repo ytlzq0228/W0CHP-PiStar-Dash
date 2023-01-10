@@ -2011,24 +2011,6 @@ function getName($callsign) {
     }
 }
 
-/**
- * Show time ago in a nice way
- */
-function timeago( $date, $now ) {
-  $timestamp   = $date;	
-  $strTime     = array( "sec", "min", "hr", "day", "month", "year" );
-  $length      = array( "60","60","24","30","12","10" );
-  $currentTime = $now;
-  if( $currentTime >= $timestamp ) {
-    $diff = $currentTime - $timestamp;
-    for( $i = 0; $diff >= $length[$i] && $i < count( $length ) - 1; $i++ ) {
-      $diff = $diff / $length[$i];
-    }
-    $diff = round($diff);
-    return sprintf( ngettext( "%d %s", "%d %ss", $diff ), $diff, $strTime[$i] ) . ' ago';
-  }
-}
-
 //Some basic inits
 if (!in_array($_SERVER["PHP_SELF"],array('/mmdvmhost/bm_links.php','/mmdvmhost/bm_manager.php'),true)) {
     $logLinesMMDVM = getMMDVMLog();
