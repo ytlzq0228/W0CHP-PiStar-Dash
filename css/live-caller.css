@@ -32,19 +32,19 @@ body {
 
 .oc_call {
   color: #000;
-  font-size: 14em; 
+  font-size: 14vw; 
   font-weight: bold;
   font-family: 'Inconsolata', monospace;
 }
 
 .oc_caller {
-  font-size: 3em;
+  font-size: 3vw;
   color: #000; 
 }
 
 .oc_name {
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 3.5vw;
 }
 
 .dark-column {
@@ -162,4 +162,9 @@ body {
 
 .ber_bad {
   color: #F33;
+}
+
+.responsive {
+    max-width: 100%;
+    height: auto;
 }

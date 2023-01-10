@@ -99,22 +99,22 @@ function encode($hex) {
       return "";
 }
 
-function checkSetup() {
-	$el = error_reporting();
-	error_reporting(E_ERROR | E_WARNING | E_PARSE);
-	if (defined(DISTRIBUTION)) {
-?>
-<div class="alert alert-danger" role="alert">You are using an old config.php. Please configure your Dashboard by calling <a href="setup.php">setup.php</a>!</div>
-<?php
-		
-		} else {
-		if (file_exists ("setup.php")) {
-	?>
-	<div class="alert alert-danger" role="alert">You forgot to remove setup.php in root-directory of your dashboard or you forgot to configure it! Please delete the file or configure your Dashboard by calling <a href="setup.php">setup.php</a>!</div>
-	<?php
-		}
-	}
-	error_reporting($el);
+/**
+ * Show time ago in a nice way
+ */
+function timeago( $date, $now ) {
+  $timestamp   = $date;
+  $strTime     = array( "sec", "min", "hr", "day", "month", "year" );
+  $length      = array( "60","60","24","30","12","10" );
+  $currentTime = $now;
+  if( $currentTime >= $timestamp ) {
+    $diff = $currentTime - $timestamp;
+    for( $i = 0; $diff >= $length[$i] && $i < count( $length ) - 1; $i++ ) {
+      $diff = $diff / $length[$i];
+    }
+    $diff = round($diff);
+    return sprintf( ngettext( "%d %s", "%d %ss", $diff ), $diff, $strTime[$i] ) . ' ago';
+  }
 }
 
 /**
@@ -134,4 +134,19 @@ if ( ! function_exists( 'is_countable' ) ) :
       || $var instanceof \SimpleXMLElement
       || $var instanceof \ResourceBundle;
   }
+
+/**
+ * Fix ALL CAPS names in callsigns (e.g. clubs, trustees, etc.)
+*/
+function sentence_cap($impexp, $sentence_split) {
+    $textbad=explode($impexp, $sentence_split);
+    $newtext = array();
+    foreach ($textbad as $sentence) {
+        $sentencegood=ucfirst(strtolower($sentence));
+        $newtext[] = $sentencegood;
+    }
+    $textgood = implode($impexp, $newtext);
+    return $textgood;
+}
+
 endif;

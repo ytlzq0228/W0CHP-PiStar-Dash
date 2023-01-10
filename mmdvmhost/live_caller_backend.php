@@ -160,7 +160,7 @@ if (!is_numeric($listElem[2])) {
 	fclose($handle);
     }
     $callMatch = explode(",", $callMatch[0]);
-    $name = ucwords(strtolower("$callMatch[2] $callMatch[3]"));
+    $name = sentence_cap(" ", "$callMatch[2] $callMatch[3]");
     $city = ucwords(strtolower($callMatch[4]));
     $state = ucwords(strtolower($callMatch[5]));
     $country = ucwords(strtolower($callMatch[6]));
@@ -202,7 +202,7 @@ if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE || !p
     $flContent = "";
 } else {
     if (file_exists($_SERVER['DOCUMENT_ROOT']."/images/flags/250px/".$Flag.".png")) {
-	    $flContent = "<img src='/images/flags/250px/$Flag.png?version=$versionCmd' alt='$Name' title='$Name' style='width:200px;' />";
+	    $flContent = "<img src='/images/flags/250px/$Flag.png?version=$versionCmd' alt='$Name' title='$Name' width='200' class='responsive' />";
     } else {
 	$flContent = "";
     }
@@ -217,7 +217,7 @@ if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE || !p
     </div>
     <div class='column'>
       <div class='orange-column'>
-        <span style="position: relative; top: 30%; transform: translateY(-50%);"><?php echo $flContent; ?></span>
+        <span style="position: relative; top: 2vw; transform: translateY(-50%);"><?php echo $flContent; ?></span>
       </div>
     </div>
     <div class='column'>
