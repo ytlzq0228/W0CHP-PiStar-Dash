@@ -641,7 +641,7 @@ function getFWstate () {
 
 // cron status
 function getCronState () {
-    if (isProcessRunning('cron') == 1) {
+    if (isProcessRunning('cron',true) == 1) {
         return 1;
     } else {
         return 0;
@@ -1556,7 +1556,7 @@ function getActualLink($logLines, $mode) {
     switch ($mode) {
 	case "D-Star":
 	    //M: 2016-05-02 07:04:10.504 D-Star link status set to "Verlinkt zu DCS002 S"
-    	    if (isProcessRunning(IRCDDBGATEWAY)) {
+    	    if (isProcessRunning("ircddbgatewayd")) {
 		return getDSTARLinks();
     	    } 
 	    else {
@@ -1836,7 +1836,7 @@ function decodeAlias($logLine) {
 function tgLookup($mode, $target) {
     if (strlen($target) >= 2) {
 	if (strpos($mode, 'DMR') !== false) {
-	    if (strlen($target) >= 7 && substr( $target, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1") {
+	    if ($_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1" && strlen($target) >= 7 && substr( $target, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Name'] == "TGIF_Network") {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
@@ -1847,7 +1847,7 @@ function tgLookup($mode, $target) {
 		} else {
 		    $target = "TG $target";
 		}
-	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
+	    } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Enabled'] == "1" && strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'] == "DMR+_IPSC2-FreeSTAR") {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
@@ -1858,7 +1858,7 @@ function tgLookup($mode, $target) {
 		} else {
 		    $target = "TG $target";
 		}
-	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
+	    } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Enabled'] == "1" && strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
@@ -1869,7 +1869,7 @@ function tgLookup($mode, $target) {
 		} else {
 		    $target = "TG $target";
 		}
-	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
+	    } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Enabled'] == "1" && strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "FreeDMR")) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeDMR_.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
@@ -1880,7 +1880,7 @@ function tgLookup($mode, $target) {
 		} else {
 		    $target = "TG $target";
 		}
-	    } else if (strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
+	    } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Enabled'] == "1" && strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "DMR+_IPSC2")) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_DMRp.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
@@ -1905,7 +1905,7 @@ function tgLookup($mode, $target) {
 		    	$target = "TG $target <span class='noMob'>(DMR2NXDN)</span>";
 		    }
 		}
-	    } else {
+	    } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 1']['Enabled'] == "1" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 1']['Name'], "BM")) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/groups.txt | awk -F, '{print $1}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    $target = $target_lookup;
@@ -1920,6 +1920,8 @@ function tgLookup($mode, $target) {
 		} else {
 		    $target = "TG $target";
 		}
+	    } else { // nothing found in any DMR list/network - return TG # only
+		$target = "TG $target";
 	    }
 	} else if (strpos($mode, 'NXDN') !== false) {
 	    $target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_NXDN.txt | awk -F';' '{print $2}'");
@@ -1943,10 +1945,10 @@ function tgLookup($mode, $target) {
 	    } else {
 		$target = "TG $target";
 	    }
-	} else {
+	} else { // nothing found in any mode - return TG # only
 	    $target = $target;
 	}
-    } else {
+    } else {  // ID is <= 2 digits; no lookups - return TG # only
 	$modeArray = array('DMR', 'NXDN', 'P25');
 	if (strpos($mode, $modeArray[0]) !== false) {
 	    $target = "TG $target";
@@ -1960,8 +1962,9 @@ function tgLookup($mode, $target) {
 function getName($callsign) {
     ini_set('default_socket_timeout', 2);
     $name = array();
-    $TMP_CALL_NAME = "/tmp/Callsign_Name.txt"; // in cache?
+    $TMP_CALL_NAME = "/tmp/Callsign_Name.txt";
     $cl_api = "https://callook.info/$callsign/json";
+    // check cache first...
     if (file_exists($TMP_CALL_NAME)) {
         if (strpos($callsign,"-")) {
             $callsign = substr($callsign,0,strpos($callsign,"-"));
@@ -1974,6 +1977,7 @@ function getName($callsign) {
             return $name;
         }
     }
+    // not in cache...perform lookup, then cache...
     $fp = fsockopen('ssl://callook.info', '443', $errno, $errstr, 2);
     if ($fp) {
         $options = array(
@@ -1995,7 +1999,8 @@ function getName($callsign) {
                 $name = implode (" ", $name_array);
             }
             $name = ucwords(strtolower($name)); // name result is all UPPER. Convert to Camel Case.
-        }   
+        }
+	// now actaully write the result/non-result to cache..
         $fp = fopen($TMP_CALL_NAME .'.TMP', 'a');
         $TMP_STRING = $callsign .' '  .$name;
         fwrite($fp, $TMP_STRING.PHP_EOL);
@@ -2005,6 +2010,7 @@ function getName($callsign) {
         return _("Unable to connect to Call Sign Lookup API");
     }
 }
+
 /**
  * Show time ago in a nice way
  */
