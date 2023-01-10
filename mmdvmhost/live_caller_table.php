@@ -132,8 +132,7 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
 		    fclose($handle);
 		}
 		$callMatch = explode(",", $callMatch[0]);
-		//$name = ucwords(strtolower("$callMatch[2] $callMatch[3]"));
-		$name = "$callMatch[2] $callMatch[3]";
+		$name = sentence_cap(" ", "$callMatch[2] $callMatch[3]");
 		$city = ucwords(strtolower($callMatch[4]));
 		$state = ucwords(strtolower($callMatch[5]));
 		$country = ucwords(strtolower($callMatch[6]));

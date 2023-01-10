@@ -569,26 +569,26 @@ if(empty($_POST['func'])) {
         	echo 'function setLastCaller(obj) {'."\n";
         	echo '    if (obj.checked) {'."\n";
         	echo "        $.ajax({
-                	        type: \"POST\",
-  	          	        url: '/mmdvmhost/callerdetails_ajax.php',
-                	        data:{action:'enable'},
 				success: function(data) { 
      				    $('#lcmsg').html(data).fadeIn('slow');
 				    $('#lcmsg').html(\"<div style='padding:8px;font-style:italic;font-weight:bold;'>For optimal performance, the number of Last Heard rows will be decreased while Caller Details function is enabled.</div>\").fadeIn('slow')
      				    $('#lcmsg').delay(4000).fadeOut('slow');
-				}
+				},
+                	        type: \"POST\",
+  	          	        url: '/mmdvmhost/callerdetails_ajax.php',
+                	        data:{action:'enable'},
          	             });";
 	        echo '    }'."\n";
 	        echo '    else {'."\n";
 	        echo "        $.ajax({
-	                        type: \"POST\",
-	                        url: '/mmdvmhost/callerdetails_ajax.php',
-	                        data:{action:'disable'},
 				success: function(data) { 
      				    $('#lcmsg').html(data).fadeIn('slow');
 				    $('#lcmsg').html(\"<div style='padding:8px;font-style:italic;font-weight:bold;'>Caller Details function disabled. Increasing Last Heard table rows to user preference (if set) or default (40).</div>\").fadeIn('slow')
      				    $('#lcmsg').delay(4000).fadeOut('slow');
-				}
+				},
+	                        type: \"POST\",
+	                        url: '/mmdvmhost/callerdetails_ajax.php',
+	                        data:{action:'disable'},
 	                      });";
 	        echo '    }'."\n";
 	        echo '}'."\n";
@@ -636,26 +636,26 @@ if(empty($_POST['func'])) {
         	echo 'function setLHTGnames(obj) {'."\n";
         	echo '    if (obj.checked) {'."\n";
         	echo "        $.ajax({
-                	        type: \"POST\",
-  	          	        url: '/mmdvmhost/tgnames_ajax.php',
-                	        data:{action:'enable'},
                                 success: function(data) { 
                                     $('#lcmsg').html(data).fadeIn('slow');
                                     $('#lcmsg').html(\"<div style='padding:8px;font-style:italic;font-weight:bold;'>Talkgroup Names display enabled: Please wait until data populated. For optimal performance, the number of Last Heard rows will be decreased while TG Names function is enabled.</div>\").fadeIn('slow')
                                     $('#lcmsg').delay(4000).fadeOut('slow');
-                                }
+                                },
+                	        type: \"POST\",
+  	          	        url: '/mmdvmhost/tgnames_ajax.php',
+                	        data:{action:'enable'},
          	             });";
 	        echo '    }'."\n";
 	        echo '    else {'."\n";
 	        echo "        $.ajax({
-	                        type: \"POST\",
-	                        url: '/mmdvmhost/tgnames_ajax.php',
-	                        data:{action:'disable'},
                                 success: function(data) { 
                                     $('#lcmsg').html(data).fadeIn('slow');
                                     $('#lcmsg').html(\"<div style='padding:8px;font-style:italic;font-weight:bold;'>Talkgroup Names display disabled: Please wait until data is cleared. Increasing Last Heard table rows to user preference (if set) or default (40).</div>\").fadeIn('slow')
                                     $('#lcmsg').delay(4000).fadeOut('slow');
-                                }
+                                },
+	                        type: \"POST\",
+	                        url: '/mmdvmhost/tgnames_ajax.php',
+	                        data:{action:'disable'},
 	                      });";
 	        echo '    }'."\n";
 	        echo '}'."\n";
