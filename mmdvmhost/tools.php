@@ -118,6 +118,20 @@ function timeago( $date, $now ) {
 }
 
 /**
+ * Fix ALL CAPS names in callsigns (e.g. clubs, trustees, etc.)
+*/
+function sentence_cap($impexp, $sentence_split) {
+    $textbad=explode($impexp, $sentence_split);
+    $newtext = array();
+    foreach ($textbad as $sentence) {
+        $sentencegood=ucfirst(strtolower($sentence));
+        $newtext[] = $sentencegood;
+    }
+    $textgood = implode($impexp, $newtext);
+    return $textgood;
+}
+
+/**
  * is_countable polyfill for users on the old buster images
  */
 if ( ! function_exists( 'is_countable' ) ) :
@@ -134,19 +148,5 @@ if ( ! function_exists( 'is_countable' ) ) :
       || $var instanceof \SimpleXMLElement
       || $var instanceof \ResourceBundle;
   }
-
-/**
- * Fix ALL CAPS names in callsigns (e.g. clubs, trustees, etc.)
-*/
-function sentence_cap($impexp, $sentence_split) {
-    $textbad=explode($impexp, $sentence_split);
-    $newtext = array();
-    foreach ($textbad as $sentence) {
-        $sentencegood=ucfirst(strtolower($sentence));
-        $newtext[] = $sentencegood;
-    }
-    $textgood = implode($impexp, $newtext);
-    return $textgood;
-}
-
 endif;
+
