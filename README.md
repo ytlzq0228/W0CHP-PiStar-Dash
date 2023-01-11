@@ -166,6 +166,7 @@ sudo WPSD-Installer -rd
 ### Features in Official Pi-Star Which are Intentionally Omitted in `W0CHP-PiStar-Dash`
 
 * Upgrade notice/nag in header (unnecessary and a hacky implementation). This has been replaced by my own
+* Custom `BannerH2` (etc.) text options have been removed (added clutter and I never used it). Instead, the hostname is displayed in the browser title.
   unobtrusive and configurable dashboard update notifier; displayed in the upper-right hand side of the top header.
 * "GPS" link in Call Sign column of dashboard (superfluous and unreliable).
 * Selectable Call Sign link to either QRZ.com or RadioID.com (both services

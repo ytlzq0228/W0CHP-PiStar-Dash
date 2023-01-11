@@ -273,7 +273,7 @@ $numDMRmasters = exec('cd /var/log/pi-star ; /usr/local/bin/RemoteCommand 7643 s
     </div>
     <div class="mode_flex column">
       <div class="divTableCell">
-        <?php if (getServiceEnabled('/etc/dgidgateway') == 1 && (isPaused("YSF"))) { echo '<div class="paused-mode-cell" title="YSF Mode Paused">DG-ID Net</div>'; } else { showMode("DG-ID Network", $_SESSION['DGIdGatewayConfigs']); } ?>
+        <?php if (isPaused("APRS")) { echo '<div class="paused-mode-cell" title="Service Paused">APRS Net</div>'; } else { showMode("APRS Network", $_SESSION['APRSGatewayConfigs']); }?>
       </div>
     </div>
   </div>
@@ -282,11 +282,6 @@ $numDMRmasters = exec('cd /var/log/pi-star ; /usr/local/bin/RemoteCommand 7643 s
     <div class="mode_flex column">
       <div class="divTableCell">
         <?php showMode("POCSAG Network", $_SESSION['MMDVMHostConfigs']);?>
-      </div>
-    </div>
-    <div class="mode_flex column">
-      <div class="divTableCell">
-        <?php if (isPaused("APRS")) { echo '<div class="paused-mode-cell" title="Service Paused">APRS Net</div>'; } else { showMode("APRS Network", $_SESSION['APRSGatewayConfigs']); }?>
       </div>
     </div>
   </div>
