@@ -429,25 +429,21 @@ function getDGIdLinks() {
     $LogError = "Cannot Open Log";
 
     if (file_exists($logDGIdGWNow) || file_exists($logDGIdPrevious)) {
-	$logLine = exec("tail -10 $logDGIdGWNow");
-	if (!$logLine) {
-	    $logLine = exec("tail -10 $logDGIdPrevious");
-	}
+        $logLine = exec("tail -5 $logDGIdGWNow | grep '$logSearchString'");
+        if (!$logLine) {
+            $logLine = exec("tail -10 $logDGIdPrevious | grep '$logSearchString'");
+        }
     } else
-	{
-	return $LogError;
+        {
+        return $LogError;
     }
 
-    if ($logLine) {
-	if (strpos($logLine, 'Lost link to')) {
-	    $linkedDGId = "Not Linked";
-	} else if (strpos($logLine, 'DG-ID set to')) {
-            preg_match('/(?<=to )\S+(.*)/i', $logLine, $match); // find DG-ID # in log line after "set to" string.
-            $linkedDGId = str_replace("(", "<br />(", $match[0]); // remove occasional comma
-            $linkedDGId = str_replace("via", "<br />via", $linkedDGId); // remove occasional comma
-            $linkedDGId = str_replace("timeout", "inactivity", $linkedDGId); // remove occasional comma
-            $linkedDGId = "DG-ID: $linkedDGId";
-	}
+    if (strpos($logLine, 'DG-ID set to')) {
+        preg_match('/(?<=to )\S+(.*)/i', $logLine, $match); // find DG-ID # in log line after "set to" string.
+        $linkedDGId = str_replace("(", "<br />(", $match[0]);
+        $linkedDGId = str_replace("via", "<br />via", $linkedDGId);
+        $linkedDGId = str_replace("timeout", "inactivity", $linkedDGId);
+        $linkedDGId = "DG-ID: $linkedDGId";
     }
     return $linkedDGId;
 }
