@@ -82,7 +82,7 @@ if ($listElem[6] == null) {
 	$duration = "<span class='dur_tx'>TX " . $duration_string . " sec</span>";
 	// dynamic TX <title>
 	echo "<script>if(typeof window.original_title === 'undefined'){window.original_title = jQuery('title').text();}</script>";
-	echo $_SESSION['MYCALL'] != $listElem[2] ? "<script>jQuery('title').text('>$listElem[2]<');localStorage.setItem(last_caller,'$listElem[2]');jQuery('.last-caller').hide();</script>" : "<script>jQuery('title').text('TX');</script>";
+	echo $_SESSION['MYCALL'] != $listElem[2] ? "<script>jQuery('title').text('>$listElem[2]<');localStorage.setItem('last_caller','$listElem[2]');jQuery('.last-caller').hide();</script>" : "<script>jQuery('title').text('TX');</script>";
   
 } else if ($listElem[6] == "DMR Data")
     {
