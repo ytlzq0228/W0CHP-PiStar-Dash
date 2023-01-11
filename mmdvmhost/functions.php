@@ -420,41 +420,6 @@ function isDAPNETGatewayConnected() {
 //M: 2022-01-02 18:04:17.222 DG-ID set to None via timeout 
 //M: 2022-01-02 18:04:17.222 *** 2 bleep! 
 //M: 2022-01-02 18:05:06.413 DG-ID set to 0 (YSF: YSFGateway) via Network 
-function isDGIdGatewayConnected() {
-    $logLines = array();
-    $logLines1 = array();
-    $logLines2 = array();
-    
-    // Collect last 20 lines  - see down below for no. of line values (array_slice)
-    if (file_exists("/var/log/pi-star/DGIdGateway-".gmdate("Y-m-d").".log")) {
-	$logPath1 = "/var/log/pi-star/DGIdGateway-".gmdate("Y-m-d").".log";
-	$logLines1 = preg_split('/\r\n|\r|\n/', `tail -n 1 $logPath1 | cut -d" " -f2- | tac`);
-    }
-    
-    $logLines1 = array_filter($logLines1);
-
-    if (sizeof($logLines1) == 0) {
-        if (file_exists("/var/log/pi-star/DGIdGateway-".gmdate("Y-m-d", time() - 86340).".log")) {
-            $logPath2 = "/var/log/pi-star/DGIdGateway-".gmdate("Y-m-d", time() - 86340).".log";
-            $logLines2 = preg_split('/\r\n|\r|\n/', `tail -n 1 $logPath2 | cut -d" " -f2- | tac`);
-        }
-	
-        $logLines2 = array_filter($logLines2);
-    }
-
-    $logLines = $logLines1 + $logLines2;
-
-    $errorMessages = array('Lost link to');
-    
-    foreach($logLines as $dgidMessageLine) {
-	foreach($errorMessages as $errorLine) {
-	    if (strpos($dgidMessageLine, $errorLine) != FALSE)
-		return false;
-	    }
-    }
-    return true;
-}
-
 function getDGIdLinks() {
     $logDGIdGWNow = "/var/log/pi-star/DGIdGateway-".gmdate("Y-m-d").".log";
     $logDGIdPrevious = "/var/log/pi-star/DGIdGateway-".gmdate("Y-m-d", time() - 86340).".log";
@@ -464,9 +429,9 @@ function getDGIdLinks() {
     $LogError = "Cannot Open Log";
 
     if (file_exists($logDGIdGWNow) || file_exists($logDGIdPrevious)) {
-	$logLine = exec("tail -10 $logDGIdGWNow | grep \"".$logSearchString."\" ");
+	$logLine = exec("tail -10 $logDGIdGWNow");
 	if (!$logLine) {
-	    $logLine = exec("tail -10 $logDGIdPrevious | grep \"".$logSearchString."\" ");
+	    $logLine = exec("tail -10 $logDGIdPrevious");
 	}
     } else
 	{
@@ -474,13 +439,15 @@ function getDGIdLinks() {
     }
 
     if ($logLine) {
-        if (strpos($logLine, 'DG-ID set to')) {
+	if (strpos($logLine, 'Lost link to')) {
+	    $linkedDGId = "Not Linked";
+	} else if (strpos($logLine, 'DG-ID set to')) {
             preg_match('/(?<=to )\S+(.*)/i', $logLine, $match); // find DG-ID # in log line after "set to" string.
             $linkedDGId = str_replace("(", "<br />(", $match[0]); // remove occasional comma
             $linkedDGId = str_replace("via", "<br />via", $linkedDGId); // remove occasional comma
             $linkedDGId = str_replace("timeout", "inactivity", $linkedDGId); // remove occasional comma
             $linkedDGId = "DG-ID: $linkedDGId";
-	    }
+	}
     }
     return $linkedDGId;
 }
@@ -725,13 +692,6 @@ function showMode($mode, $configs) {
         } else {
             getModeClass(false,true);
         }
-    }
-    else if ($mode == "DG-ID Network") {
-        if (getServiceEnabled('/etc/dgidgateway') == 1) {
-            getModeClass(isProcessRunning("DGIdGateway") && (isDGIdGatewayConnected() == 1));
-        } else {
-            getModeClass(false,true);
-        }
     } else
         if (getEnabled($mode, $configs) == 1) {
 	        if ($mode == "D-Star Network") {
@@ -793,9 +753,6 @@ function showMode($mode, $configs) {
 			getModeClass(false, true);
     	}
 
-        if (strpos($mode, 'DG-ID') > -1) {
-	    $mode = str_replace("Network", "Link", $mode);
-	}
         $mode = str_replace("System Fusion", "YSF", $mode);
         $mode = str_replace("AX 25", "AX.25", $mode);
         $mode = str_replace("Network", "Net", $mode);
