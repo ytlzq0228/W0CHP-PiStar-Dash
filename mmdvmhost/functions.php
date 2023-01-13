@@ -1811,7 +1811,7 @@ function tgLookup($mode, $target) {
 		} else {
 		    $target = "TG $target";
 		}
-	    } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Enabled'] == "1" && strlen($target) >= 6 && substr( $target, 0, 1 ) === "8" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'], "SystemX")) {
+	    } else if ($_SESSION['DMRGatewayConfigs']['DMR Network 5']['Enabled'] == "1" && strlen($target) >= 6 && substr( $target, 0, 1 ) === "4" && startsWith($_SESSION['DMRGatewayConfigs']['DMR Network 5']['Name'], "SystemX")) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {

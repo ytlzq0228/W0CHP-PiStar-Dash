@@ -1618,10 +1618,16 @@ if (!empty($_POST)):
 	  $configdmrgateway['DMR Network 1']['Id'] = $configmmdvm['General']['Id'].$newPostbmExtendedId;
 	}
 
-	// Set DMR Plus Extended ID
+	// Set DMR+/FreeDMR/HBLink Extended ID
 	if (empty($_POST['dmrPlusExtendedId']) != TRUE ) {
 	  $newPostdmrPlusExtendedId = preg_replace('/[^0-9]/', '', $_POST['dmrPlusExtendedId']);
 	  $configdmrgateway['DMR Network 2']['Id'] = $configmmdvm['General']['Id'].$newPostdmrPlusExtendedId;
+	}
+
+	// Set SystemX Extended ID
+	if (empty($_POST['SystemXExtendedId']) != TRUE ) {
+	  $newPostSystemXExtendedId = preg_replace('/[^0-9]/', '', $_POST['SystemXExtendedId']);
+	  $configdmrgateway['DMR Network 5']['Id'] = $configmmdvm['General']['Id'].$newPostSystemXExtendedId;
 	}
 
 	// Set YSF2DMR ID
@@ -1657,9 +1663,9 @@ if (!empty($_POST)):
 	
 	    if (empty($_POST['tgifHSSecurity']) != TRUE ) {
 		$configModem['TGIF']['Password'] = '"'.$_POST['tgifHSSecurity'].'"';
-		    if ($dmrMasterHostArr[0] != '127.0.0.1') {
-			$configmmdvm['DMR Network']['Password'] = '"'.$_POST['tgifHSSecurity'].'"';
-		    }
+		if ($dmrMasterHostArr[0] != '127.0.0.1') {
+		    $configmmdvm['DMR Network']['Password'] = '"'.$_POST['tgifHSSecurity'].'"';
+		}
 	    } else {
 		unset ($configModem['TGIF']['Password']);
 	    }
@@ -1668,7 +1674,6 @@ if (!empty($_POST)):
 	    if ($dmrMasterHostArr[0] == '127.0.0.1' && $dmrMasterHostArr[2] == '62031') {
 		unset ($configmmdvm['DMR Network']['Options']);
 		unset($configmmdvm['DMR Network']['Type']);
-		//unset ($configdmrgateway['DMR Network 2']['Options']);
 		$configmmdvm['DMR Network']['Local'] = "62032";
 		$configmmdvm['DMR Network']['LocalPort'] = "62032";
 		unset ($configysf2dmr['DMR Network']['Options']);
@@ -1706,8 +1711,8 @@ if (!empty($_POST)):
 		}
 	    }
 
-	    // Set the DMR+ / HBLink / FreeDMR / SystemX (FreeSTAR) Options= line
-	    if ((substr($dmrMasterHostArr[3], 0, 4) == "DMR+") || (substr($dmrMasterHostArr[3], 0, 3) == "HB_") || (substr($dmrMasterHostArr[3], 0, 3) == "FD_") || (substr($dmrMasterHostArr[3], 0, 8) == "FreeDMR_") || (substr($dmrMasterHostArr[3], 0, 8) == "SystemX_")) {
+	    // Set the DMR+ / HBLink / FreeDMR Options= line
+	    if ((substr($dmrMasterHostArr[3], 0, 4) == "DMR+") || (substr($dmrMasterHostArr[3], 0, 3) == "HB_") || (substr($dmrMasterHostArr[3], 0, 3) == "FD_") || (substr($dmrMasterHostArr[3], 0, 8) == "FreeDMR_")) {
 		unset ($configmmdvm['DMR Network']['Local']);
 		unset ($configmmdvm['DMR Network']['LocalPort']);
 		unset ($configysf2dmr['DMR Network']['Local']);
@@ -1724,9 +1729,28 @@ if (!empty($_POST)):
 	    }
 
 	}
+
+        // Set the SystemX (FreeSTAR) Options= line
+        if ((substr($dmrMasterHostArr[3], 0, 8) == "SystemX_")) {
+            unset ($configmmdvm['DMR Network']['Local']);
+            unset ($configmmdvm['DMR Network']['LocalPort']);
+            unset ($configysf2dmr['DMR Network']['Local']);
+            if (empty($_POST['dmrNetworkOptions5']) != TRUE ) {
+                $dmrOptionsLineStripped5 = str_replace('"', "", $_POST['dmrNetworkOptions5']);
+                $configmmdvm['DMR Network']['Options'] = '"'.$dmrOptionsLineStripped5.'"';
+                $configdmrgateway['DMR Network 5']['Options'] = '"'.$dmrOptionsLineStripped5.'"';
+            }
+            else {
+                unset ($configmmdvm['DMR Network']['Options']);
+                unset ($configdmrgateway['DMR Network 5']['Options']);
+                unset ($configysf2dmr['DMR Network']['Options']);
+            }
+        }
+
 	if (empty($_POST['dmrMasterHost']) == TRUE ) {
 	    unset ($configmmdvm['DMR Network']['Options']);
 	    unset ($configdmrgateway['DMR Network 2']['Options']);
+	    unset ($configdmrgateway['DMR Network 5']['Options']);
 	}
 	if (empty($_POST['dmrMasterHost1']) != TRUE ) {
 	    $dmrMasterHostArr1 = explode(',', escapeshellcmd($_POST['dmrMasterHost1']));
@@ -1744,6 +1768,18 @@ if (!empty($_POST)):
 	    $configdmrgateway['DMR Network 2']['Password'] = '"'.$dmrMasterHostArr2[1].'"';
 	    $configdmrgateway['DMR Network 2']['Port'] = $dmrMasterHostArr2[2];
 	    $configdmrgateway['DMR Network 2']['Name'] = $dmrMasterHostArr2[3];
+            $configdmrgateway['DMR Network 2']['TGRewrite0'] = "2,8,2,9,1";
+            $configdmrgateway['DMR Network 2']['PCRewrite0'] = "2,84000,2,4000,1001";
+            $configdmrgateway['DMR Network 2']['PCRewrite1'] = "1,8009990,1,9990,1";
+            $configdmrgateway['DMR Network 2']['PCRewrite2'] = "2,8009990,2,9990,1";
+            $configdmrgateway['DMR Network 2']['TypeRewrite1'] = "1,8009990,1,9990";
+            $configdmrgateway['DMR Network 2']['TypeRewrite2'] = "2,8009990,2,9990";
+            $configdmrgateway['DMR Network 2']['TGRewrite1'] = "1,8000001,1,1,999999";
+            $configdmrgateway['DMR Network 2']['TGRewrite2'] = "2,8000001,2,1,999999";
+            $configdmrgateway['DMR Network 2']['SrcRewrite1'] = "1,9990,1,8009990,1";
+            $configdmrgateway['DMR Network 2']['SrcRewrite2'] = "2,9990,2,8009990,1";
+            $configdmrgateway['DMR Network 2']['SrcRewrite3'] = "1,1,1,8000001,999999";
+            $configdmrgateway['DMR Network 2']['SrcRewrite4'] = "2,1,2,8000001,999999";
 	    if (empty($_POST['dmrNetworkOptions']) != TRUE ) {
 		$dmrOptionsLineStripped = str_replace('"', "", $_POST['dmrNetworkOptions']);
 		unset ($configmmdvm['DMR Network']['Options']);
@@ -1753,6 +1789,34 @@ if (!empty($_POST)):
 		unset ($configdmrgateway['DMR Network 2']['Options']);
 	    }
 	}
+	if (empty($_POST['dmrMasterHost5']) != TRUE ) {
+	    $dmrMasterHostArr5 = explode(',', escapeshellcmd($_POST['dmrMasterHost5']));
+	    $configdmrgateway['DMR Network 5']['Address'] = $dmrMasterHostArr5[0];
+	    $configdmrgateway['DMR Network 5']['Password'] = '"'.$dmrMasterHostArr5[1].'"';
+	    $configdmrgateway['DMR Network 5']['Port'] = $dmrMasterHostArr5[2];
+	    $configdmrgateway['DMR Network 5']['Name'] = $dmrMasterHostArr5[3];
+            $configdmrgateway['DMR Network 5']['TGRewrite0'] = "2,4,2,9,1";
+            $configdmrgateway['DMR Network 5']['PCRewrite0'] = "2,44000,2,4000,1001";
+            $configdmrgateway['DMR Network 5']['PCRewrite1'] = "1,4009990,1,9990,1";
+            $configdmrgateway['DMR Network 5']['PCRewrite2'] = "2,4009990,2,9990,1";
+            $configdmrgateway['DMR Network 5']['TypeRewrite1'] = "1,4009990,1,9990";
+            $configdmrgateway['DMR Network 5']['TypeRewrite2'] = "2,4009990,2,9990";
+            $configdmrgateway['DMR Network 5']['TGRewrite1'] = "1,4000001,1,1,999999";
+            $configdmrgateway['DMR Network 5']['TGRewrite2'] = "2,4000001,2,1,999999";
+            $configdmrgateway['DMR Network 5']['SrcRewrite1'] = "1,9990,1,4009990,1";
+            $configdmrgateway['DMR Network 5']['SrcRewrite2'] = "2,9990,2,4009990,1";
+            $configdmrgateway['DMR Network 5']['SrcRewrite3'] = "1,1,1,4000001,999999";
+            $configdmrgateway['DMR Network 5']['SrcRewrite4'] = "2,1,2,4000001,999999";
+	    if (empty($_POST['dmrNetworkOptions5']) != TRUE ) {
+		$dmrOptionsLineStripped5 = str_replace('"', "", $_POST['dmrNetworkOptions5']);
+		unset ($configmmdvm['DMR Network']['Options']);
+		$configdmrgateway['DMR Network 5']['Options'] = '"'.$dmrOptionsLineStripped5.'"';
+	    }
+	    else {
+		unset ($configdmrgateway['DMR Network 5']['Options']);
+	    }
+	}
+
 	if (empty($_POST['dmrMasterHost3']) != TRUE ) {
 	    $dmrMasterHostArr3 = explode(',', escapeshellcmd($_POST['dmrMasterHost3']));
 	    $configdmrgateway['XLX Network 1']['Address'] = $dmrMasterHostArr3[0];
@@ -1815,7 +1879,7 @@ if (!empty($_POST)):
 	  if (escapeshellcmd($_POST['dmrGatewayXlxEn']) == 'OFF' ) { $configdmrgateway['XLX Network 1']['Enabled'] = "0"; $configdmrgateway['XLX Network']['Enabled'] = "0"; }
 	}
 
-	// Set the DMRGateway Network 2 On or Off
+	// Set the DMRGateway Network 2 (DMR+/FreeDMR/HBLink) On or Off
 	if (empty($_POST['dmrGatewayNet2En']) != TRUE ) {
 	  if (escapeshellcmd($_POST['dmrGatewayNet2En']) == 'ON' ) { $configdmrgateway['DMR Network 2']['Enabled'] = "1"; }
 	  if (escapeshellcmd($_POST['dmrGatewayNet2En']) == 'OFF' ) { $configdmrgateway['DMR Network 2']['Enabled'] = "0"; }
@@ -1827,7 +1891,13 @@ if (!empty($_POST)):
 	  if (escapeshellcmd($_POST['dmrGatewayNet4En']) == 'OFF' ) { $configdmrgateway['DMR Network 4']['Enabled'] = "0"; }
 	}
 
-	// Set the DMRGateway Network 1 On or Off
+	// Set the DMRGateway Network 5 (SystemX) On or Off
+	if (empty($_POST['dmrGatewayNet5En']) != TRUE ) {
+	  if (escapeshellcmd($_POST['dmrGatewayNet5En']) == 'ON' ) { $configdmrgateway['DMR Network 5']['Enabled'] = "1"; }
+	  if (escapeshellcmd($_POST['dmrGatewayNet5En']) == 'OFF' ) { $configdmrgateway['DMR Network 5']['Enabled'] = "0"; }
+	}
+
+	// Set the DMRGateway Network 1 (BM) On or Off
 	if (empty($_POST['dmrGatewayNet1En']) != TRUE ) {
 	  if (escapeshellcmd($_POST['dmrGatewayNet1En']) == 'ON' ) { $configdmrgateway['DMR Network 1']['Enabled'] = "1"; }
 	  if (escapeshellcmd($_POST['dmrGatewayNet1En']) == 'OFF' ) { $configdmrgateway['DMR Network 1']['Enabled'] = "0"; }
@@ -2995,7 +3065,9 @@ if (!empty($_POST)):
 	if (!isset($configdmrgateway['XLX Network']['UserControl'])) { $configdmrgateway['XLX Network']['UserControl'] = "1"; }
 	if (!isset($configdmrgateway['DMR Network 1']['Location'])) { $configdmrgateway['DMR Network 1']['Location'] = "1"; }
 	if (!isset($configdmrgateway['DMR Network 2']['Location'])) { $configdmrgateway['DMR Network 2']['Location'] = "0"; }
-	if (!isset($configdmrgateway['DMR Network 3']['Location'])) { $configdmrgateway['DMR Network 3']['Location'] = "0"; }
+	if (!isset($configdmrgateway['DMR Network 2']['Debug'])) { $configdmrgateway['DMR Network 2']['Debug'] = "0"; }
+	if (!isset($configdmrgateway['DMR Network 5']['Location'])) { $configdmrgateway['DMR Network 5']['Location'] = "0"; }
+	if (!isset($configdmrgateway['DMR Network 5']['Debug'])) { $configdmrgateway['DMR Network 5']['Debug'] = "0"; }
 	if (isset($configdmrgateway['DMR Network 4'])) {
 		if (!isset($configdmrgateway['DMR Network 4']['Location'])) { $configdmrgateway['DMR Network 4']['Location'] = "0"; }
 	}
@@ -3519,6 +3591,9 @@ if (!empty($_POST)):
 	}
 	if (isset($configdmrgateway['DMR Network 2']['Options'])) {
 		ensureOptionsIsQuoted($configdmrgateway['DMR Network 2']['Options']);
+	}
+	if (isset($configdmrgateway['DMR Network 5']['Options'])) {
+		ensureOptionsIsQuoted($configdmrgateway['DMR Network 5']['Options']);
 	}
 	if (isset($configysf2dmr['DMR Network']['Options'])) {
 		ensureOptionsIsQuoted($configysf2dmr['DMR Network']['Options']);
@@ -4107,6 +4182,7 @@ else:
 		$toggleDmrGatewayNet1EnCheckboxCr	= 'onclick="toggleDmrGatewayNet1EnCheckbox()"';
 		$toggleDmrGatewayNet2EnCheckboxCr	= 'onclick="toggleDmrGatewayNet2EnCheckbox()"';
 		$toggleDmrGatewayNet4EnCheckboxCr	= 'onclick="toggleDmrGatewayNet4EnCheckbox()"';
+		$toggleDmrGatewayNet5EnCheckboxCr	= 'onclick="toggleDmrGatewayNet5EnCheckbox()"';
 		$toggleDmrGatewayXlxEnCheckboxCr	= 'onclick="toggleDmrGatewayXlxEnCheckbox()"';
 		$toggleDmrEmbeddedLCOnlyCr		= 'onclick="toggleDmrEmbeddedLCOnly()"';
 		$toggleDmrDumpTADataCr			= 'onclick="toggleDmrDumpTAData()"';
@@ -4134,6 +4210,7 @@ else:
 		$toggleDmrGatewayNet1EnCheckboxCr	= "";
 		$toggleDmrGatewayNet2EnCheckboxCr	= "";
 		$toggleDmrGatewayNet4EnCheckboxCr	= "";
+		$toggleDmrGatewayNet5EnCheckboxCr	= "";
 		$toggleDmrGatewayXlxEnCheckboxCr	= "";
 		$toggleDmrEmbeddedLCOnlyCr		= "";
 		$toggleDmrDumpTADataCr			= "";
@@ -4377,7 +4454,7 @@ else:
       <div style="display:block;text-align:left;">
         <div style="display:block;">
           <div style="display:block;">
-          <label for="aprsgw-service-selection" style="display: inline-block;">Send APRS Data to Modes:</label>
+          <label for="aprsgw-service-selection" style="display: inline-block;">Send APRS Data for Mode(s):</label>
 	  <br>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="DMRGatewayAPRS" id="aprsgw-service-selection-0" value="DMRGatewayAPRS" type="checkbox"
@@ -4636,7 +4713,7 @@ else:
 		echo "<td align=\"left\"><div class=\"switch\"><input id=\"toggle-dmr2ysf\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"MMDVMModeDMR2YSF\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDMR2YSFCheckboxCr." /><label id=\"aria-toggle-dmr2ysf\" role=\"checkbox\" tabindex=\"0\" aria-label=\"DMR 2 Y S F Mode\" aria-checked=\"false\" onKeyPress=\"toggleDMR2YSFCheckbox()\" onclick=\"toggleDMR2YSFCheckbox()\" for=\"toggle-dmr2ysf\"><font style=\"font-size:0px\">DMR 2 Y S F Mode</font></label></div></td>\n";
 	}
     ?>
-    <td align="left">Uses 7 prefix on DMRGateway</td>
+    <td align="left">Uses "7" prefix on DMRGateway</td>
     </tr>
     <?php } ?>
     <?php if (file_exists('/etc/dmr2nxdn')) { ?>
@@ -4650,7 +4727,7 @@ else:
 		echo "<td align=\"left\"><div class=\"switch\"><input id=\"toggle-dmr2nxdn\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"MMDVMModeDMR2NXDN\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDMR2NXDNCheckboxCr." /><label id=\"aria-toggle-dmr2nxdn\" role=\"checkbox\" tabindex=\"0\" aria-label=\"DMR 2 NXDN Mode\" aria-checked=\"false\" onKeyPress=\"toggleDMR2NXDNCheckbox()\" onclick=\"toggleDMR2NXDNCheckbox()\" for=\"toggle-dmr2nxdn\"><font style=\"font-size:0px\">DMR 2 NXDN Mode</font></label></div></td>\n";
 	}
     ?>
-    <td align="left">Uses 7 prefix on DMRGateway</td>
+    <td align="left">Uses "7" prefix on DMRGateway</td>
     </tr>
     <?php } ?>
     <?php if (file_exists('/etc/dapnetgateway')) { ?>
@@ -4750,8 +4827,8 @@ while (!feof($dmrMasterFile)) {
     $dmrMasterHost = preg_split('/\s+/', $dmrMasterLine);
     if ((strpos($dmrMasterHost[0], '#') === FALSE ) &&
 	((substr($dmrMasterHost[0], 0, 10) == "DMRGateway") ||
-	 (substr($dmrMasterHost[0], 0, 8) == "DMR2NXDN") ||
-	 (substr($dmrMasterHost[0], 0, 7) == "DMR2YSF")) && ($dmrMasterHost[0] != '')) {
+	(substr($dmrMasterHost[0], 0, 8) == "DMR2NXDN") ||
+	(substr($dmrMasterHost[0], 0, 7) == "DMR2YSF")) && ($dmrMasterHost[0] != '')) {
 	if (($testMMDVMdmrMaster == $dmrMasterHost[2]) && ($testMMDVMdmrMasterPort == $dmrMasterHost[4])) {
 	    echo "      <option value=\"$dmrMasterHost[2],$dmrMasterHost[3],$dmrMasterHost[4],$dmrMasterHost[0]\" selected=\"selected\">$dmrMasterHost[0]</option>\n"; $dmrMasterNow = $dmrMasterHost[0]; }
 	else {
@@ -4843,10 +4920,10 @@ fclose($dmrMasterFile);
     </td>
     </tr>
     <tr>
-    <th align="left" colspan="4">DMR+ / FreeDMR / HBlink / SystemX Network Settings</th>
+    <th align="left" colspan="4">DMR+ / FreeDMR / HBlink Network Settings</th>
     </tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#">DMR+ / FreeDMR / HBlink / SystemX Master:<span><b>DMR+ / FreeDMR / HBlink / SystemX  Master</b>Set your preferred DMR master here</span></a></td>
+    <td align="left"><a class="tooltip2" href="#">DMR+ / FreeDMR / HBlink Master:<span><b>DMR+ / FreeDMR / HBlink Master</b>Set your preferred DMR master here</span></a></td>
     <td style="text-align: left;" colspan="3"><select name="dmrMasterHost2" class="dmrMasterHost2">
 <?php
 	$dmrMasterFile2 = fopen("/usr/local/etc/DMR_Hosts.txt", "r");
@@ -4855,7 +4932,7 @@ fclose($dmrMasterFile);
 	while (!feof($dmrMasterFile2)) {
 		$dmrMasterLine2 = fgets($dmrMasterFile2);
                 $dmrMasterHost2 = preg_split('/\s+/', $dmrMasterLine2);
-                if ((strpos($dmrMasterHost2[0], '#') === FALSE ) && (substr($dmrMasterHost2[0], 0, 7) == "SystemX") || (substr($dmrMasterHost2[0], 0, 4) == "DMR+") || (substr($dmrMasterHost2[0], 0, 7) == "FreeDMR") || (substr($dmrMasterHost2[0], 0, 3) == "FD_") || (substr($dmrMasterHost2[0], 0, 3) == "HB_") && ($dmrMasterHost2[0] != '')) {
+                if ((strpos($dmrMasterHost2[0], '#') === FALSE ) && (substr($dmrMasterHost2[0], 0, 4) == "DMR+") || (substr($dmrMasterHost2[0], 0, 7) == "FreeDMR") || (substr($dmrMasterHost2[0], 0, 3) == "FD_") || (substr($dmrMasterHost2[0], 0, 3) == "HB_") && ($dmrMasterHost2[0] != '')) {
                         if (($testMMDVMdmrMaster2 == $dmrMasterHost2[2]) && ($testMMDVMdmrMaster2Port == $dmrMasterHost2[4])) { echo "      <option value=\"$dmrMasterHost2[2],$dmrMasterHost2[3],$dmrMasterHost2[4],$dmrMasterHost2[0]\" selected=\"selected\">$dmrMasterHost2[0]</option>\n"; }
                         else { echo "      <option value=\"$dmrMasterHost2[2],$dmrMasterHost2[3],$dmrMasterHost2[4],$dmrMasterHost2[0]\">$dmrMasterHost2[0]</option>\n"; }
                 }
@@ -4864,13 +4941,13 @@ fclose($dmrMasterFile);
 ?>
     </select></td></tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#">Network Options:<span><b>DMR+ / FreeDMR / HBlink / SystemX Network</b>Set your options= for DMR+ / FreeDMR / HBlink / SystemX here</span></a></td>
+    <td align="left"><a class="tooltip2" href="#">Network Options:<span><b>DMR+ / FreeDMR / HBlink Network</b>Set your options= for DMR+ / FreeDMR / HBlink here</span></a></td>
     <td align="left" colspan="3">
     Options=<input type="text" name="dmrNetworkOptions" size="85" maxlength="250" value="<?php if (isset($configdmrgateway['DMR Network 2']['Options'])) { echo $configdmrgateway['DMR Network 2']['Options']; } ?>" />
     </td>
     </tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#">ESSID:<span><b>DMR+ / FreeDMR / HBlink / SystemX Extended ID</b>This is the extended ID, to make your DMR ID 8 digits long</span></a></td>
+    <td align="left"><a class="tooltip2" href="#">ESSID:<span><b>DMR+ / FreeDMR / HBlink Extended ID</b>This is the extended ID, to make your DMR ID 8 digits long</span></a></td>
     <td align="left" colspan="3">
 <?php
 	if (isset($configdmrgateway['DMR Network 2']['Id'])) {
@@ -4906,11 +4983,84 @@ fclose($dmrMasterFile);
 ?>
     </td></tr>
     <tr>
-    <td align="left"><a class="tooltip2" href="#">DMR+ / FreeDMR / HBlink / SystemX Enable:<span><b>DMR+ / FreeDMR / HBlink / SystemX Network Enable</b></span></a></td>
-    <td align="left" colspan="3">
-    <?php if ($configdmrgateway['DMR Network 2']['Enabled'] == 1) { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet2En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet2En\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet2EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet2En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable DMR+ / FreeDMR / HBlink / SystemX\" aria-checked=\"true\" onKeyPress=\"toggleDmrGatewayNet2EnCheckbox()\" onclick=\"toggleDmrGatewayNet2EnCheckbox()\" for=\"toggle-dmrGatewayNet2En\"><font style=\"font-size:0px\">Enable DMR+ / FreeDMR / HBlink / SystemX</font></label></div>\n"; }
-    else { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet2En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet2En\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet2EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet2En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable DMR+ / FreeDMR / HBlink / SystemX\" aria-checked=\"false\" onKeyPress=\"toggleDmrGatewayNet2EnCheckbox()\" onclick=\"toggleDmrGatewayNet2EnCheckbox()\" for=\"toggle-dmrGatewayNet2En\"><font style=\"font-size:0px\">Enable DMR+ / FreeDMR / HBlink / SystemX</font></label></div>\n"; } ?>
+    <td align="left"><a class="tooltip2" href="#">DMR+ / FreeDMR / HBlink Enable:<span><b>DMR+ / FreeDMR / HBlink Network Enable</b></span></a></td>
+    <td align="left" colspan="2">
+    <?php if ($configdmrgateway['DMR Network 2']['Enabled'] == 1) { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet2En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet2En\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet2EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet2En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable DMR+ / FreeDMR / HBlink\" aria-checked=\"true\" onKeyPress=\"toggleDmrGatewayNet2EnCheckbox()\" onclick=\"toggleDmrGatewayNet2EnCheckbox()\" for=\"toggle-dmrGatewayNet2En\"><font style=\"font-size:0px\">Enable DMR+ / FreeDMR / HBlink</font></label></div>\n"; }
+    else { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet2En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet2En\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet2EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet2En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable DMR+ / FreeDMR / HBlink\" aria-checked=\"false\" onKeyPress=\"toggleDmrGatewayNet2EnCheckbox()\" onclick=\"toggleDmrGatewayNet2EnCheckbox()\" for=\"toggle-dmrGatewayNet2En\"><font style=\"font-size:0px\">Enable DMR+ / FreeDMR / HBlink</font></label></div>\n"; } ?>
     </td>
+    <td align="left" colspan="1">Uses "8" prefix</td>
+    </tr>
+
+    <tr>
+    <th align="left" colspan="4">SystemX Network Settings</th>
+    </tr>
+    <tr>
+    <td align="left"><a class="tooltip2" href="#">SystemX Master:<span><b>SystemX Master</b>Set your preferred DMR master here</span></a></td>
+    <td style="text-align: left;" colspan="3"><select name="dmrMasterHost5" class="dmrMasterHost5">
+<?php
+	$dmrMasterFile5 = fopen("/usr/local/etc/DMR_Hosts.txt", "r");
+	$testMMDVMdmrMaster5= $configdmrgateway['DMR Network 5']['Address'];
+	$testMMDVMdmrMaster5Port = $configdmrgateway['DMR Network 5']['Port'];
+	while (!feof($dmrMasterFile5)) {
+		$dmrMasterLine5 = fgets($dmrMasterFile5);
+                $dmrMasterHost5 = preg_split('/\s+/', $dmrMasterLine5);
+                if ((strpos($dmrMasterHost5[0], '#') === FALSE ) && (substr($dmrMasterHost5[0], 0, 7) == "SystemX") && ($dmrMasterHost5[0] != '')) {
+                        if (($testMMDVMdmrMaster5 == $dmrMasterHost5[2]) && ($testMMDVMdmrMaster5Port == $dmrMasterHost5[4])) { echo "      <option value=\"$dmrMasterHost5[2],$dmrMasterHost5[3],$dmrMasterHost5[4],$dmrMasterHost5[0]\" selected=\"selected\">$dmrMasterHost5[0]</option>\n"; }
+                        else { echo "      <option value=\"$dmrMasterHost5[2],$dmrMasterHost5[3],$dmrMasterHost5[4],$dmrMasterHost5[0]\">$dmrMasterHost5[0]</option>\n"; }
+                }
+	}
+	fclose($dmrMasterFile5);
+?>
+    </select></td></tr>
+    <tr>
+    <td align="left"><a class="tooltip2" href="#">Network Options:<span><b>SystemX Network</b>Set your options= for SystemX here</span></a></td>
+    <td align="left" colspan="3">
+    Options=<input type="text" name="dmrNetworkOptions5" size="85" maxlength="250" value="<?php if (isset($configdmrgateway['DMR Network 5']['Options'])) { echo $configdmrgateway['DMR Network 5']['Options']; } ?>" />
+    </td>
+    </tr>
+    <tr>
+    <td align="left"><a class="tooltip2" href="#">ESSID:<span><b>SystemX Extended ID</b>This is the extended ID, to make your DMR ID 8 digits long</span></a></td>
+    <td align="left" colspan="3">
+<?php
+	if (isset($configdmrgateway['DMR Network 5']['Id'])) {
+		if (strlen($configdmrgateway['DMR Network 5']['Id']) > strlen($configmmdvm['General']['Id'])) {
+			$SysXESSID = substr($configdmrgateway['DMR Network 5']['Id'], -2);
+		} else {
+			$SysXESSID = "None";
+		}
+	} else {
+		if (isset($configmmdvm['General']['Id'])) {
+			if (strlen($configmmdvm['General']['Id']) == 9) {
+				$SysXESSID = substr($configmmdvm['General']['Id'], -2);
+			} else {
+				$SysXESSID = "None";
+			}
+		} else {
+			$SysXESSID = "None";
+		}
+	}
+
+	if (isset($configmmdvm['General']['Id'])) { if ($configmmdvm['General']['Id'] !== "1234567") { echo substr($configmmdvm['General']['Id'], 0, 7); } }
+	echo "<select name=\"SystemXExtendedId\">\n";
+	if ($SysXESSID == "None") { echo "      <option value=\"None\" selected=\"selected\">None</option>\n"; } else { echo "      <option value=\"None\">None</option>\n"; }
+	for ($SysXESSIDInput = 1; $SysXESSIDInput <= 99; $SysXESSIDInput++) {
+		$SysXESSIDInput = str_pad($SysXESSIDInput, 2, "0", STR_PAD_LEFT);
+		if ($SysXESSID === $SysXESSIDInput) {
+			echo "      <option value=\"$SysXESSIDInput\" selected=\"selected\">$SysXESSIDInput</option>\n";
+		} else {
+			echo "      <option value=\"$SysXESSIDInput\">$SysXESSIDInput</option>\n";
+		}
+	}
+	echo "</select>\n";
+?>
+    </td></tr>
+    <tr>
+    <td align="left"><a class="tooltip2" href="#">SystemX Enable:<span><b>SystemX Network Enable</b></span></a></td>
+    <td align="left" colspan="2">
+    <?php if ($configdmrgateway['DMR Network 5']['Enabled'] == 1) { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet5En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet5En\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet5EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet5En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable SystemX\" aria-checked=\"true\" onKeyPress=\"toggleDmrGatewayNet5EnCheckbox()\" onclick=\"toggleDmrGatewayNet5EnCheckbox()\" for=\"toggle-dmrGatewayNet5En\"><font style=\"font-size:0px\">Enable SystemX</font></label></div>\n"; }
+    else { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet5En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet5En\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet5EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet5En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable SystemX\" aria-checked=\"false\" onKeyPress=\"toggleDmrGatewayNet5EnCheckbox()\" onclick=\"toggleDmrGatewayNet5EnCheckbox()\" for=\"toggle-dmrGatewayNet5En\"><font style=\"font-size:0px\">Enable SystemX</font></label></div>\n"; } ?>
+    </td>
+    <td align="left" colspan="1">Uses "4" prefix</td>
     </tr>
 
     <tr>
@@ -4966,7 +5116,7 @@ fclose($dmrMasterFile);
     <?php if ($configdmrgateway['DMR Network 4']['Enabled'] == 1) { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet4En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet4En\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet4EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet4En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable TGIF\" aria-checked=\"true\" onKeyPress=\"toggleDmrGatewayNet4EnCheckbox()\" onclick=\"toggleDmrGatewayNet4EnCheckbox()\" for=\"toggle-dmrGatewayNet4En\"><font style=\"font-size:0px\">Enable TGIF/font></label></div>\n"; }
     else { echo "<div class=\"switch\"><input id=\"toggle-dmrGatewayNet4En\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"dmrGatewayNet4En\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleDmrGatewayNet4EnCheckboxCr." /><label id=\"aria-toggle-dmrGatewayNet4En\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable TGIF\" aria-checked=\"false\" onKeyPress=\"toggleDmrGatewayNet4EnCheckbox()\" onclick=\"toggleDmrGatewayNet4EnCheckbox()\" for=\"toggle-dmrGatewayNet4En\"><font style=\"font-size:0px\">Enable TGIF</font></label></div>\n"; } ?>
     </td>
-    <td align="left" colspan="1">Uses 5 prefix on DMRGateway</td>
+    <td align="left" colspan="1">Uses "5" prefix</td>
     </tr>
     <tr>
     <td align="left"><a class="tooltip2" href="#">TGIF Network:<span><b>TGIF Dashboards</b>Direct links to your TGIF Dashboard</span></a></td>
