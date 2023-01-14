@@ -5185,6 +5185,13 @@ fclose($dmrMasterFile);
     </td>
     <td align="left" colspan="1">Uses "4" talkgroup prefix</td>
     </tr>
+	</tr>
+	<tr>
+    <td align="left"><a class="tooltip2" href="#">SystemX Network:<span><b>SystemX Tools</b>Direct links to your SystemX tools</span></a></td>
+    <td colspan="3" align="left">
+    <a href="https://freestar.network/tools/systemx-options-generator.php" target="_new">Options Generator</a>
+    </td>
+    </tr>
 
     <tr>
     <th align="left" colspan="4">TGIF Network Settings</th>
