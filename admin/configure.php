@@ -1534,6 +1534,7 @@ if (!empty($_POST)):
 		$m17SuffixNew = preg_replace('/[^A-Z]/', '', $m17SuffixNew);
 		if (preg_match('/[A-Za-z]/i', $m17SuffixNew)) {
 			$configm17gateway['General']['Suffix'] = $m17SuffixNew;
+			$configm17gateway['APRS']['Suffix'] = $m17SuffixNew;
 		}
 	}
 
@@ -3231,7 +3232,6 @@ if (!empty($_POST)):
 	$configm17gateway['APRS']['Address'] = "127.0.0.1";
 	$configm17gateway['APRS']['Port'] = "8673";
 	$configm17gateway['APRS']['Description'] = "APRS for M17Gateway";
-	$configm17gateway['APRS']['Suffix'] = "M";
 	$configm17gateway['Remote Commands']['Enable'] = "1";
 	$configm17gateway['Remote Commands']['Port'] = "6076";
 	$configm17gateway['Log']['DisplayLevel'] = "0";
