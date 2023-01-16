@@ -684,6 +684,8 @@ if (!empty($_POST)):
             $configdmrgateway['DMR Network 5']['PCRewrite0'] = "2,44000,2,4000,1001";
             $configdmrgateway['DMR Network 5']['PCRewrite1'] = "1,4009990,1,9990,1";
             $configdmrgateway['DMR Network 5']['PCRewrite2'] = "2,4009990,2,9990,1";
+            $configdmrgateway['DMR Network 5']['PCRewrite3'] = "1,4000001,1,1,999999";
+            $configdmrgateway['DMR Network 5']['PCRewrite4'] = "2,4000001,2,1,999999";
             $configdmrgateway['DMR Network 5']['TypeRewrite1'] = "1,4009990,1,9990";
             $configdmrgateway['DMR Network 5']['TypeRewrite2'] = "2,4009990,2,9990";
             $configdmrgateway['DMR Network 5']['TGRewrite1'] = "1,4000001,1,1,999999";
@@ -1877,6 +1879,8 @@ if (!empty($_POST)):
             $configdmrgateway['DMR Network 2']['PCRewrite0'] = "2,84000,2,4000,1001";
             $configdmrgateway['DMR Network 2']['PCRewrite1'] = "1,8009990,1,9990,1";
             $configdmrgateway['DMR Network 2']['PCRewrite2'] = "2,8009990,2,9990,1";
+            $configdmrgateway['DMR Network 2']['PCRewrite3'] = "1,4000001,1,1,999999"; 
+            $configdmrgateway['DMR Network 2']['PCRewrite4'] = "2,4000001,2,1,999999";
             $configdmrgateway['DMR Network 2']['TypeRewrite1'] = "1,8009990,1,9990";
             $configdmrgateway['DMR Network 2']['TypeRewrite2'] = "2,8009990,2,9990";
             $configdmrgateway['DMR Network 2']['TGRewrite1'] = "1,8000001,1,1,999999";
@@ -1904,6 +1908,8 @@ if (!empty($_POST)):
             $configdmrgateway['DMR Network 5']['PCRewrite0'] = "2,44000,2,4000,1001";
             $configdmrgateway['DMR Network 5']['PCRewrite1'] = "1,4009990,1,9990,1";
             $configdmrgateway['DMR Network 5']['PCRewrite2'] = "2,4009990,2,9990,1";
+            $configdmrgateway['DMR Network 5']['PCRewrite3'] = "1,4000001,1,1,999999";
+            $configdmrgateway['DMR Network 5']['PCRewrite4'] = "2,4000001,2,1,999999";
             $configdmrgateway['DMR Network 5']['TypeRewrite1'] = "1,4009990,1,9990";
             $configdmrgateway['DMR Network 5']['TypeRewrite2'] = "2,4009990,2,9990";
             $configdmrgateway['DMR Network 5']['TGRewrite1'] = "1,4000001,1,1,999999";
