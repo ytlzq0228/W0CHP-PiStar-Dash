@@ -1611,6 +1611,15 @@ if (!empty($_POST)):
             }
 	}
 
+	// Set the YSFGateway Options for YCS static DG-ID
+	if (empty($_POST['ysfgatewayNetworkOptions']) != TRUE ) {
+		$ysfOptionsLineStripped = str_replace('"', "", $_POST['ysfgatewayNetworkOptions']);
+		$configysfgateway['Network']['Options'] = '"'.$ysfOptionsLineStripped.'"';
+	}
+	else {
+		unset ($configysfgateway['Network']['Options']);
+	}
+
 	// Set the YSF2DMR Master
 	if (empty($_POST['ysf2dmrMasterHost']) != TRUE ) {
 	  $ysf2dmrMasterHostArr = explode(',', escapeshellcmd($_POST['ysf2dmrMasterHost']));
@@ -5759,6 +5768,12 @@ $ysfHosts = fopen("/usr/local/etc/YSFHosts.txt", "r"); ?>
 				    }
 				    ?>
 				</tr>
+				<tr>
+    				<td align="left"><a class="tooltip2" href="#">YCS Network Options:<span><b>YCS Network</b>Set your options= for the YCS Network here!</span></a></td>
+    				<td align="left" colspan="3">
+    				Options=<input type="text" name="ysfgatewayNetworkOptions" size="85" maxlength="250" value="<?php if (isset($configysfgateway['Network']['Options'])) { echo $configysfgateway['Network']['Options']; } ?>" />
+    			</td>
+    			</tr>
 				<?php
 				}
 				?>
