@@ -1,19 +1,17 @@
 <?php
+session_set_cookie_params(0, "/");
+session_name("PiStar_Dashboard_Session");
+session_id('pistardashsess');
+session_start();
 
-if (!isset($_SESSION) || !is_array($_SESSION)) {
-    session_id('pistardashsess');
-    session_start();
-    
-    include_once $_SERVER['DOCUMENT_ROOT'].'/config/config.php';          // MMDVMDash Config
-    include_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/tools.php';        // MMDVMDash Tools
-    include_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/functions.php';    // MMDVMDash Functions
-    include_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';        // Translation Code
-    checkSessionValidity();
-}
-
-// Load the language support
-require_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/config/config.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/config/ircddblocal.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/functions.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';
+unset($_SESSION['PiStarRelease']);
+checkSessionValidity();
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -102,6 +100,15 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 	    <div class="contentwide">
 		
 		<?php
+
+		if (empty($_POST['CallLookupProvider']) != TRUE) {
+		    exec('sudo mount -o remount,rw /');
+		    exec('sudo sed -i "/CallLookupProvider = /c\\\CallLookupProvider = '.escapeshellcmd($_POST['CallProvider']).'" /etc/pistar-release');	
+		    exec('sudo mount -o remount,ro /');
+		    unset($_POST);
+		    echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},0);</script>';
+		    die();
+		}
 
 		// Check if we are using the new CSS configuration syntax
 		if (file_exists('/etc/pistar-css.ini')) {
@@ -298,7 +305,31 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 		
 		//parse the ini file using default parse_ini_file() PHP function
 		$parsed_ini = parse_ini_file($filepath, true);
+?>
 
+	<h2 class="ConfSec">Callsign Link Provider</h2>	
+
+	<table>
+	  <tr>
+	    <td>
+	      <form method="post" action="" class="left">
+		<input type="radio" name="CallProvider" value="RadioID" id="RadioID" <?php if ($_SESSION['PiStarRelease']['Pi-Star']['CallLookupProvider'] == "RadioID") {  echo 'checked="checked"'; } ?> />
+		<label for="RadioID">RadioID</label>
+		&nbsp;
+		<input type="radio" name="CallProvider" value="QRZ" id="QRZ" <?php if ($_SESSION['PiStarRelease']['Pi-Star']['CallLookupProvider'] == "QRZ") {  echo 'checked="checked"'; } ?> />
+		<label for="QRZ">QRZ</label>
+		&nbsp;
+		<input name="CallLookupProvider" type="submit" value="Apply Change" />
+	      </form>
+	    </td>
+	  </tr>
+	</table>
+
+	<br />
+	
+	<h2 class="ConfSec">Colors and Extra Look/Feel Settings</h2>	
+
+<?php
 		echo '<form action="" method="post" name="edit-css">'."\n";
 
 		// Colorpicker

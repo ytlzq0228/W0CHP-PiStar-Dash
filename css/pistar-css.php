@@ -83,6 +83,10 @@ h2.ConfSec {
     text-align: left;
 }
 
+.left {
+    text-align: left;
+}
+
 .footer {
     background : <?php echo $backgroundBanners; ?>;
     text-decoration : none;

@@ -142,7 +142,7 @@
 			</li>
 			<li class="subs"><a href="services.php?action=updatehostsfiles">Update Hosts Files</a></li>
 			<li class="subs"><a href="security_upgrades.php">Security Upgrades</a></li>
-			<li class="subs"><a href="edit_dashboard.php">CSS Tool</a></li>
+			<li class="subs"><a href="edit_dashboard.php">Look &amp; Feel</a></li>
 			<li class="subs"><a href="ssh_access.php">SSH Access</a></li>
 			<li class="subs"><a href="jitter_test.php">DMR Jitter Test</a></li>
 			<li class="subs"><a href="calibration.php">MMDVM Calibration</a></li>
