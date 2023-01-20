@@ -11,6 +11,22 @@ if (isset($_SESSION['CSSConfigs']['Background'])) {
     $backgroundModeCellInactiveColor = $_SESSION['CSSConfigs']['Background']['ModeCellInactiveColor'];
 }
 
+if (isset($_SESSION['PiStarRelease']['Pi-Star']['CallLookupProvider'])) {
+    $callsignLookupSvc = $_SESSION['PiStarRelease']['Pi-Star']['CallLookupProvider'];
+} else {
+    $callsignLookupSvc = "QRZ";
+}
+if (($callsignLookupSvc != "RadioID") && ($callsignLookupSvc != "QRZ")) {
+    $callsignLookupSvc = "QRZ";
+}
+$idLookupUrl = "https://database.radioid.net/database/view?id=";
+if ($callsignLookupSvc == "RadioID") {
+    $callsignLookupUrl = "https://database.radioid.net/database/view?callsign=";
+}
+if ($callsignLookupSvc == "QRZ") {
+    $callsignLookupUrl = "https://www.qrz.com/db/";
+}
+
 ?>
   <div style="vertical-align: bottom; font-weight: bold; text-align:left;"><?php echo $lang['local_tx_list'];?></div>
   <table style="white-space:normal; word-wrap:break;">
@@ -44,17 +60,23 @@ for ($i = 0; $i < $TXListLim; $i++) {
                             }
 			echo"<tr>";
 			echo"<td align=\"left\">$local_time</td>";
-			if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE) {
+			if (is_numeric($listElem[2]) !== FALSE) {
+			    if ($listElem[2] > 9999) {
+				echo "<td align=\"left\"><a href=\"".$idLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a></td>";
+			    } else {
 				echo "<td align=\"left\">$listElem[2]</td>";
+			   }
 			} elseif (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $listElem[2])) {
-				echo "<td align=\"left\">$listElem[2]</td>";
+			    echo "<td align=\"left\">$listElem[2]</td>";
 			} else {
-				if (strpos($listElem[2],"-") > 0) { $listElem[2] = substr($listElem[2], 0, strpos($listElem[2],"-")); }
-				if ($listElem[3] && $listElem[3] != '    ' ) {
-					echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$listElem[2]\" target=\"_blank\">$listElem[2]</a>/$listElem[3]</td>";
-				} else {
-					echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$listElem[2]\" target=\"_blank\">$listElem[2]</a></td>";
-				}
+			    if (strpos($listElem[2],"-") > 0) {
+				$listElem[2] = substr($listElem[2], 0, strpos($listElem[2],"-"));
+			    }
+			    if ($listElem[3] && $listElem[3] != '    ' ) {
+				echo "<td align=\"left\"><a href=\"".$callsignLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a>/$listElem[3]</td>";
+			    } else {
+				echo "<a href=\"".$callsignLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a></td>";
+			    }
 			}
 			echo "<td align=\"left\">".str_replace('Slot ', 'TS', $listElem[1])."</td>";
 			if (file_exists("/etc/.TGNAMES")) {

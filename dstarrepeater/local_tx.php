@@ -14,6 +14,21 @@ if (!isset($_SESSION) || !is_array($_SESSION)) {
 include_once $_SERVER['DOCUMENT_ROOT'].'/config/ircddblocal.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';	      // Translation Code
 
+if (isset($_SESSION['PiStarRelease']['Pi-Star']['CallLookupProvider'])) {
+    $callsignLookupSvc = $_SESSION['PiStarRelease']['Pi-Star']['CallLookupProvider'];
+} else {
+    $callsignLookupSvc = "QRZ";
+}
+if (($callsignLookupSvc != "RadioID") && ($callsignLookupSvc != "QRZ")) {
+    $callsignLookupSvc = "QRZ";
+}
+if ($callsignLookupSvc == "RadioID") {
+    $callsignLookupUrl = "https://database.radioid.net/database/view?callsign=";
+}
+if ($callsignLookupSvc == "QRZ") {
+    $callsignLookupUrl = "https://www.qrz.com/db/";
+}
+
 ?>
 <div style="text-align:left;font-weight:bold;"><?php echo $lang['local_tx_list'];?></div>
 <table>
@@ -58,7 +73,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';	      // Translat
                     $local_time = date('h:i:s A M j');
                 }
                 print "<td align=\"left\">$local_time</td>";
-		print "<td align=\"left\"><a href=\"http://www.qrz.com/db/$MyCallLink\" target=\"_blank\">$MyCall</a>";
+		print "<td align=\"left\"><a href=\"".$callsignLookupUrl.$MyCallLink."\" target=\"_blank\">$MyCall</a>";
                 if($MyId) { print "/".$MyId."</td>"; } else { print "</td>"; }
                 print "<td align=\"left\">$YourCall</td>";
                 print "<td align=\"left\">$Rpt1</td>";
