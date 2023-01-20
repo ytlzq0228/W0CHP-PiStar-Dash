@@ -18,6 +18,22 @@ if (isset($_SESSION['CSSConfigs']['Background'])) {
     $backgroundModeCellInactiveColor = $_SESSION['CSSConfigs']['Background']['ModeCellInactiveColor'];
 }
 
+if (isset($_SESSION['PiStarRelease']['Pi-Star']['CallLookupProvider'])) {
+    $callsignLookupSvc = $_SESSION['PiStarRelease']['Pi-Star']['CallLookupProvider'];
+} else {
+    $callsignLookupSvc = "QRZ";
+}
+if (($callsignLookupSvc != "RadioID") && ($callsignLookupSvc != "QRZ")) {
+    $callsignLookupSvc = "QRZ";
+}
+$idLookupUrl = "https://database.radioid.net/database/view?id=";
+if ($callsignLookupSvc == "RadioID") {
+    $callsignLookupUrl = "https://database.radioid.net/database/view?callsign=";
+}
+if ($callsignLookupSvc == "QRZ") {
+    $callsignLookupUrl = "https://www.qrz.com/db/";
+}
+
 // get the data from the MMDVMHost logs
 $i = 0;
 for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
@@ -39,8 +55,12 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
                 $listElem[2] = preg_replace('/ .*$/', "", $listElem[2]);
             }
             // end cheesy YSF hack
-            if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE) {
-                $callsign = $listElem[2];
+            if (is_numeric($listElem[2]) !== FALSE) {
+		if ($listElem[2] > 9999) {
+                    $callsign = "<a href=\"".$idLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a>";
+		} else { 
+                    $callsign = $listElem[2];
+		}
             } elseif (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $listElem[2])) {
                 $callsign = $listElem[2];
             } else {
@@ -48,9 +68,9 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
                     $listElem[2] = substr($listElem[2], 0, strpos($listElem[2],"-"));
                 }
 		if ( $listElem[3] && $listElem[3] != '    ' ) {
-		    $callsign = "<a href=\"http://www.qrz.com/db/$listElem[2]\" target=\"_blank\">$listElem[2]</a>/$listElem[3]";
+		    $callsign = "<a href=\"".$callsignLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a>/$listElem[3]";
 		} else {
-		    $callsign = "<a href=\"http://www.qrz.com/db/$listElem[2]\" target=\"_blank\">$listElem[2]</a>";
+		    $callsign = "<a href=\"".$callsignLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a>";
 		}
             }
 
@@ -173,7 +193,7 @@ for ($i = 0;  ($i <= 0); $i++) { //Last 20  calls
 	    }
 	    // init geo/flag class
 	    list ($Flag, $Name) = $Flags->GetFlag($listElem[2]);
-	    if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE || !preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $listElem[2])) {
+	    if (is_numeric($listElem[2]) !== FALSE || !preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $listElem[2])) {
  		$flContent = "---";
 	    } elseif (file_exists($_SERVER['DOCUMENT_ROOT']."/images/flags/".$Flag.".png")) {
 		$flContent = "<a class='tooltip' href=\"http://www.qrz.com/db/$listElem[2]\" target=\"_blank\"><img src='/images/flags/$Flag.png?version=$versionCmd' alt='' style='height:25px;' /><span>$Name</span></a>";

@@ -18,6 +18,23 @@ if (isset($_SESSION['CSSConfigs']['Background'])) {
     $backgroundModeCellPausedColor = $_SESSION['CSSConfigs']['Background']['ModeCellPausedColor'];
     $backgroundModeCellInactiveColor = $_SESSION['CSSConfigs']['Background']['ModeCellInactiveColor'];
 }
+
+if (isset($_SESSION['PiStarRelease']['Pi-Star']['CallLookupProvider'])) {
+    $callsignLookupSvc = $_SESSION['PiStarRelease']['Pi-Star']['CallLookupProvider'];
+} else {
+    $callsignLookupSvc = "QRZ";
+}
+if (($callsignLookupSvc != "RadioID") && ($callsignLookupSvc != "QRZ")) {
+    $callsignLookupSvc = "QRZ";
+}
+$idLookupUrl = "https://database.radioid.net/database/view?id=";
+if ($callsignLookupSvc == "RadioID") {
+    $callsignLookupUrl = "https://database.radioid.net/database/view?callsign=";
+}
+if ($callsignLookupSvc == "QRZ") {
+    $callsignLookupUrl = "https://www.qrz.com/db/";
+}
+
 // geoLookup/flags
 if (!class_exists('xGeoLookup')) require_once($_SERVER['DOCUMENT_ROOT'].'/classes/class.GeoLookup.php');
 $Flags = new xGeoLookup();
@@ -136,24 +153,36 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 		}
 		// init geo/flag class
 		list ($Flag, $Name) = $Flags->GetFlag($listElem[2]);
-		if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE || !preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $listElem[2])) {
+		if (is_numeric($listElem[2]) !== FALSE || !preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $listElem[2])) {
 		    $flContent = " ";
 		} elseif (file_exists($_SERVER['DOCUMENT_ROOT']."/images/flags/".$Flag.".png")) {
-		    $flContent = "<a class='tooltip' href=\"http://www.qrz.com/db/$callPre\" target=\"_blank\"><div style='padding: 0 12px;'><img src='/images/flags/$Flag.png?version=$versionCmd' alt='' style='height:18px;' /></div><span>$Name</span></a>";
+		    $flContent = "<a class='tooltip' href=\"$callsignLookupUrl"."$callPre\" target=\"_blank\"><div style='padding: 0 12px;'><img src='/images/flags/$Flag.png?version=$versionCmd' alt='' style='height:18px;' /></div><span>$Name</span></a>";
 		} else {
 		    $flContent = " ";
 		}
 		echo"<tr>";
 		echo"<td align=\"left\" title='Row #".($i+1)."'>$local_time</td>";
-		if (is_numeric($listElem[2]) || strpos($listElem[2], "openSPOT") !== FALSE) {
+		if (is_numeric($listElem[2])) {
 		    if (file_exists("/etc/.CALLERDETAILS") && $testMMDVModeDMR == 1 ) {
 			if ($flContent = " " && empty($listElem[11])) {
-			    echo "<td class='noMob' align=\"left\">$callPre$callSuff</td><td align=\"left\" colspan='2'>&nbsp</td>";
+			    if ($listElem[2] > 9999) {
+			    	echo "<td class='noMob' align=\"left\"><a href=\"".$idLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a></td><td align=\"left\" colspan='2'>&nbsp</td>";
+			    } else {
+			    	echo "<td class='noMob' align=\"left\">$callPre$callSuff</td><td align=\"left\" colspan='2'>&nbsp</td>";
+			    }
 			} else {
-                            echo "<td align=\"left\">$callPre$callSuff</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
+			    if ($listElem[2] > 9999) {
+                            	echo "<td align=\"left\"><a href=\"".$idLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a></td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
+			    } else {
+                            	echo "<td align=\"left\">$callPre$callSuff</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
+			    }
 			}
 		    } else {
-                        echo "<td align=\"left\">$callPre$callSuff</td><td>$flContent</td>";
+			if ($listElem[2] > 9999) {
+                            echo "<td align=\"left\"><a href=\"".$idLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a></td><td>$flContent</td>";
+			} else {
+                            echo "<td align=\"left\">$callPre$callSuff</td><td>$flContent</td>";
+			}
 		    }
 		} elseif (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $listElem[2])) {
 		    if (file_exists("/etc/.CALLERDETAILS") && $testMMDVModeDMR == 1 ) {
@@ -168,15 +197,15 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 		} else {
 		    if ( $listElem[3] && $listElem[3] != '    ' ) {
 			if (file_exists("/etc/.CALLERDETAILS") && $testMMDVModeDMR == 1 ) {
-			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$callPre\" target=\"_blank\">$listElem[2]</a>/$listElem[3]</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
+			    echo "<td align=\"left\"><a href=\"$callsignLookupUrl"."$callPre\" target=\"_blank\">$listElem[2]</a>/$listElem[3]</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
 			} else {
-			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$listElem[2]\" target=\"_blank\">$listElem[2]</a>/$listElem[3]</td><td>$flContent</td>";
+			    echo "<td align=\"left\"><a href=\"$callsignLookupUrl"."$listElem[2]\" target=\"_blank\">$listElem[2]</a>/$listElem[3]</td><td>$flContent</td>";
 			}
 		    } else {
 			if (file_exists("/etc/.CALLERDETAILS") && $testMMDVModeDMR == 1 ) {
-			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$callPre\" target=\"_blank\">$callPre</a>$callSuff</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
+			    echo "<td align=\"left\"><a href=\"$callsignLookupUrl"."$callPre\" target=\"_blank\">$callPre</a>$callSuff</td><td>$flContent</td><td align='left' class='noMob'>$listElem[11]</td>";
 			} else {
-			    echo "<td align=\"left\"><a href=\"http://www.qrz.com/db/$callPre\" target=\"_blank\">$callPre</a>$callSuff</td><td>$flContent</td></td>";
+			    echo "<td align=\"left\"><a href=\"$callsignLookupUrl"."$callPre\" target=\"_blank\">$callPre</a>$callSuff</td><td>$flContent</td></td>";
 			}
 		    }
 		}
