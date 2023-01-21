@@ -75,7 +75,7 @@ for ($i = 0; $i < $TXListLim; $i++) {
 			    if ($listElem[3] && $listElem[3] != '    ' ) {
 				echo "<td align=\"left\"><a href=\"".$callsignLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a>/$listElem[3]</td>";
 			    } else {
-				echo "<a href=\"".$callsignLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a></td>";
+				echo "<td align=\"left\"><a href=\"".$callsignLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a></td>";
 			    }
 			}
 			echo "<td align=\"left\">".str_replace('Slot ', 'TS', $listElem[1])."</td>";
