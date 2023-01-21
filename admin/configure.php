@@ -151,7 +151,7 @@ if (file_exists('/etc/dapnetgateway')) {
 // APRS Gateway config
 if (file_exists('/etc/aprsgateway')) {
 	$configAPRSconfigFile = '/etc/aprsgateway';
-	if (fopen($configAPRSconfigFile,'r')) { $configaprsgw = parse_ini_file($configAPRSconfigFile, true); }
+	if (fopen($configAPRSconfigFile,'r')) { $configaprsgateway = parse_ini_file($configAPRSconfigFile, true); }
 }
 
 // Load the dmrgateway config file
@@ -1038,6 +1038,7 @@ if (!empty($_POST)):
 	if (empty($_POST['selectedAPRSHost']) != TRUE ) {
 	  $rollAPRSHost = 'sudo sed -i "/aprsHostname=/c\\aprsHostname='.escapeshellcmd($_POST['selectedAPRSHost']).'" /etc/ircddbgateway';
 	  system($rollAPRSHost);
+	  $configaprsgateway['APRS-IS']['Server'] = escapeshellcmd($_POST['selectedAPRSHost']);
 	  $configysfgateway['aprs.fi']['Server'] = escapeshellcmd($_POST['selectedAPRSHost']);
 	  $configysf2dmr['aprs.fi']['Server'] = escapeshellcmd($_POST['selectedAPRSHost']);
 	  $configysf2nxdn['aprs.fi']['Server'] = escapeshellcmd($_POST['selectedAPRSHost']);
@@ -4564,14 +4565,14 @@ else:
 <?php if (file_exists('/etc/aprsgateway')) {
     echo "<tr id='APRSgw'>\n";
     echo "<td align=\"left\"><a class=\"tooltip2\" href=\"#\">APRS Gateway:<span><b>APRS Gateway</b>Enabling this feature will make your location public on the APRS Network.</span></a></td>\n";
-    if ( $configaprsgw['Enabled']['Enabled'] == 1 ) {
+    if ( $configaprsgateway['Enabled']['Enabled'] == 1 ) {
         echo "<td align=\"left\"><div class=\"switch\"><input id=\"toggle-aprsgateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"APRSGatewayEnable\" value=\"ON\" checked=\"checked\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleAPRSGatewayCheckboxCr." /><label id=\"aria-toggle-aprsgateway\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable APRS Position Reporting\" aria-checked=\"true\" onKeyPress=\"toggleAPRSGatewayCheckbox()\" onclick=\"toggleAPRSGatewayCheckbox()\" for=\"toggle-aprsgateway\"><font style=\"font-size:0px\">Enable APRS Position Reporting</font></label></div></td>\n";
     } else {
         echo "<td align=\"left\"><div class=\"switch\"><input id=\"toggle-aprsgateway\" class=\"toggle toggle-round-flat\" type=\"checkbox\" name=\"APRSGatewayEnable\" value=\"ON\" aria-hidden=\"true\" tabindex=\"-1\" ".$toggleAPRSGatewayCheckboxCr." /><label id=\"aria-toggle-aprsgateway\" role=\"checkbox\" tabindex=\"0\" aria-label=\"Enable APRS Position Reporting\" aria-checked=\"false\" onKeyPress=\"toggleAPRSGatewayCheckbox()\" onclick=\"toggleAPRSGatewayCheckbox()\" for=\"toggle-aprsgateway\"><font style=\"font-size:0px\">Enable APRS Position Reporting</font></label></div></td>\n";
     }
 } ?>
     <td align="left">APRS Host Pool:</a>
-    <select>
+    <select name="selectedAPRSHost">
 <?php
         $aprsHostFile = fopen("/usr/local/etc/APRSHosts.txt", "r");
         $aprsGatewayConfigFile = '/etc/aprsgateway';
@@ -4597,37 +4598,37 @@ else:
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="DMRGatewayAPRS" id="aprsgw-service-selection-0" value="DMRGatewayAPRS" type="checkbox"
 				<?php if($DMRGatewayAPRS == '1' && $configmmdvm['DMR Network']['Enable'] == 1) { echo(' checked="checked"'); }
-                      if ($configaprsgw['Enabled']['Enabled'] == 0 || $configmmdvm['DMR Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
+                      if ($configaprsgateway['Enabled']['Enabled'] == 0 || $configmmdvm['DMR Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-0">DMR</label>
             </div>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="YSFGatewayAPRS" id="aprsgw-service-selection-1" value="YSFGatewayAPRS" type="checkbox"
-				<?php if(($YSFGatewayAPRS == '1' && $configmmdvm['System Fusion Network']['Enable'] == 1) || ($configaprsgw['Enabled']['Enabled'] == 1 && $configdmr2ysf['Enabled']['Enabled'] == "1")) { echo(' checked="checked"'); }
-					if (($configaprsgw['Enabled']['Enabled'] == 0 && $configmmdvm['System Fusion Network']['Enable'] == 0) || ($configaprsgw['Enabled']['Enabled'] == 0 && $configdmr2ysf['Enabled']['Enabled'] == "0"))  { echo(' disabled="disabled"'); }?> >
+				<?php if(($YSFGatewayAPRS == '1' && $configmmdvm['System Fusion Network']['Enable'] == 1) || ($configaprsgateway['Enabled']['Enabled'] == 1 && $configdmr2ysf['Enabled']['Enabled'] == "1")) { echo(' checked="checked"'); }
+					if (($configaprsgateway['Enabled']['Enabled'] == 0 && $configmmdvm['System Fusion Network']['Enable'] == 0) || ($configaprsgateway['Enabled']['Enabled'] == 0 && $configdmr2ysf['Enabled']['Enabled'] == "0"))  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-1">YSF</label>
             </div>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="DGIdGatewayAPRS" id="aprsgw-service-selection-2" value="DGIdGatewayAPRS" type="checkbox"
-				<?php if($DGIdGatewayAPRS == '1' && $configaprsgw['Enabled']['Enabled'] == 1) { echo(' checked="checked"'); }
-					if ($configaprsgw['Enabled']['Enabled'] == 0 ||  $configdgidgateway['Enabled']['Enabled'] == "0")  { echo(' disabled="disabled"'); }?> >
+				<?php if($DGIdGatewayAPRS == '1' && $configaprsgateway['Enabled']['Enabled'] == 1) { echo(' checked="checked"'); }
+					if ($configaprsgateway['Enabled']['Enabled'] == 0 ||  $configdgidgateway['Enabled']['Enabled'] == "0")  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-2">DGId</label>
             </div>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="NXDNGatewayAPRS"  id="aprsgw-service-selection-3" value="NXDNGatewayAPRS" type="checkbox"
 				<?php if($NXDNGatewayAPRS == '1' && $configmmdvm['NXDN Network']['Enable'] == 1) { echo(' checked="checked"'); }
-					if ($configaprsgw['Enabled']['Enabled'] == 0 || $configmmdvm['NXDN Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
+					if ($configaprsgateway['Enabled']['Enabled'] == 0 || $configmmdvm['NXDN Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-3">NXDN</label>
             </div>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="M17GatewayAPRS" id="aprsgw-service-selection-4" value="M17GatewayAPRS" type="checkbox"
 				<?php if($M17GatewayAPRS == '1' && $configmmdvm['M17 Network']['Enable'] == 1) { echo(' checked="checked"'); }
-					if ($configaprsgw['Enabled']['Enabled'] == 0 || $configmmdvm['M17 Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
+					if ($configaprsgateway['Enabled']['Enabled'] == 0 || $configmmdvm['M17 Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-4">M17</label>
             </div>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="IRCDDBGatewayAPRS" id="aprsgw-service-selection-5" value="IRCDDBGatewayAPRS" type="checkbox"
 				<?php if($IRCDDBGatewayAPRS == '1' && $configs['ircddbEnabled'] == "1" && $configmmdvm['D-Star Network']['Enable'] == 1) { echo(' checked="checked"'); }
-					if ($configaprsgw['Enabled']['Enabled'] == 0 || $configs['ircddbEnabled'] == "0" || $configmmdvm['D-Star Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
+					if ($configaprsgateway['Enabled']['Enabled'] == 0 || $configs['ircddbEnabled'] == "0" || $configmmdvm['D-Star Network']['Enable'] == 0)  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-5">ircDDB</label>
             </div>
 	    <br /><em><small>(Note: Both APRS Gateway and the Radio/MMDVM Mode must be enabled in order to be selected.)</em>
