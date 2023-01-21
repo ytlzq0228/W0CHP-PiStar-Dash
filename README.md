@@ -169,9 +169,6 @@ sudo WPSD-Installer -rd
 * Custom `BannerH2` (etc.) text options have been removed (added clutter and I never used it). Instead, the hostname is displayed in the browser title.
   unobtrusive and configurable dashboard update notifier; displayed in the upper-right hand side of the top header.
 * "GPS" link in Call Sign column of dashboard (superfluous and unreliable).
-* Selectable Call Sign link to either QRZ.com or RadioID.com (both services
-  suck, and the implementation of this feature is poor and unintuitive. Left
-  the original function linking to QRZ.com).
 * CPU Temp. in header; when CPU is running "cool" or "normal" recommended temps, the cell background
   is no longer colored green. Only when the CPU is running beyond recommended temps, is the cell colored
   orange or red.
