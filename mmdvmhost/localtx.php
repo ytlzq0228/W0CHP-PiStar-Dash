@@ -35,7 +35,6 @@ if ($callsignLookupSvc == "QRZ") {
       <th><a class="tooltip" href="#"><?php echo $lang['callsign'];?><span><b>Callsign</b></span></a></th>
       <th><a class="tooltip" href="#"><?php echo $lang['mode'];?><span><b>Transmitted Mode</b></span></a></th>
       <th><a class="tooltip" href="#"><?php echo $lang['target'];?><span><b>Target, D-Star Reflector, DMR Talk Group etc</b></span></a></th>
-      <th><a class="tooltip" href="#"><?php echo $lang['src'];?><span><b>Received from source</b></span></a></th>
       <th><a class="tooltip" href="#"><?php echo $lang['dur'];?>(s)<span><b>Duration in Seconds</b></span></a></th>
       <th style="min-width:5ch"><a class="tooltip" href="#"><?php echo $lang['ber'];?><span><b>Bit Error Rate</b></span></a></th>
       <th style="min-width:8ch"><a class="tooltip" href="#">RSSI<span><b>Received Signal Strength Indication</b></span></a></th>
@@ -65,7 +64,7 @@ for ($i = 0; $i < $TXListLim; $i++) {
 				echo "<td align=\"left\"><a href=\"".$idLookupUrl.$listElem[2]."\" target=\"_blank\">$listElem[2]</a></td>";
 			    } else {
 				echo "<td align=\"left\">$listElem[2]</td>";
-			   }
+			    }
 			} elseif (!preg_match('/[A-Za-z].*[0-9]|[0-9].*[A-Za-z]/', $listElem[2])) {
 			    echo "<td align=\"left\">$listElem[2]</td>";
 			} else {
@@ -107,11 +106,6 @@ for ($i = 0; $i < $TXListLim; $i++) {
 			    }
 			}
 
-			if ($listElem[5] == "RF"){
-				echo "<td><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>RF</span></td>";
-			} else {
-				echo "<td>$listElem[5]</td>";
-			}
 			if ($listElem[6] == null && (file_exists("/etc/.CALLERDETAILS")))  {
 			    echo "<td colspan =\"3\" style=\"background:#d11141;color:#fff;\">TX</td>";
 			} else if ($listElem[6] == null) {
