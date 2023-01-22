@@ -151,7 +151,7 @@ $numDMRmasters = exec('cd /var/log/pi-star ; /usr/local/bin/RemoteCommand 7643 s
     </div>
     <div class="mode_flex column">
       <div class="divTableCell">
-	<?php if (isPaused("P25")) { echo '<div class="paused-mode-cell" title="Mode Paused">P25</div>'; } else { showMode("P25", $_SESSION['MMDVMHostConfigs']); }?>
+	<?php if (isPaused("P25")) { echo '<div class="paused-mode-cell" title="Mode Paused">P25</div>'; } else { showMode("P25", $_SESSION['MMDVMHostConfigs']); } ?>
      </div>
     </div>
   </div>
@@ -203,25 +203,12 @@ $numDMRmasters = exec('cd /var/log/pi-star ; /usr/local/bin/RemoteCommand 7643 s
   <div class="mode_flex row">
     <div class="mode_flex column">
       <div class="divTableCell">
-        <?php showMode("D-Star Network", $_SESSION['MMDVMHostConfigs']);?>
+        <?php if(isPaused("D-Star")) { echo '<div class="paused-mode-cell" title="Mode Paused">D-Star Net</div>'; } else { showMode("D-Star Network", $_SESSION['MMDVMHostConfigs']); } ?>
       </div>
     </div>
     <div class="mode_flex column">
       <div class="divTableCell">
-        <?php showMode("DMR Network", $_SESSION['MMDVMHostConfigs']);?>
-      </div>
-    </div>
-  </div>
-
-  <div class="mode_flex row">
-    <div class="mode_flex column">
-      <div class="divTableCell">
-        <?php showMode("System Fusion Network", $_SESSION['MMDVMHostConfigs']);?>
-      </div>
-    </div>
-    <div class="mode_flex column">
-      <div class="divTableCell">
-        <?php showMode("P25 Network", $_SESSION['MMDVMHostConfigs']);?>
+        <?php if(isPaused("DMR")) { echo '<div class="paused-mode-cell" title="Mode Paused">DMR Net</div>'; } else { showMode("DMR Network", $_SESSION['MMDVMHostConfigs']); } ?>
       </div>
     </div>
   </div>
@@ -229,12 +216,25 @@ $numDMRmasters = exec('cd /var/log/pi-star ; /usr/local/bin/RemoteCommand 7643 s
   <div class="mode_flex row">
     <div class="mode_flex column">
       <div class="divTableCell">
-        <?php showMode("M17 Network", $_SESSION['MMDVMHostConfigs']);?>
+        <?php if(isPaused("YSF")) { echo '<div class="paused-mode-cell" title="Mode Paused">YSF Net</div>'; } else { showMode("System Fusion Network", $_SESSION['MMDVMHostConfigs']); } ?>
+      </div>
+    </div>
+    <div class="mode_flex column">
+      <div class="divTableCell">
+        <?php if(isPaused("P25")) { echo '<div class="paused-mode-cell" title="Mode Paused">P25 Net</div>'; } else { showMode("P25 Network", $_SESSION['MMDVMHostConfigs']); } ?>
+      </div>
+    </div>
+  </div>
+
+  <div class="mode_flex row">
+    <div class="mode_flex column">
+      <div class="divTableCell">
+        <?php if(isPaused("M17")) { echo '<div class="paused-mode-cell" title="Mode Paused">M17 Net</div>'; } else { showMode("M17 Network", $_SESSION['MMDVMHostConfigs']); } ?>
       </div>
     </div>  
     <div class="mode_flex column">
       <div class="divTableCell">
-        <?php showMode("NXDN Network", $_SESSION['MMDVMHostConfigs']);?>
+        <?php if(isPaused("NXDN")) { echo '<div class="paused-mode-cell" title="Mode Paused">NXDN Net</div>'; } else { showMode("NXDN Network", $_SESSION['MMDVMHostConfigs']); } ?>
       </div>
     </div>
   </div>
@@ -273,7 +273,7 @@ $numDMRmasters = exec('cd /var/log/pi-star ; /usr/local/bin/RemoteCommand 7643 s
     </div>
     <div class="mode_flex column">
       <div class="divTableCell">
-        <?php if (isPaused("APRS")) { echo '<div class="paused-mode-cell" title="Service Paused">APRS Net</div>'; } else { showMode("APRS Network", $_SESSION['APRSGatewayConfigs']); }?>
+        <?php if (isPaused("APRS")) { echo '<div class="paused-mode-cell" title="Service Paused">APRS Net</div>'; } else { showMode("APRS Network", $_SESSION['APRSGatewayConfigs']); } ?>
       </div>
     </div>
   </div>
@@ -281,7 +281,7 @@ $numDMRmasters = exec('cd /var/log/pi-star ; /usr/local/bin/RemoteCommand 7643 s
   <div class="mode_flex row">
     <div class="mode_flex column">
       <div class="divTableCell">
-        <?php showMode("POCSAG Network", $_SESSION['MMDVMHostConfigs']);?>
+        <?php if(isPaused("POCSAG")) { echo '<div class="paused-mode-cell" title="Mode Paused">POCSAG Net</div>'; } else { showMode("POCSAG Network", $_SESSION['MMDVMHostConfigs']); } ?>
       </div>
     </div>
   </div>
