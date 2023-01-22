@@ -56,7 +56,7 @@ $lang = array (
   "mode_hangtime"               =>  "Mode Hangtime",
   // Config Page - General Configuration
   "node_call"                   =>  "Node Kallesignal",
-  "dmr_id"                      =>  "CCS7/DMR ID",
+  "dmr_id"                      =>  "DMR/CCS7 ID",
   "radio_freq"                  =>  "Radio Frekvens",
   "lattitude"                   =>  "Breddegrad",
   "longitude"                   =>  "lengdegrad",

@@ -55,7 +55,7 @@ $lang = array (
   "mode_hangtime"               =>  "Tryb Hangtime",
   // Config Page - General Configuration
   "node_call"                   =>  "Znak krótkofalarski węzła",
-  "dmr_id"                      =>  "CCS7/DMR ID",
+  "dmr_id"                      =>  "DMR/CCS7 ID",
   "radio_freq"                  =>  "Częstotliwość radiowa",
   "lattitude"                   =>  "Szerokość geograficzna",
   "longitude"                   =>  "Długość geograficzna",

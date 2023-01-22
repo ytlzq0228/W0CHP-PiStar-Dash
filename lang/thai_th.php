@@ -56,7 +56,7 @@ $lang = array (
   "mode_hangtime"               =>  "Hangtime",
   // Config Page - General Configuration
   "node_call"                   =>  "นามเรียกขานของสถานี",
-  "dmr_id"                      =>  "CCS7/DMR ID",
+  "dmr_id"                      =>  "DMR/CCS7 ID",
   "radio_freq"                  =>  "ความถี่ที่ใช้งาน",
   "lattitude"                   =>  "ละติจูด",
   "longitude"                   =>  "ลองจิจูด",

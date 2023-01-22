@@ -57,7 +57,7 @@ $lang = array (
   "mode_hangtime"               =>  "Mode temps de suspensió",
   // Config Page - General Configuration
   "node_call"                   =>  "Indicatiu del Node",
-  "dmr_id"                      =>  "CCS7/DMR ID",
+  "dmr_id"                      =>  "DMR/CCS7 ID",
   "radio_freq"                  =>  "Freqüència RX/TX",
   "lattitude"                   =>  "Latitud",
   "longitude"                   =>  "Longitud",

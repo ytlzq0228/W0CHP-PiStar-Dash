@@ -56,7 +56,7 @@ $lang = array (
   "mode_hangtime"               =>  "Modo tiempo de suspension",
   // Config Page - General Configuration
   "node_call"                   =>  "Nodo indicativo de llamada",
-  "dmr_id"                      =>  "CCS7/DMR ID",
+  "dmr_id"                      =>  "DMR/CCS7 ID",
   "radio_freq"                  =>  "Frecuencia RX/TX",
   "lattitude"                   =>  "Latitud",
   "longitude"                   =>  "Longitud",
