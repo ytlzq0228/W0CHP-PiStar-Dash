@@ -56,7 +56,7 @@ $lang = array (
   "mode_hangtime"               =>  "模式停留时间",
   // Config Page - General Configuration
   "node_call"                   =>  "节点呼号",
-  "dmr_id"                      =>  "CCS7/DMR ID",
+  "dmr_id"                      =>  "DMR/CCS7 ID",
   "radio_freq"                  =>  "电台频率",
   "lattitude"                   =>  "纬度",
   "longitude"                   =>  "经度",

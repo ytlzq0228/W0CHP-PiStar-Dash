@@ -56,7 +56,7 @@ $lang = array (
   "mode_hangtime"               =>  "Tempo Ritardo",
   // Config Page - General Configuration
   "node_call"                   =>  "Nominativo",
-  "dmr_id"                      =>  "CCS7/DMR ID",
+  "dmr_id"                      =>  "DMR/CCS7 ID",
   "radio_freq"                  =>  "Frequenza Radio",
   "lattitude"                   =>  "Latitudine",
   "longitude"                   =>  "Longitudine",

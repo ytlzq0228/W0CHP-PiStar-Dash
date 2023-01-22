@@ -56,7 +56,7 @@ $lang = array (
   "mode_hangtime"               =>  "Obstanek načina",
   // Config Page - General Configuration
   "node_call"                   =>  "Klicni znak vozlišča",
-  "dmr_id"                      =>  "CCS7/DMR ID",
+  "dmr_id"                      =>  "DMR/CCS7 ID",
   "radio_freq"                  =>  "Frekvenca",
   "lattitude"                   =>  "Zemljepisna širina",
   "longitude"                   =>  "Zemljepisna dolžina",
