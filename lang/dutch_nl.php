@@ -55,7 +55,7 @@ $lang = array (
   "mode_hangtime"               =>  "Mode hangtijd",
   // Config Page - General Configuration
   "node_call"                   =>  "Node roepletters",
-  "dmr_id"                      =>  "CCS7/DMR ID",
+  "dmr_id"                      =>  "DMR/CCS7 ID",
   "radio_freq"                  =>  "Radio frequentie",
   "lattitude"                   =>  "Breedtegraad",
   "longitude"                   =>  "Lengtegraad",
