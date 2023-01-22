@@ -56,7 +56,7 @@ $lang = array (
   "mode_hangtime"               =>  "Espera tempo do Modo",
   // Config Page - General Configuration
   "node_call"                   =>  "Indicativo do Nó",
-  "dmr_id"                      =>  "CCS7/DMR ID",
+  "dmr_id"                      =>  "DMR/CCS7 ID",
   "radio_freq"                  =>  "Frequência do Rádio",
   "lattitude"                   =>  "Latitude",
   "longitude"                   =>  "Longitude",
