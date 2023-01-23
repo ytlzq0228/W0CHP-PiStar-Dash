@@ -11,7 +11,7 @@ exec('systemctl stop pistar-watchdog.timer > /dev/null 2>&1');
 exec('systemctl stop pistar-watchdog.service > /dev/null 2>&1');
 exec('sudo mount -o remount,rw /');
 #exec('sudo apt-get update > /dev/null 2<&1');
-$cmdresult = exec('sudo apt-get update && sudo apt-get upgrade', $cmdoutput, $retvalue);
+$cmdresult = exec('sudo apt-get update && sudo apt-get -y upgrade', $cmdoutput, $retvalue);
 exec('sudo mount -o remount,ro /');
 exec('systemctl start pistar-watchdog.service > /dev/null 2>&1');
 exec('systemctl start pistar-watchdog.timer > /dev/null 2>&1');
