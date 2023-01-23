@@ -20,6 +20,18 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/config.php';
 if ($_SERVER["PHP_SELF"] == "/admin/power.php") {
     // Sanity Check Passed.
     header('Cache-Control: no-cache');
+
+function purgeLogs() {
+    $log_backup_dir = "/home/pi-star/.backup-mmdvmhost-logs/";
+    $log_dir = "/var/log/pi-star/";
+    exec ('sudo systemctl stop cron');
+    exec ('sudo mount -o remount,rw /');
+    exec ('sudo systemctl stop mmdvm-log-backup.timer');
+    exec ('sudo systemctl stop mmdvm-log-backup.service');
+    exec ('sudo systemctl stop mmdvm-log-restore.service');
+    exec ('sudo systemctl stop mmdvm-log-shutdown.service');
+    exec ("sudo rm -rf $log_dir/* $log_backup_dir/* > /dev/null");
+}
 ?>
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -105,12 +117,18 @@ if ($_SERVER["PHP_SELF"] == "/admin/power.php") {
                                    setTimeout("location.href = \'/\'", 90000);
 				   </script>
 				   </td></tr>'; 
+		if ( escapeshellcmd($_POST["purgeLogs"]) == "1" ) {
+		    purgeLogs();
+		}
                 system('sudo sync && sudo sync && sudo sync && sudo mount -o remount,ro / > /dev/null &');
                 exec('sudo reboot > /dev/null &');
 			    }
 			    else if ( escapeshellcmd($_POST["action"]) == "shutdown" ) {
 				echo '<tr><td colspan="2" style="background: #000000; color: #00ff00;"><br /><br />Shutdown command has been sent to your Hotspot 
 				   <br /> please wait at least 60 seconds for it to fully shutdown<br />before removing the power.<br /><br /><br /></td></tr>';
+		if ( escapeshellcmd($_POST["purgeLogs"]) == "1" ) {
+		    purgeLogs();
+		}
                 system('sudo sync && sudo sync && sudo sync && sudo mount -o remount,ro / > /dev/null &');
                 exec('sudo shutdown -h now > /dev/null &');
 			    }
@@ -134,6 +152,9 @@ if ($_SERVER["PHP_SELF"] == "/admin/power.php") {
 					<h3>Shutdown</h3><br />
 					<button style="border: none; background: none; margin: 15px 0px;" id="shutdown" name="action" value="shutdown"><img src="/images/shutdown.png" border="0" alt="Shutdown" /></button>					
 				    </td>
+				</tr>
+				<tr>
+				    <td colspan="2"><input type="checkbox" name="purgeLogs" value="1" id="purge" /> <label for="purge">Purge Logs on Shutdown / Reboot</label></td>
 				</tr>
 			    </table>
 			</form>
