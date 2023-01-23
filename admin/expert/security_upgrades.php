@@ -30,21 +30,20 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 	    <?php include './header-menu.inc'; ?>
 	    <div class="contentwide">
 		<table width="100%">
-		    <tr><th><?php echo "Check and Install Security Upgrades";?></th></tr>
+		    <tr><th><?php echo "Check and Install Operating System &amp; Security Upgrades";?></th></tr>
 		    <tr><td align="center">
 			<?php
 			echo '<script type="text/javascript">'."\n";
 			echo 'function loadSecurityExec(){'."\n";
 			echo '  $("#security_result").load("/admin/expert/security_upgrades_exec.php");'."\n";
-			//echo '  setTimeout(function() { window.location="/admin/expert/index.php";});'."\n";
 			echo '}'."\n";
 			echo 'setTimeout(loadSecurityExec, 100);'."\n";
 			echo '$(window).trigger(\'resize\');'."\n";
 			echo '</script>'."\n";
 			?>
-			<div id="security_result">
+			<div id="security_result" class="left">
 			    <br />
-			    Please Wait...<br />
+			    This may take some time...Please Wait...<br />
 			    <br />
 			</div>
 		    </td></tr>
