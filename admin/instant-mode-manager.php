@@ -32,6 +32,10 @@ function manageGateways($func,$service) { // we need to also stop the associated
     if ($service == "pocsag") {
 	$service = "dapnet";
     }
+    // D-Star mode uses ircddbgateway service; translate...
+    if ($service == "dstar") {
+	$service = "ircddb";
+    }
 
     // manage the services...
     exec("sudo systemctl $func $service"."gateway.timer");
@@ -40,8 +44,6 @@ function manageGateways($func,$service) { // we need to also stop the associated
     // check that no other modes are paused. If so, we can manage the watchdog service.
     // if we don't stop the watchdog, it will (re-)start the stopped gateway for the paused mode. We don't want that...
     $is_paused = glob('/etc/*_paused');
-    $repl_str = array('/\/etc\//', '/_paused/');
-    $paused_modes = preg_replace($repl_str, '', $is_paused);
     if (empty($is_paused) == TRUE) {
         exec("sudo systemctl $func pistar-watchdog.timer");
         exec("sudo systemctl $func pistar-watchdog.service");
@@ -93,11 +95,7 @@ if (!empty($_POST["submit_mode"]) && empty($_POST["mode_sel"])) { //handler for 
         unset($_POST);
         echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},3000);</script>';
     } else { // looks good!
-	$mode_array = array("DSTAR", "AX25"); // no gateway services for these modes
-	if(in_array($mode,$mode_array) == FALSE) {
-	    manageGateways("stop", $service);
-	    sleep(3);
-	}
+	manageGateways("stop", $service);
         exec("sudo $mode_cmd $mode Disable"); // pause the seleced $mode
         // Output to the browser
         echo "<b>Instant Mode Manager</b>\n";
@@ -132,10 +130,7 @@ if (!empty($_POST["submit_mode"]) && empty($_POST["mode_sel"])) { //handler for 
         echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},3000);</script>';
     } else { // looks good!
         exec("sudo $mode_cmd $mode Enable"); // resume the seleced $mode
-	$mode_array = array("DSTAR", "AX25"); // no gateway services for these modes
-	if(in_array($mode,$mode_array) == FALSE) {
-	    manageGateways("start", $service);
-	}
+	manageGateways("start", $service);
         // Output to the browser
         echo "<b>Instant Mode Manager</b>\n";
         echo "<table>\n";
