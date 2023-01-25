@@ -1083,16 +1083,18 @@ a.lookatme {
 
 /* RSSI meters */
 meter {
-  --background: #ddd;
+  --background: #999;
   --optimum: limegreen;
   --sub-optimum: orange;
-  --sub-sub-optimum: red;
-  border: 2px solid black;
+  --sub-sub-optimum: crimson;
+  border-radius: 3px;
 }
 
 /* The gray background in Chrome, etc. */
 meter::-webkit-meter-bar {
   background: var(--background);
+  border-radius: 3px;
+  height: 10px;
 }
 
 /* The green (optimum) bar in Firefox */

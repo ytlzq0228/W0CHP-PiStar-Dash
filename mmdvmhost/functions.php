@@ -1142,6 +1142,8 @@ function getHeardList($logLines) {
 		    $dBraw = substr($rssi, strrpos($rssi,'/')+1); //average only
 		    $relint = intval($dBraw) + 93;
 		    $signal = round(($relint/6)+9, 0);
+		    $meterVal = str_replace("-","", $dBraw);
+		    $meterVal = str_replace(" dBm","", $meterVal);
 		    if ($signal < 0) {
 			$signal = 0;
 		    }
@@ -1149,16 +1151,16 @@ function getHeardList($logLines) {
 			$signal = 9;
 		    }
 		    if ($relint > 0) {
-			if ($signal = 9) {
-			    $rssi = "<span><meter id='S-meter' value=\"1\" high=\"1\"></meter></span> S{$signal}+{$relint}dB <span class='noMob'>({$dBraw})</span>";
-			} elseif ($signal < 9 && $signal >= 7) {
-			    $rssi = "<span><meter id='S-meter' value=\".8\" low=\".8\"></meter></span> S{$signal}+{$relint}dB <span class='noMob'>({$dBraw})</span>";
-			} elseif ($signal < 7 && $signal >= 5) {
-			    $rssi = "<span><meter id='S-meter' value=\".6\" high=\".5\"></meter></span> S{$signal}+{$relint}dB <span class='noMob'>({$dBraw})</span>";
-			} elseif ($signal < 5  && $signal >= 3) {
-			    $rssi = "<span><meter low=\".5\" optimum=\".8\" high=\".75\" value=\".3\"></meter></span> S{$signal}+{$relint}dB <span class='noMob'>({$dBraw})</span>";
-			} elseif ($signal < 3  && $signal >= 1) {
-			    $rssi = "<span><meter low=\".25\" optimum=\".8\" high=\".75\" value=\".15\"></meter></span> S{$signal}+{$relint}dB <span class='noMob'>({$dBraw})</span>";
+			if ($meterVal <= 67) {
+			    $rssi = "<span style='float:left;'><meter id='S-meter' value=\"1\" high=\"1\"></meter></span> <span style='float: right;'>S{$signal}+{$relint}dB <span class='noMob'>({$dBraw})</span></span>";
+			} elseif ($meterVal >= 68 && $meterVal < 70) {
+			    $rssi = "<span style='float:left;'><meter id='S-meter' value=\".8\" low=\".8\"></meter></span> <span style='float: right;'>S{$signal}+{$relint}dB <span class='noMob'>({$dBraw})</span></span>";
+			} elseif ($meterVal >= 70 && $meterVal < 80) {
+			    $rssi = "<span style='float:left;'><meter id='S-meter' value=\".6\" high=\".5\"></meter></span> <span style='float: right;'>S{$signal}+{$relint}dB <span class='noMob'>({$dBraw})</span></span>";
+			} elseif ($meterVal >= 80  && $meterVal < 90) {
+			    $rssi = "<span style='float:left;'><meter id='S-meter' low=\".5\" optimum=\".8\" high=\".75\" value=\".3\"></meter></span> <span style='float: right;'>S{$signal}+{$relint}dB <span class='noMob'>({$dBraw})</span></span>";
+			} elseif ($dBraw >= 90) {
+			    $rssi = "<span style='float:left;'><meter id='S-meter' low=\".25\" optimum=\".8\" high=\".75\" value=\".15\"></meter></span> S{$signal}+{$relint}dB <span class='noMob'>({$dBraw})</span></span>";
 			} else {
 			    $rssi = "S{$signal}+{$relint}dB <span class='noMob'>({$dBraw})</span>";
 			}
