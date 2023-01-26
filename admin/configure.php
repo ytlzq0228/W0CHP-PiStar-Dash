@@ -338,8 +338,7 @@ if (!isset($configdmrgateway['Remote Control'])) {
     $configdmrgateway['Remote Control']['Address'] = "127.0.0.1";
 }
 
-
-// Checks for NextionDriver
+// Checks for NextionDriver and inits if non-existent...
 if (!isset($configmmdvm['NextionDriver'])) {
     $configmmdvm['NextionDriver']['Enable'] = "0";
     $configmmdvm['NextionDriver']['Port'] = "0";
@@ -352,18 +351,15 @@ if (!isset($configmmdvm['NextionDriver'])) {
     $configmmdvm['NextionDriver']['WaitForLan'] = "1";
     $configmmdvm['NextionDriver']['SleepWhenInactive'] = "0";
 }
-
 if (!isset($configmmdvm['NextionDriver']['Enable'])) {
     $configmmdvm['NextionDriver']['Enable'] = "0";
 }
-
 if (!isset($configmmdvm['Transparent Data'])) {
     $configmmdvm['Transparent Data']['Enable'] = "0";
     $configmmdvm['Transparent Data']['RemoteAddress'] = "127.0.0.1";
     $configmmdvm['Transparent Data']['RemotePort'] = "40094";
     $configmmdvm['Transparent Data']['LocalPort'] = "40095";
 }
-
 if (($configmmdvm['General']['Display'] == "Nextion") && ($configmmdvm['NextionDriver']['Enable'] == "1")) {
     if ($configmmdvm['Transparent Data']['Enable'] == "1") {
 	$configmmdvm['General']['Display'] = "NextionDriverTrans";
