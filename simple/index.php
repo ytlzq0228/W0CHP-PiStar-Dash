@@ -91,6 +91,32 @@ if(empty($_POST['func'])) {
             });
             $('#radioInfo').toggle(localStorage.getItem('radioinfo_visible') === 'true');
           });
+          function clear_activity() {
+            if ( 'true' === localStorage.getItem('filter_activity') ) {
+              max = localStorage.getItem( 'filter_activity_max') || 1;
+              jQuery('.filter-activity-max').attr('value',max);
+              jQuery('.activity-duration').each( function() {
+                duration = parseFloat( jQuery(this).text() );
+                if ( duration < max ) {
+                  jQuery(this).closest('tr').hide();
+                }
+              });
+            }
+          };
+          function setFilterActivity(obj) {
+            localStorage.setItem('filter_activity', obj.checked);
+            $.ajax({
+              type: "POST",
+              url: '/mmdvmhost/filteractivity_ajax.php',
+              data:{
+                action: obj.checked
+              },
+            });
+          }
+          function setFilterActivityMax(obj) {
+            max = obj.value || 1;
+            localStorage.setItem('filter_activity_max', obj.value);
+          }
 	</script>
     </head>
     <body>
