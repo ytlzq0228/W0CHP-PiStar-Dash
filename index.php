@@ -138,6 +138,27 @@ if(empty($_POST['func'])) {
              }
             });
           });
+    function clear_activity() {
+      if ( 'true' === localStorage.getItem('filter_activity') ) {
+        jQuery('.activity-duration').each( function() {
+          duration = parseFloat( jQuery(this).text() );
+          if ( duration < 1 ) {
+            jQuery(this).closest('tr').hide();
+          }
+        });
+      }
+    };
+    function setFilterActivity(obj) {
+      localStorage.setItem('filter_activity', obj.checked);
+      $.ajax({
+        type: "POST",
+        url: '/mmdvmhost/filteractivity_ajax.php',
+        data:{
+          action: obj.checked
+        },
+      });
+    }
+
 	</script>
     </head>
     <body>
