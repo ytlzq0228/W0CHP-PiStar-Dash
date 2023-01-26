@@ -834,6 +834,15 @@ select {
     padding-right: 0.2em;
 }
 
+.grid-item.filter-activity:before {
+    content: "\f131";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    padding-right: 0.2em;
+}
+
 .menutgnames:before {
     content: "\f0c0";
     font-family: FontAwesome;
