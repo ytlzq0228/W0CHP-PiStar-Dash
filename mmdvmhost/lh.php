@@ -47,13 +47,20 @@ $testMMDVModeDMR = getConfigItem("DMR", "Enable", $_SESSION['MMDVMHostConfigs'])
 <input type="hidden" name="filter-activity" value="OFF" />
 <div style="float: right; vertical-align: bottom; padding-top: 0px;" id="lhAc">
   <div class="grid-container" style="display: inline-grid; grid-template-columns: auto 40px; padding: 1px;; grid-column-gap: 5px;">
-    <div class="grid-item filter-activity" style="padding: 10px 0 0 20px;" title="Hide Kerchunks">Hide Kerchunks: </div>
+    <div class="grid-item filter-activity" style="padding: 10px 0 0 20px;" title="Hide Kerchunks">Hide Kerchunks: 
+    </div>
       <div class="grid-item">
         <div style="padding-top:6px;">
           <input id="toggle-filter-activity" class="toggle toggle-round-flat" type="checkbox" name="display-lastcaller" value="ON" <?php if ( file_exists( '/etc/.FILTERACTIVITY' ) ) { echo 'checked="checked"'; }; ?> aria-checked="true" aria-label="Filter Out Kerchunks (< 1s)" onchange="setFilterActivity(this)" /><label for="toggle-filter-activity" ></label>
       </div>
     </div>
   </div>
+  <?php 
+    if ( file_exists( '/etc/.FILTERACTIVITY' ) ) : ?>
+      <div style='display:inline-block;position:relative;top:-3px;'>
+        < <input onChange='setFilterActivityMax(this)' class='filter-activity-max' style="width:40px;" type='number' step='0.5' min='0.5' name='filter-activity-max' value='<?php echo file_get_contents( '/etc/.FILTERACTIVITY' ); ?>' /> s
+      </div>
+  <?php endif; ?>
 </div>
             <input type="hidden" name="display-lastcaller" value="OFF" />
             <div style="float: right; vertical-align: bottom; padding-top: 0px;" id="lhCN">
