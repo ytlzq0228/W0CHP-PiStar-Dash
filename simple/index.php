@@ -95,11 +95,23 @@ if(empty($_POST['func'])) {
             if ( 'true' === localStorage.getItem('filter_activity') ) {
               max = localStorage.getItem( 'filter_activity_max') || 1;
               jQuery('.filter-activity-max').attr('value',max);
-              jQuery('.activity-duration').each( function() {
+              jQuery('.activity-duration').each( function(i,el) {
                 duration = parseFloat( jQuery(this).text() );
                 if ( duration < max ) {
                   jQuery(this).closest('tr').hide();
+                } else {
+                  jQuery(this).closest('tr').addClass('good-activity');
                 }
+              });
+              
+
+              jQuery('.good-activity').each( function( i,el ) {
+                if (i % 2 === 0) {
+                /* we are even */
+                jQuery(el).addClass('even');
+              } else {
+                jQuery(el).addClass('odd');
+              }
               });
             }
           };
