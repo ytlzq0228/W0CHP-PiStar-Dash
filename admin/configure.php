@@ -3057,7 +3057,7 @@ if (!empty($_POST)):
 		$configdmrgateway['DMR Network 4']['SrcRewrite4'] = "2,1,2,5000001,999999";
 	    }
 	    if (escapeshellcmd($_POST['dmrGatewayNet4En']) == 'OFF' )  {
-		unset($configdmrgateway['DMR Network 4']);
+		//unset($configdmrgateway['DMR Network 4']); // not certain why I originally placed this in here. Will disable and hope it doesn't cause issues. ;)
 		$configdmrgateway['DMR Network 4']['Enabled'] = "0";
 	    }
 	}
@@ -5012,6 +5012,7 @@ else:
     <input type="hidden" name="dmrGatewayNet1En" value="OFF" />
     <input type="hidden" name="dmrGatewayNet2En" value="OFF" />
     <input type="hidden" name="dmrGatewayNet4En" value="OFF" />
+    <input type="hidden" name="dmrGatewayNet5En" value="OFF" />
     <input type="hidden" name="dmrDMRnetJitterBufer" value="OFF" />
     <table>
     <tr>
