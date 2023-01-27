@@ -77,7 +77,7 @@ if (getEnabled("DMR", $_SESSION['MMDVMHostConfigs']) == 1) {
   </div>
   <?php 
     if ( file_exists( '/etc/.FILTERACTIVITY' ) ) : ?>
-      <div style='display:inline-block;position:relative;top:-3px;'>
+      <div class="filter-activity-max-wrap">
         < <input onChange='setFilterActivityMax(this)' class='filter-activity-max' style="width:40px;" type='number' step='0.5' min='0.5' name='filter-activity-max' value='<?php echo file_get_contents( '/etc/.FILTERACTIVITY' ); ?>' /> s
       </div>
   <?php endif; ?>
@@ -280,7 +280,7 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 			echo "<td>$listElem[5]</td>";
 		}
 		if ($listElem[6] == null && (file_exists("/etc/.CALLERDETAILS")))  {
-			echo "<td colspan =\"3\" style=\"background:#d11141;color:#fff;\">TX</td>";
+			echo "<td colspan =\"3\" class='activity-duration' style=\"background:#d11141;color:#fff;\">TX</td>";
 		} else if ($listElem[6] == null) {
 			// Live duration
 			$utc_time = $listElem[0];
@@ -289,7 +289,7 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 			$dt = new DateTime($utc_time, $utc_tz);
 			$duration = $now->getTimestamp() - $dt->getTimestamp();
 			$duration_string = $duration<999 ? round($duration) . "+" : "&infin;";
-			echo "<td colspan=\"3\" style=\"background:#d11141;color:#fff;\">TX " . $duration_string . " sec</td>";
+			echo "<td colspan=\"3\" ass='activity-duration' tyle=\"background:#d11141;color:#fff;\">TX " . $duration_string . " sec</td>";
 		} else if ($listElem[6] == "DMR Data") {
 			echo "<td class='noMob' colspan =\"3\" style=\"background:#00718F;color:#fff;\">DMR Data</td>";
 		} else if ($listElem[6] == "POCSAG") {
