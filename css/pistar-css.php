@@ -849,12 +849,10 @@ tr.good-activity.even {
 tr.good-activity.odd {
   background: <?php echo $tableRowOddBg; ?>;
 }
-input.filter-activity-max {
-  background-color: <?php echo $backgroundDropdownHover; ?>;
-}
 
 input.filter-activity-max {
   background-color: <?php echo $tableRowEvenBg; ?>;
+  color: <?php echo $textContent; ?>;
   border: 2px solid <?php echo $backgroundContent; ?>;
   border-radius: 5px;
   height: 19px;
