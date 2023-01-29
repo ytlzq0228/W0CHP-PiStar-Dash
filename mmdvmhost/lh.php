@@ -84,11 +84,11 @@ $testMMDVModeDMR = getConfigItem("DMR", "Enable", $_SESSION['MMDVMHostConfigs'])
 <input type="hidden" name="lh-tgnames" value="OFF" />
   <div style="float: right; vertical-align: bottom; padding-top: 0px;" id="lhTGN">
         <div class="grid-container" style="display: inline-grid; grid-template-columns: auto 40px; padding: 1px; grid-column-gap: 5px;">
-            <div class="grid-item menutgnames" style="padding-top: 10px;">Display TG Names
+            <div class="grid-item menutgnames" style="padding-top: 10px;" title="Display Talkgroup Names">Display TG Names
             </div>
             <div class="grid-item">
                 <div style="padding: 6px 20px 0 0;">
-		  <input id="toggle-lh-tgnames" class="toggle toggle-round-flat" type="checkbox" name="lh-tgnames" value="ON" <?php if(file_exists('/etc/.TGNAMES')) { echo 'checked="checked"';}?> aria-checked="true" aria-label="Show TG Names" onchange="setLHTGnames(this)" /><label for="toggle-lh-tgnames" ></label>
+		  <input id="toggle-lh-tgnames" class="toggle toggle-round-flat" type="checkbox" name="lh-tgnames" value="ON" <?php if(file_exists('/etc/.TGNAMES')) { echo 'checked="checked"';}?> aria-checked="true" aria-label="Show Talkgroup Names" onchange="setLHTGnames(this)" /><label for="toggle-lh-tgnames" ></label>
                 </div>
             </div>
         </div>
