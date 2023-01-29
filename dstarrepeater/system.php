@@ -29,7 +29,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/tools.php';
   <div class="grid-item <?php getServiceStatusClass(isProcessRunning('ircddbgatewayd')); ?>">ircDDBGateway</div>  
   <div class="grid-item <?php getServiceStatusClass(isProcessRunning('YSFGateway')); ?>">YSFGateway</div>
   <div class="grid-item <?php getServiceStatusClass(isProcessRunning('YSF2DMR')); ?>">YSF2DMR</div>
-  <?php if (getPSRstate()=='0' ) { ?>
+  <?php if (getPSRState()=='0' ) { ?>
   <div class='grid-item paused-mode-cell' title="Disabled">Pi-Star Remote</div>
   <?php } else { ?>
   <div class="grid-item <?php getServiceStatusClass(isProcessRunning('/usr/local/sbin/pistar-remote',true)); ?>">Pi-Star Remote</div> 
