@@ -685,6 +685,7 @@ input.toggle-round-flat:focus + label {
 
 #lhTGN,
 #lhCN,
+#lhAc,
 .noMob {
     display: none;
 }
