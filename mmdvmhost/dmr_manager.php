@@ -1,5 +1,5 @@
 <?php
-//if ($_SERVER["PHP_SELF"] == "/admin/index.php") { // Stop this working outside of the admin page
+if ($_SERVER["PHP_SELF"] == "/admin/index.php") { // Stop this working outside of the admin page
     
     if (isset($_COOKIE['PHPSESSID']))
     {
@@ -25,24 +25,126 @@
     include_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/functions.php';    // MMDVMDash Functions
     include_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';        // Translation Code
 
+?>
+
+<div style="text-align:left;font-weight:bold;">DMR Network Manager</div>
+
+<?php
+if (!empty($_POST) && isset($_POST["dmrNetMan"])) {
+    $remoteCommand = "";
+
+    // map / get net names & actionsfrom options form
+    $selectedNet = $_POST['dmrNet'];
+    $state = $_POST['netState'];
+    switch ($selectedNet) {
+       	case 'net1':
+	    $netName = $_SESSION['DMRGatewayConfigs']['DMR Network 1']['Name'];
+            break;
+     	case 'net2':
+	    $netName = $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'];
+            break;
+     	case 'net3':
+	    $netName = $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'];
+            break;
+     	case 'net4':
+	    $netName = $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Name'];
+            break;
+     	case 'net5':
+	    $netName = $_SESSION['DMRGatewayConfigs']['DMR Network 5']['Name'];
+            break;
+     	case 'xlx':
+	    $netName = "XLX-".$_SESSION['DMRGatewayConfigs']['XLX Network']['Startup']."";
+            break;
+
+    }
+    switch ($state) {
+	case 'disable':
+	    $action = "touch";
+	    break;
+	case 'enable':
+	    $action = "rm -rf";
+	    break;
+    }
+
+    $remoteCommand = "sudo systemctl stop cron && sudo mount -o remount,rw / && sudo ".$action." /etc/.dmr-".$selectedNet."_disabled && cd /var/log/pi-star ; /usr/local/bin/RemoteCommand ".$_SESSION['DMRGatewayConfigs']['Remote Control']['Port']. " $state $selectedNet && sudo systemctl start cron";
+    if (isset($remoteCommand)) {
+	echo "<table>\n<tr><th>Command Output</th></tr>\n<tr><td>";
+	echo "<p>Selected DMR Network, \"".str_replace('_', ' ' , $netName)."\" set to \"".ucfirst($state)."d\"";
+	echo "<br />Reloading page...";
+	echo "</p>\n";
+	exec($remoteCommand);
+	echo "</td></tr>\n</table>\n";
+	unset($_POST);
+	echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},2000);</script>';
+    }
+} else {
+?>
+<form action="" method="post">
+  <table>
+    <tr>
+      <th>Select DMR Network</th>
+      <th>Function</th>
+      <th>Action</th>
+      <th></th>
+    </tr>
+    <tr>
+      <td>
+	<select name="dmrNet">
+<?php
+if (isset($_SESSION['DMRGatewayConfigs']['DMR Network 1']['Enabled'])) {
+    echo "<option value='net1'>".str_replace('_', ' ', $_SESSION['DMRGatewayConfigs']['DMR Network 1']['Name'])."</option>";
+}
+if (isset($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Enabled'])) {
+    echo "<option value='net2'>".str_replace('_', ' ', $_SESSION['DMRGatewayConfigs']['DMR Network 2']['Name'])."</option>";
+}
+if (isset($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Enabled'])) {
+    echo "<option value='net3'>".str_replace('_', ' ', $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'])."</option>";
+}
+if (isset($_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'])) {
+    echo "<option value='net4'>".str_replace('_', ' ', $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Name'])."</option>";
+}
+if (isset($_SESSION['DMRGatewayConfigs']['DMR Network 5']['Enabled'])) {
+    echo "<option value='net5'>".str_replace('_', ' ', $_SESSION['DMRGatewayConfigs']['DMR Network 5']['Name'])."</option>";
+}
+if (isset($_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled'])) {
+    echo "<option value='xlx'>XLX-".$_SESSION['DMRGatewayConfigs']['XLX Network']['Startup']."</option>";
+}
+?>
+	</select>
+      </td>
+      <td>
+	<input type="radio" name="netState" value="disable" id="disableNet"/>  <label for="disableNet">Disable</label>
+	<input type="radio" name="netState" value="enable" id="enableNet"/> <label for="enableNet">Enable</label>
+      </td>
+      <td>
+	<input type="submit" value="Request Change" name="dmrNetMan" />
+      </td>
+      <td>
+	Instantly disable / enable DMR Networks.
+      </td>
+    </tr>
+  </table>
+</form>
+
+<?php
+}
     // Check if XLX is Enabled
-    if ($_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled'] == 1) { 
+    if ( !isset($_SESSION['DMRGatewayConfigs']['XLX Network 1']['Enabled']) && isset($_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled']) && $_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled'] == 1) {
 	if (!empty($_POST) && isset($_POST["xlxMgrSubmit"])) {
 	    $remoteCommand = "";
 	    // Handle Posted Data
-	    $xlxLinkHost = $_POST['xlxLinkHost'];
+	    $xlxLinkHost = $_POST['dmrMasterHost3Startup'];
 	    $startupModule = $_POST['dmrMasterHost3StartupModule'];
 	    $xlxLinkToHost = "";
  	    if ($xlxLinkHost == "None") { // Unlinking
-		$remoteCommand = 'sudo mount -o remount,rw / ; sudo sed -i "/Startup=/c\\;Startup=" /etc/dmrgateway ; sudo systemctl restart dmrgateway.service ; sudo touch /etc/.XLX_paused';
+		$remoteCommand = 'sudo systemctl stop cron && sudo mount -o remount,rw / ; sudo sed -i "/Module=/c\\Module=@" /etc/dmrgateway ; sudo systemctl restart dmrgateway.service ; sudo touch /etc/.XLX_paused && sudo systemctl start cron';
 		$xlxLinkToHost = "Unlinking";
 	    } elseif ($xlxLinkHost != "None") {
-	        $remoteCommand = 'sudo mount -o remount,rw / ; sudo sed -i "/Module=/c\\Module='.$startupModule.'" /etc/dmrgateway; sudo sed -i "/;Startup=/c\\Startup='.$xlxLinkHost.'" /etc/dmrgateway ; sudo systemctl restart dmrgateway.service ; sudo rm /etc/.XLX_paused';
+	        $remoteCommand = 'sudo systemctl stop cron && sudo mount -o remount,rw / ; sudo sed -i "/Module=/c\\Module='.$startupModule.'" /etc/dmrgateway ; sudo sed -i "/Startup=/c\\Startup='.$xlxLinkHost.'" /etc/dmrgateway ; sudo systemctl restart dmrgateway.service ; sudo rm /etc/.XLX_paused && sudo systemctl start cron';
 		$xlxLinkToHost = "Link set to XLX-".$xlxLinkHost.", Module ".$startupModule."";
 	    }
 	else {
-	    echo "<div style='text-align:left;font-weight:bold;'>XLX DMR Link Manager</div>\n";
-	    echo "<table>\n<tr><th>Command Output</th></tr>\n<tr><td>";
+	    	    echo "<table>\n<tr><th>Command Output</th></tr>\n<tr><td>";
 		    echo "<p>";
 		    echo "Something wrong with your input, (Neither Link nor Unlink Sent) - please try again";
 		    echo "<br />Page reloading...";
@@ -51,8 +153,7 @@
 		    unset($_POST);
 		    echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},2000);</script>';
 		}
-		if (empty($_POST['xlxLinkHost'])) {
-		    echo "<div style='text-align:left;font-weight:bold;'>XLX DMR Link Manager</div>\n";
+		if (empty($_POST['dmrMasterHost3Startup'])) {
 		    echo "<table>\n<tr><th>Command Output</th></tr>\n<tr><td>";
 		    echo "<p>";
 		    echo "Something wrong with your input, (No target specified) -  please try again";
@@ -64,30 +165,33 @@
 		}
 
 		if (isset($remoteCommand)) {
-		    echo "<div style='text-align:left;font-weight:bold;'>XLX DMR Link Manager</div>\n";
 		    echo "<table>\n<tr><th>Command Output</th></tr>\n<tr><td>";
 		    echo "<p>$xlxLinkToHost.<br />Re-Initializing DMRGateway and reloading page...";
 		    echo "</p>\n";
 		    exec($remoteCommand);
 		    echo "</td></tr>\n</table>\n";
+		    unset($_POST);
 		    echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},2000);</script>';
 		}
 	    }
 	    else {
 	    // Output HTML
 	    ?>
-    		<div style="text-align:left;font-weight:bold;">XLX DMR Link Manager</div>
-		<form action="./?func=xlx_man" method="post">
+
+		<?php  if ($_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled'] == 1) { ?>
+		<br />
+		<div style="text-align:left;font-weight:bold;">XLX Link Manager</div>
+		<form action="" method="post">
 		    <table>
 			<tr>
 			    <th width="150"><a class="tooltip" href="#">Select Reflector<span><b>Select Reflector</b></span></a></th>
 			    <th><a class="tooltip" href="#">Module<span><b>Module</b></span></a></th>
-			    <th width="150"><a class="tooltip" href="#">Current Link<span><b>Current Link</b></span></a></th>
+			    <th><a class="tooltip" href="#">Current Link<span><b>Current Link</b></span></a></th>
 			    <th width="150"><a class="tooltip" href="#">Action<span><b>Action</b></span></a></th>
 			    <th></th>
 			</tr>
 			<tr>
-			<td><select name="xlxLinkHost" class="dmrMasterHost3Startup">
+			<td><select name="dmrMasterHost3Startup" class="dmrMasterHost3Startup">
 			    <?php
 	$configdmrgateway = $_SESSION['DMRGatewayConfigs'];
 	$dmrMasterFile3 = fopen("/usr/local/etc/DMR_Hosts.txt", "r");
@@ -145,8 +249,12 @@
         <option value="Z">Z</option>
     </select>
 	</td>
-    <?php } 
-$target = `cd /var/log/pi-star; /usr/local/bin/RemoteCommand 7643 hosts | egrep -oh 'XLX(.*)\"' | awk {'print $1'} | sed 's/"//g' | sed 's/_/ Module /g'`; 
+    <?php }
+if(getDMRnetStatus("xlx") == "disabled") {
+    $target = "User Disabled";
+} else {
+    $target = exec('cd /var/log/pi-star; /usr/local/bin/RemoteCommand ' .$_SESSION['DMRGatewayConfigs']['Remote Control']['Port']. ' hosts | sed "s/ /\n/g" | egrep -oh "XLX(.*)" | sed "s/\"//g" | sed "s/_/ Module /g"'); 
+}
 ?>
 <script>
           $(document).ready(function(){
@@ -164,7 +272,7 @@ $target = `cd /var/log/pi-star; /usr/local/bin/RemoteCommand 7643 hosts | egrep 
 				<input type="hidden" name="Link" value="LINK" />
 				<input type="submit" name="xlxMgrSubmit" value="Request Change" />
 			    </td>
-        		    <td style="white-space:normal;padding: 3px;">Select reflector "None" to unlink and pause all XLX DMR traffic.</td>
+        		    <td style="white-space:normal;padding: 3px;">Instantly change XLX reflectors and modules.</td>
 			</tr>
                         <tr>
                           <td colspan="5" style="white-space:normal;padding: 3px;">
@@ -175,6 +283,8 @@ $target = `cd /var/log/pi-star; /usr/local/bin/RemoteCommand 7643 hosts | egrep 
 		    </table>
 		</form>
 <?php
+	    }
+	}
     }
 }
 ?>
