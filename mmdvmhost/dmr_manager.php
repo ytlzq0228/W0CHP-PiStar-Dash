@@ -53,7 +53,7 @@ if (!empty($_POST) && isset($_POST["dmrNetMan"])) {
 	    $netName = $_SESSION['DMRGatewayConfigs']['DMR Network 5']['Name'];
             break;
      	case 'xlx':
-	    $netName = "XLX-".$_SESSION['DMRGatewayConfigs']['XLXNetwork']['Startup']."";
+	    $netName = "XLX-".$_SESSION['DMRGatewayConfigs']['XLX Network']['Startup']."";
             break;
 
     }
