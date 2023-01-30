@@ -620,6 +620,16 @@ function getPSRState () {
     }
 }
 
+// get DMR net status
+function getDMRnetStatus($dmrNet) {
+    $remoteStat = exec("cd /var/log/pi-star ; /usr/local/bin/RemoteCommand ".$_SESSION['DMRGatewayConfigs']['Remote Control']['Port']. " status | tail -n +2 | sed 's/ /\\r\\n/g' | grep ".$dmrNet." | grep -o conn");
+    if ($remoteStat !== 'conn' && file_exists("/etc/.dmr-".$dmrNet."_disabled")) {
+        return "disabled";
+    } else {
+        return "enabled";
+    }
+}
+
 // status classes used in sysinfo.php
 function getStatusClass($status, $disabled = false) {
     if ($status) {
