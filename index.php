@@ -317,7 +317,6 @@ if(empty($_POST['func'])) {
     		if ( $dmrMasterHost == '127.0.0.1' ) {
         		$dmrMasterHost = $_SESSION['DMRGatewayConfigs']['DMR Network 1']['Address'];
         		$bmEnabled = ($_SESSION['DMRGatewayConfigs']['DMR Network 1']['Enabled'] != "0" ? true : false);
-			$xlxEnabled = ($_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled'] != "0" ? true : false);
     		}
 		elseif (preg_match("/brandmeister.network/",$dmrMasterHost))
 		{
@@ -511,9 +510,9 @@ if(empty($_POST['func'])) {
 		}
                 $dmrMasterHost = getConfigItem("DMR Network", "Address", $_SESSION['MMDVMHostConfigs']);
                 if ( $dmrMasterHost == '127.0.0.1') {
-		    if ($xlxEnabled == 1) {
-			if ($_SERVER["PHP_SELF"] == "/admin/index.php" && $_POST["func"] == "xlx_man" || $_GET["func"] == "xlx_man") { 	// Admin Only Option
-			    include 'mmdvmhost/xlx_dmr_manager.php';		// XLX-DMR Manager
+		    if ($testMMDVModeDMR == 1) {
+			if ($_SERVER["PHP_SELF"] == "/admin/index.php" && $_POST["func"] == "dmr_man" || $_GET["func"] == "dmr_man") { 	// Admin Only Option
+			    include 'mmdvmhost/dmr_manager.php';		// DMR Manager
 			}
 		    }
 		}
@@ -585,11 +584,11 @@ if(empty($_POST['func'])) {
 		    }
 		    echo '          </div><div class="mode_flex column">'."\n";
                     $testMMDVModeDMR = getConfigItem("DMR", "Enable", $_SESSION['MMDVMHostConfigs']);
-                    if ($xlxEnabled == true && $testMMDVModeDMR ==1) {
-                        echo '          <button form="admin_sel" type="submit" value="xlx_man" name="func"><span>XLX DMR Link Manager</span></button>'."\n";
+                    if ($testMMDVModeDMR ==1) {
+                        echo '          <button form="admin_sel" type="submit" value="dmr_man" name="func"><span>DMR Network Manager</span></button>'."\n";
                     }
                     else {
-                        echo '          <button form="admin_sel" disabled="disabled" type="submit" value="xlx_man" name="func"><span>XLX DMR Link Manager</span></button>'."\n";
+                        echo '          <button form="admin_sel" disabled="disabled" type="submit" value="dmr_man" name="func"><span>DMR Network Manager</span></button>'."\n";
                     } 
 		    echo '      </div></div>'."\n";
                     echo '        <div class="mode_flex row">'."\n";
