@@ -117,7 +117,7 @@ if (isset($_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled'])) {
 	<input type="radio" name="netState" value="enable" id="enableNet"/> <label for="enableNet">Enable</label>
       </td>
       <td>
-	<input type="submit" value="Submit" name="dmrNetMan" />
+	<input type="submit" value="Request Change" name="dmrNetMan" />
       </td>
       <td>
 	Instantly disable / enable DMR Networks.
@@ -186,7 +186,7 @@ if (isset($_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled'])) {
 			<tr>
 			    <th width="150"><a class="tooltip" href="#">Select Reflector<span><b>Select Reflector</b></span></a></th>
 			    <th><a class="tooltip" href="#">Module<span><b>Module</b></span></a></th>
-			    <th width="150"><a class="tooltip" href="#">Current Link<span><b>Current Link</b></span></a></th>
+			    <th><a class="tooltip" href="#">Current Link<span><b>Current Link</b></span></a></th>
 			    <th width="150"><a class="tooltip" href="#">Action<span><b>Action</b></span></a></th>
 			    <th></th>
 			</tr>
