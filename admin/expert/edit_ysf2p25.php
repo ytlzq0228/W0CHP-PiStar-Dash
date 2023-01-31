@@ -47,7 +47,6 @@ function update_ini_file($data, $filepath) {
     exec('sudo cp /tmp/7LyKicNWVPUAV2.tmp /etc/ysf2p25');	// Move the file back
     exec('sudo chmod 644 /etc/ysf2p25');				// Set the correct runtime permissions
     exec('sudo chown root:root /etc/ysf2p25');			// Set the owner
-    exec('sudo mount -o remount,ro /');				// Make rootfs read-only
     
     // Reload the affected daemon
     exec('sudo systemctl restart ysf2p25.service');		// Reload the daemon

@@ -131,7 +131,6 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 			    	   exec("sudo cp /var/www/dashboard/config/language.php $backupDir > /dev/null")."\n";
 				   exec("sudo sh -c 'cp -a /root/*Hosts.txt' $backupDir > /dev/null")."\n";
 				   exec("sudo sh -c \"echo $desc > /etc/.WPSD_config\"");
-				   exec('sudo mount -o remount,ro /');
 				}
 			    }
 			    else if ( escapeshellcmd($_POST["restore_config"]) ) {
@@ -156,7 +155,6 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 				   exec("sudo chown www-data:www-data /var/www/dashboard/ > /dev/null");
 				   exec("sudo sh -c 'cp -a /root/*Hosts.txt $backupDir' > /dev/null");
 				   exec("sudo sh -c \"echo ".$_POST['configs']." > /etc/.WPSD_config\"");
-				   exec('sudo mount -o remount,ro /');
 				   exec("sudo pistar-services restart > /dev/null &");
 			    }
 			    else if ( escapeshellcmd($_POST["remove_config"]) ) {
@@ -168,7 +166,6 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 				   </td></tr>';
 				   exec('sudo mount -o remount,rw /');
 				   exec("sudo rm -rf /etc/WPSD_config_mgr/".$_POST['delete_configs']." > /dev/null");
-				   exec('sudo mount -o remount,ro /');
 			    }
 			    unset($_POST);
 			    ?>
