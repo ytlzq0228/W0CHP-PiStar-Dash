@@ -100,13 +100,13 @@ if ($_SESSION['DMRGatewayConfigs']['DMR Network 2']['Enabled'] == "1") {
 if ($_SESSION['DMRGatewayConfigs']['DMR Network 3']['Enabled'] == "1") {
     echo "<option value='net3'>".str_replace('_', ' ', $_SESSION['DMRGatewayConfigs']['DMR Network 3']['Name'])."</option>";
 }
-if ($_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] = "1") {
+if ($_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1") {
     echo "<option value='net4'>".str_replace('_', ' ', $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Name'])."</option>";
 }
-if ($_SESSION['DMRGatewayConfigs']['DMR Network 5']['Enabled'] =="1") {
+if ($_SESSION['DMRGatewayConfigs']['DMR Network 5']['Enabled'] == "1") {
     echo "<option value='net5'>".str_replace('_', ' ', $_SESSION['DMRGatewayConfigs']['DMR Network 5']['Name'])."</option>";
 }
-if ($_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled'] =="1") {
+if ($_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled'] == "1") {
     echo "<option value='xlx'>XLX-".$_SESSION['DMRGatewayConfigs']['XLX Network']['Startup']."</option>";
 }
 ?>
