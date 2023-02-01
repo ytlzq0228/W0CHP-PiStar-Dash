@@ -50,11 +50,11 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 	    <meta http-equiv="pragma" content="no-cache" />
 	    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 	    <meta http-equiv="Expires" content="0" />
-	    <title>Pi-Star - <?php echo $lang['digital_voice']." ".$lang['dashboard']."";?> - Config Manager</title>
+	    <title>Pi-Star - <?php echo $lang['digital_voice']." ".$lang['dashboard']."";?> - Configuration/Profile Manager</title>
 	    <link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
 	    <link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version=<?php echo $versionCmd; ?>" />
-        <script type="text/javascript" src="/js/jquery.min.js?version=<?php echo $versionCmd; ?>"></script>
-        <script type="text/javascript" src="/js/functions.js?version=<?php echo $versionCmd; ?>"></script>
+	    <script type="text/javascript" src="/js/jquery.min.js?version=<?php echo $versionCmd; ?>"></script>
+	    <script type="text/javascript" src="/js/functions.js?version=<?php echo $versionCmd; ?>"></script>
 	</head>
 	<body>
 	    <div class="container">
@@ -62,7 +62,7 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 		<div class="contentwide">
 		    <?php if (!empty($_POST)) { ?>
 			<table width="100%">
-			    <tr><th colspan="3">Configuration Manager</th></tr>
+			    <tr><th colspan="3">Configuration / Profile Manager</th></tr>
 			    <?php
 			    if ( escapeshellcmd($_POST["save_current_config"]) ) {
 				if (!ctype_alnum($_POST['config_desc'])) {
@@ -128,7 +128,6 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 			    	   exec("sudo cp /var/www/dashboard/config/language.php $backupDir > /dev/null")."\n";
 				   exec("sudo sh -c 'cp -a /root/*Hosts.txt' $backupDir > /dev/null")."\n";
 				   exec("sudo sh -c \"echo $desc > /etc/.WPSD_config\"");
-				   exec('sudo mount -o remount,ro /');
 				}
 			    }
 			    else if ( escapeshellcmd($_POST["restore_config"]) ) {
@@ -153,7 +152,6 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 				   exec("sudo chown www-data:www-data /var/www/dashboard/ > /dev/null");
 				   exec("sudo sh -c 'cp -a /root/*Hosts.txt $backupDir' > /dev/null");
 				   exec("sudo sh -c \"echo ".$_POST['configs']." > /etc/.WPSD_config\"");
-				   exec('sudo mount -o remount,ro /');
 				   exec("sudo pistar-services restart > /dev/null &");
 			    }
 			    else if ( escapeshellcmd($_POST["remove_config"]) ) {
@@ -165,7 +163,6 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 				   </td></tr>';
 				   exec('sudo mount -o remount,rw /');
 				   exec("sudo rm -rf /etc/WPSD_config_mgr/".$_POST['delete_configs']." > /dev/null");
-				   exec('sudo mount -o remount,ro /');
 			    }
 			    unset($_POST);
 			    ?>
@@ -192,20 +189,20 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 			    <table width="100%">
 				<tr>
-				    <th colspan="3">Configuration Manager</th>
+				    <th colspan="3">Configuration / Profile Manager</th>
 				</tr>
 				<tr>
-				    <th>Current Running Config</th>
+				    <th>Current Running Config / Profile</th>
 				    <th>Save Current Config</th>
-                                    <th>Restore Config</th>
+                                    <th>Restore Config / Profile</th>
 				</tr>
 				<tr>
 				  <td style="white-space:normal;"><?php echo $curr_config; ?></td>
 					<td>
 						<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="save_config">
-							<label for="config">Save the Current Config:</label>
+							<label for="config">Description:</label>
 							<input type="text" placeholder="Enter Short Description" name="config_desc" size="27" maxlength="27">
-							<input type="submit" name="save_current_config" value="Save Config">
+							<input type="submit" name="save_current_config" value="Save Config/Profile">
 						</form>
 					</td>
 
@@ -216,7 +213,7 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 							No saved configs yet!
 						<?php } else { ?>
 						<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="list_configs">
-							<label for="configs">Choose a saved config:</label>
+							<label for="configs">Select:</label>
 							<select name="configs" id="configs" form="list_configs">
 							<?php
 							foreach ( glob("$config_dir/*") as $dir ) {
@@ -225,14 +222,14 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 							}
 							?>
 							</select>
-							<input type="submit" name="restore_config" value="Restore and Apply Config">
+							<input type="submit" name="restore_config" value="Restore &amp; Apply Config/Profile">
 						</form>
 						<?php } ?>
 					</td>
 				</tr>
 
 				<tr>
-					<td colspan="3" style="white-space:normal;padding: 3px;">This function allows you save multiple versions and configurations of your setup;  and then restore/re-apply them as-needed for different uses, etc.<br />Restoring and re-applying a configuration is instant.</td>
+					<td colspan="3" style="white-space:normal;padding: 3px;">This function allows you save multiple versions and configurations ("profiles") of your setup;  and then restore/re-apply them as-needed for different uses, etc.<br />Restoring and re-applying a configuration / profile is instant.</td>
 				</tr>
 			</table>
 		</form>
@@ -241,7 +238,7 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 
 	<table>
 		<tr>
-			<th colspan="3">Delete a Saved Config</th>
+			<th colspan="3">Delete a Saved Config / Profile</th>
 		</tr>
 		<tr>
 			<td colspan="3">
@@ -251,7 +248,7 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 				No saved configs yet!
 				<?php } else { ?>
 				<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="del_configs">
-					<label for="delete_configs">Choose config to delete:</label>
+					<label for="delete_configs">Select:</label>
 					<select name="delete_configs" id="configs" form="del_configs">
 				<?php
 				foreach ( glob("$config_dir/*") as $dir ) {
@@ -260,7 +257,7 @@ if (file_exists('/etc/.WPSD_config') && count(glob("$config_dir/*")) > 0) {
 				}
 				?>
 					</select>
-					<input style="background:crimson;color:white;" type="submit" name="remove_config" value="Delete Config">
+					<input style="background:crimson;color:white;" type="submit" name="remove_config" value="Delete Config/Profile">
 				</form>
 				<?php } ?>
 			</td>
