@@ -670,16 +670,44 @@ input.toggle-round-flat:focus + label {
 
 .disabled-mode-cell {
     color: <?php echo $textModeCellDisabledColor; ?>;
+    padding:2px;
+    text-align: center;
+    border:0;
     background: <?php echo $backgroundModeCellDisabledColor; ?>;
 }
 
 .active-mode-cell {
     color: <?php echo $textModeCellActiveColor; ?>;
+    border:0;
+    text-align: center;
+    padding:2px;
     background: <?php echo $backgroundModeCellActiveColor; ?>;
 }
 
 .inactive-mode-cell {
     color: <?php echo $textModeCellInactiveColor; ?>;
+    border:0;
+    text-align: center;
+    padding:2px;
+    background: <?php echo $backgroundModeCellInactiveColor; ?>;
+}
+
+paused-mode-cell {
+    color: <?php echo $textModeCellActiveColor; ?>;
+    border:0;
+    text-align: center;
+    padding:2px;
+    background: <?php echo $backgroundModeCellPausedColor; ?>;
+}
+
+.paused-mode-span {
+    background: <?php echo $backgroundModeCellPausedColor; ?>;
+}
+
+.error-state-cell {
+    color: <?php echo $textModeCellInactiveColor; ?>;
+    text-align: center;
+    border:0;
     background: <?php echo $backgroundModeCellInactiveColor; ?>;
 }
 
