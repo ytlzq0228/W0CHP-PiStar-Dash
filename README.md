@@ -129,7 +129,7 @@ sudo WPSD-Installer -rd
 * Current/Last Caller Details on Main Dashboard (name/location, when available).
 * Talkgroup Names display in target fields (Brandmeister DMR, NXDN and P25 support only).
 * YSF/NXDN/P25 link managers gives the ability to change links/rooms on-the-fly, rather than going through the large (and slow) configuration page.
-* "XLX DMR Link Manager" allows fast switching of XLX reflectors and modules, as well as unlinking from modules to "pause" traffic.
+* DMR Network Manager allows instant disabling/enabling of configured DMR networks/masters; and fast switching of XLX reflectors and modules. Handy for "pausing" busy networks, talkgroups, timeslots, etc.
 * Searchable drop-downs for massive host lists in configuration/admin pages. E.g. D-Star Refs., YSF Hosts, XLX Hosts, DMR Hosts, etc.
 * BrandMeister Manager revamps galore:
   * Now displays connected actual talk group names.
@@ -241,6 +241,9 @@ Not all pages shown here. Note, that you can customize the colors to your prefer
 
 ### Main Admin Landing Page
 ![alt text](https://w0chp.net/w0chp-pistar-dash/Admin.png "Admin Page")
+
+### DMR Network Manager
+![alt text](https://w0chp.net/w0chp-pistar-dash/DMRman.png "DMR Network Manager")
 
 ### BrandMeister Manager
 ![alt text](https://w0chp.net/w0chp-pistar-dash/BM.png "BrandMeister Manager")
