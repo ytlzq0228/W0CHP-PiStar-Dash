@@ -460,7 +460,6 @@ if (isset($_POST['ajax']) && !FM_READONLY) {
 	// Move the temp file to the destination file, then restore file attributes
 	mount_rw();
 	exec('sudo mv '.$temp_fname.' '.$file_path.' && sudo chown '.$file_owner.':'.$file_group.' '.$file_path.' && sudo chmod '.substr(sprintf('%o', fileperms($file_path)), -4).' '.$file_path.'');
-	mount_ro();
         die(true);
     }
 
@@ -480,7 +479,6 @@ if (isset($_POST['ajax']) && !FM_READONLY) {
         $newFile = $file . '-' . $date . '.bak';
 	mount_rw();
         copy($path . '/' . $file, $path . '/' . $newFile) or die("Unable to backup");
-	mount_ro();
         echo "Backup $newFile Created";
     }
 
@@ -583,7 +581,6 @@ if (isset($_POST['ajax']) && !FM_READONLY) {
             }
             @curl_close($ch);
             fclose($fp);
-	    mount_ro();
             $fileinfo->size = $curl_info["size_download"];
             $fileinfo->type = $curl_info["content_type"];
         } else {
@@ -597,7 +594,6 @@ if (isset($_POST['ajax']) && !FM_READONLY) {
         if ($success) {
 	    mount_rw();
             $success = rename($temp_file, get_file_path());
-	    mount_ro();
         }
 
         if ($success) {
@@ -650,7 +646,6 @@ if (isset($_GET['new']) && isset($_GET['type']) && !FM_READONLY) {
                 if(fm_is_valid_ext($new)) {
 		    mount_rw();
                     @fopen($path . '/' . $new, 'w') or die('Cannot open file:  ' . $new);
-		    mount_ro();
                     fm_set_msg(sprintf('File <b>%s</b> created', fm_enc($new)));
                 } else {
                     fm_set_msg('File extension is not allowed', 'error');
@@ -965,12 +960,10 @@ if (isset($_POST['group']) && (isset($_POST['zip']) || isset($_POST['tar'])) && 
 	    mount_rw();
             $zipper = new FM_Zipper();
             $res = $zipper->create($zipname, $files);
-	    mount_ro();
         } elseif ($ext == 'tar') {
 	    mount_rw();
             $tar = new FM_Zipper_Tar();
             $res = $tar->create($zipname, $files);
-	    mount_ro();
         }
 
         if ($res) {
@@ -1025,12 +1018,10 @@ if (isset($_GET['unzip']) && !FM_READONLY) {
 	    mount_rw();
             $zipper = new FM_Zipper();
             $res = $zipper->unzip($zip_path, $path);
-	    mount_ro();
         } elseif ($ext == "tar") {
 	    mount_rw();
             $gzipper = new PharData($zip_path);
             $res = $gzipper->extractTo($path);
-	    mount_ro();
         }
 
         if ($res) {
@@ -1710,7 +1701,6 @@ if (isset($_GET['edit'])) {
         $fd = fopen($file_path, "w");
         @fwrite($fd, $writedata);
         fclose($fd);
-	mount_ro();
         fm_set_msg('File Saved Successfully');
     }
 
@@ -2102,7 +2092,6 @@ function fm_rdelete($path)
     if (is_link($path)) {
 	mount_rw();
         $ret = unlink($path);
-	mount_ro();
 	return $ret;
     } elseif (is_dir($path)) {
         $objects = scandir($path);
@@ -2119,7 +2108,6 @@ function fm_rdelete($path)
 	if ($ok) {
 	    mount_rw();
 	    $ret = rmdir($path);
-	    mount_ro();
 	    return $ret;
 	}
 	else {
@@ -2128,7 +2116,6 @@ function fm_rdelete($path)
     } elseif (is_file($path)) {
 	mount_rw();
         $ret = unlink($path);
-	mount_ro();
 	return $ret;
     }
     return false;
@@ -2147,10 +2134,8 @@ function fm_rchmod($path, $filemode, $dirmode)
     if (is_dir($path)) {
 	mount_rw();
         if (!chmod($path, $dirmode)) {
-	    mount_ro();
             return false;
         }
-	mount_ro();
         $objects = scandir($path);
         if (is_array($objects)) {
             foreach ($objects as $file) {
@@ -2167,7 +2152,6 @@ function fm_rchmod($path, $filemode, $dirmode)
     } elseif (is_file($path)) {
 	mount_rw();
         $ret = chmod($path, $filemode);
-	mount_ro();
 	return $ret;
     }
     return false;
@@ -2203,7 +2187,6 @@ function fm_rename($old, $new)
     if (!file_exists($new) && file_exists($old)) {
 	mount_rw();
 	$ret = rename($old, $new);
-	mount_ro();
 	return $ret;
     }
     return null;
@@ -2257,11 +2240,9 @@ function fm_mkdir($dir, $force)
         }
 	mount_rw();
         unlink($dir);
-	mount_ro();
     }
     mount_rw();
     $ret = mkdir($dir, 0777, true);
-    mount_ro();
     return $ret;
 }
 
@@ -2286,7 +2267,6 @@ function fm_copy($f1, $f2, $upd)
     if ($ok) {
         touch($f2, $time1);
     }
-    mount_ro();
     return $ok;
 }
 
@@ -3187,7 +3167,6 @@ class FM_Zipper_Tar
                 }
                 @fclose($fh);
             }
-	    mount_ro();
         }
     }
 }

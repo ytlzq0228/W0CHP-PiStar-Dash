@@ -39,7 +39,7 @@ if (!file_exists($fm_config_file)) {
     exec('sudo mv '.$tempauth.' '.$fm_config_file.'');
     exec('sudo chown www-data:www-data '.$fm_config_file.'');
     exec('sudo chmod 664 '.$fm_config_file.'');
-    exec('sudo sync && sudo sync && sudo sync && sudo mount -o remount,ro /');
+    exec('sudo sync && sudo sync && sudo sync');
 }
 
 // Create default auth file
@@ -56,7 +56,7 @@ if (!file_exists($fm_auth_file)) {
     exec('sudo mv '.$tempauth.' '.$fm_auth_file.'');
     exec('sudo chown www-data:www-data '.$fm_auth_file.'');
     exec('sudo chmod 664 '.$fm_auth_file.'');
-    exec('sudo sync && sudo sync && sudo sync && sudo mount -o remount,ro /');
+    exec('sudo sync && sudo sync && sudo sync');
 }
 
 require_once('./tinyfilemanager.php');

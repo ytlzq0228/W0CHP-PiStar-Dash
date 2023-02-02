@@ -160,7 +160,6 @@ if ( $testMMDVModeDMR == 1 ) {
 			    // need to add a last newline to the file so that the shell script can parse the last (or first and only) TG
 		            file_put_contents('/var/www/dashboard/.bm_tgs.batch', "\n".PHP_EOL , FILE_APPEND | LOCK_EX);
                             exec($bmStaticMassAddCmd);
-                            exec('sudo mount -o remount,ro /');
                             // Output to the browser
 			    $str = preg_replace('#\s+#',', ',trim($massTGs));
 		    	    echo '<br /><div style="text-align:left;font-weight:bold;" id="cmdOut">BrandMeister Manager</div>'."\n";
@@ -194,7 +193,6 @@ if ( $testMMDVModeDMR == 1 ) {
                             fclose($handleBatch);
 		            file_put_contents('/var/www/dashboard/.bm_tgs.batch', "\n".PHP_EOL , FILE_APPEND | LOCK_EX);
                             exec($bmStaticMassDelCmd);
-                            exec('sudo mount -o remount,ro /');
                             // Output to the browser
 			    $str = preg_replace('#\s+#',', ',trim($massTGs)); 
 		    	    echo '<br /><div style="text-align:left;font-weight:bold;" id="cmdOut">BrandMeister Manager</div>'."\n";

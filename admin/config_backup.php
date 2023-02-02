@@ -234,7 +234,6 @@ if ($_SERVER["PHP_SELF"] == "/admin/config_backup.php") {
 				shell_exec('sudo /usr/local/sbin/HostFilesUpdate.sh > /dev/null');
 				
 				// Make the disk Read-Only
-				shell_exec('sudo mount -o remount,ro / > /dev/null');
 				
 				// Start the services
 				$output .= "Starting Services.\n";
