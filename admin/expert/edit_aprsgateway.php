@@ -49,7 +49,6 @@ function update_ini_file($data, $filepath) {
     exec("sudo chmod 644 $configfile");
     exec("sudo chown root:root $configfile");
     exec("sudo rm $tempfile");
-    exec('sudo mount -o remount,ro /');
 
     // Reload the affected daemon
     exec("sudo systemctl restart $service");

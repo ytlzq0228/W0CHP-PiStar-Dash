@@ -38,7 +38,6 @@ if ($retvalue != 0) {
     exec('sudo mv /tmp/xGTcrAjxp2DN2.tmp /root/XLXHosts.txt');
     exec('sudo chmod 644 /root/XLXHosts.txt');
     exec('sudo chown root:root /root/XLXHosts.txt');
-    exec('sudo mount -o remount,ro /');
 }
 
 require_once('fulledit_template.php');

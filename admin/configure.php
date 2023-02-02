@@ -177,7 +177,6 @@ if (file_exists('/etc/mobilegps'))
 {
     exec('sudo mount -o remount,rw /');
     exec('sudo rm -f /etc/mobilegps');
-    //exec('sudo sync && sudo sync && sudo sync && sudo mount -o remount,ro /');
 }
 // Convert MMDVMHost config file
 if (isset($configmmdvm['Mobile GPS'])) {
@@ -277,7 +276,6 @@ if (isset($configmmdvm['DMR Network']['Type'])) {
 if (isset($configs['aprsHostname'])) {
     exec('sudo mount -o remount,rw /');
     exec('sudo sed -i "/mobileGPS.*/d;/aprsPassword.*/d;s/aprsHostname=.*/aprsAddress=127.0.0.1/g;s/aprsPort=.*/aprsPort=8673/g" /etc/ircddbgateway');
-    //exec('sudo sync && sudo sync && sudo sync && sudo mount -o remount,ro /');
 
     // re-init iscddbgw config
     // Load the ircDDBGateway config file

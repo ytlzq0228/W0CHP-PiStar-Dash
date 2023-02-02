@@ -31,7 +31,6 @@ if (! file_exists('/etc/dapnetapi.key')) {
     exec('sudo mv /tmp/jsADGHwf9sj294.tmp /etc/dapnetapi.key');
     exec('sudo chmod 644 /etc/dapnetapi.key');
     exec('sudo chown root:root /etc/dapnetapi.key');
-    exec('sudo mount -o remount,ro /');
 }
 
 require_once('fulledit_template.php');
