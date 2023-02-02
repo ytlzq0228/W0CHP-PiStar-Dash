@@ -620,7 +620,7 @@ select {
 .dropdown {
     position: absolute;
     top: 127px;
-    width: 170px;
+    width: 270px;
     opacity: 0;
     visibility: hidden;
 }
@@ -675,7 +675,7 @@ select {
 /* First Level */
 .subs {
     position: relative;
-    width: 170px;
+    width: 270px;
 }
 
 .has-subs:hover .dropdown,
@@ -722,7 +722,7 @@ select {
 .has-subs .has-subs .dropdown .subs {
     position: relative;
     top: -133px;
-    width: 170px;
+    width: 270px;
     border-style: none none none solid;
     border-width: 1px;
     border-color: <?php echo $backgroundDropdownHover; ?>;
@@ -734,8 +734,8 @@ select {
 
 .has-subs .has-subs .dropdown {
     position: absolute;
-    width: 170px;
-    left: 170px;
+    width: 270px;
+    left: 270px;
     opacity: 0;
     visibility: hidden;
 }
