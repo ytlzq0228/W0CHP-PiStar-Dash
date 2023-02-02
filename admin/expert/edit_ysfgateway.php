@@ -47,7 +47,6 @@ function update_ini_file($data, $filepath) {
     exec('sudo cp /tmp/eXNmZ2F0ZXdheQ.tmp /etc/ysfgateway');	// Move the file back
     exec('sudo chmod 644 /etc/ysfgateway');				// Set the correct runtime permissions
     exec('sudo chown root:root /etc/ysfgateway');			// Set the owner
-    exec('sudo mount -o remount,ro /');				// Make rootfs read-only
     
     // Reload the affected daemon
     exec('sudo systemctl restart ysfgateway.service');		// Reload the daemon

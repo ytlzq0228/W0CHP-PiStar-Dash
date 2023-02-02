@@ -104,7 +104,6 @@ checkSessionValidity();
 		if (empty($_POST['CallLookupProvider']) != TRUE) {
 		    exec('sudo mount -o remount,rw /');
 		    exec('sudo sed -i "/CallLookupProvider = /c\\\CallLookupProvider = '.escapeshellcmd($_POST['CallProvider']).'" /etc/pistar-release');	
-		    exec('sudo mount -o remount,ro /');
 		    unset($_POST);
 		    echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},0);</script>';
 		    die();
@@ -119,7 +118,6 @@ checkSessionValidity();
 			// Reset CSS configuration
 			exec('sudo mount -o remount,rw /');                             // Make rootfs writable
 			exec('sudo rm -rf /etc/pistar-css.ini');                        // Delete the Config
-			exec('sudo mount -o remount,ro /');                             // Make rootfs read-only
 			echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},0);</script>';
 			die();
 		    }
@@ -139,7 +137,6 @@ checkSessionValidity();
 		    exec('sudo cp /tmp/bW1kd4jg6b3N0DQo.tmp /etc/pistar-css.ini');  // Move the file back
 		    exec('sudo chmod 644 /etc/pistar-css.ini');                     // Set the correct runtime permissions
 		    exec('sudo chown root:root /etc/pistar-css.ini');               // Set the owner
-		    exec('sudo mount -o remount,ro /');                             // Make rootfs read-only
 		}
 		
 		//Do some file wrangling...
@@ -164,7 +161,6 @@ checkSessionValidity();
 			//Reset the config
 			exec('sudo mount -o remount,rw /');                             // Make rootfs writable
 			exec('sudo rm -rf /etc/pistar-css.ini');                        // Delete the Config
-			exec('sudo mount -o remount,ro /');                             // Make rootfs read-only
 			echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},0);</script>';
 			die();
 		    }
@@ -235,7 +231,6 @@ checkSessionValidity();
 				$output .= shell_exec("sudo mv -v -f /tmp/css_restore/pistar-css.ini /etc/ 2>&1")."\n";
 
 				// Make the disk Read-Only
-				shell_exec('sudo mount -o remount,ro / 2>&1');
 				
 				// Complete
 				$output .= "Configuration Restore Complete.\n";

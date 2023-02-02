@@ -96,7 +96,6 @@ $status = exec('systemctl status mmdvm-log-backup.timer | grep masked');
 				   exec ('sudo systemctl mask mmdvm-log-restore.service');
 				   exec ('sudo systemctl mask mmdvm-log-shutdown.service');
 				   exec ('sudo systemctl daemon-reload');
-				   exec ('sudo mount -o remount,ro /');
 			    }
 			    else if ( escapeshellcmd($_POST["enable_backups"]) ) {
 				   echo '<tr><td colspan="2"><br />Enabling Automatic Log Backups...
@@ -119,7 +118,6 @@ $status = exec('systemctl status mmdvm-log-backup.timer | grep masked');
 				   exec ('sudo systemctl restart mmdvm-log-backup.service');
 				   exec ('sudo systemctl restart mmdvm-log-restore.service');
 				   exec ('sudo systemctl restart mmdvm-log-shutdown.service');
-				   exec ('sudo mount -o remount,ro /');
 			    }
 			    unset($_POST);
 			    ?>

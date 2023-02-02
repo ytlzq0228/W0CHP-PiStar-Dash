@@ -26,7 +26,6 @@ if (! file_exists('/etc/dapnetapi.key')) {
     exec('sudo mv /tmp/jsADGHwf9sj294.tmp /etc/dapnetapi.key');
     exec('sudo chmod 644 /etc/dapnetapi.key');
     exec('sudo chown root:root /etc/dapnetapi.key');
-    exec('sudo mount -o remount,ro /');
 }
 
 $configfile = '/etc/dapnetapi.key';
@@ -67,7 +66,6 @@ function update_ini_file($data, $filepath) {
     exec('sudo cp /tmp/jsADGHwf9sj294.tmp /etc/dapnetapi.key'); // Move the file back
     exec('sudo chmod 644 /etc/dapnetapi.key');                  // Set the correct runtime permissions
     exec('sudo chown root:root /etc/dapnetapi.key');            // Set the owner
-    exec('sudo mount -o remount,ro /');                         // Make rootfs read-only
     
     return $success;
 }

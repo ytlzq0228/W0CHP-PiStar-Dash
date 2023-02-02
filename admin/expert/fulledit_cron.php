@@ -51,7 +51,6 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 		    exec('sudo cp /tmp/a8h4d8n3c83h4.tmp /etc/crontab');
 		    exec('sudo chmod 644 /etc/crontab');
 		    exec('sudo chown root:root /etc/crontab');
-		    exec('sudo mount -o remount,ro /');
 		    
 		    // Re-open the file and read it
 		    $fh = fopen($filepath, 'r');
