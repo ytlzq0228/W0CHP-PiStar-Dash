@@ -841,7 +841,7 @@ if (getConfigItem("NXDN", "RAN", $_SESSION['MMDVMHostConfigs'])) {
 	    if (strpos($NXDNtg, 'Not Linked') || strpos($NXDNtg, 'Service Not Started')) {
 		echo "<div class='divTableCell cell_content'><div ".GetActiveConnectionStyle($remoteNXDNGResults, "nxdn").">$NXDNtg</div></div>\n";
 	    } else {
-		if (empty($P25tg)) {
+		if (empty($NXDNtg)) {
 		    echo "<div class='divTableCell cell_content'><div class='inactive-mode-cell'>Not Linked</div></div>\n";
 		} else {
 		    if (file_exists("/etc/.TGNAMES")) {
