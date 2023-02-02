@@ -5122,11 +5122,18 @@ fclose($dmrMasterFile);
     <tr>
     <td align="left"><a class="tooltip2" href="#"><?php echo $lang['bm_network'];?>:<span><b>BrandMeister Dashboards</b>Direct links to your BrandMeister Dashboards</span></a></td>
     <td colspan="3" align="left">
-    <a href="https://brandmeister.network/?page=device&amp;id=<?php if (isset($configdmrgateway['DMR Network 1']['Id'])) { echo $configdmrgateway['DMR Network 1']['Id']; } else { echo $configmmdvm['General']['Id']; } ?>" target="_new">Repeater Information</a> |
-    <a href="https://brandmeister.network/?page=device-edit&amp;id=<?php if (isset($configdmrgateway['DMR Network 1']['Id'])) { echo $configdmrgateway['DMR Network 1']['Id']; } else { echo $configmmdvm['General']['Id']; } ?>" target="_new">Edit Repeater (BrandMeister Selfcare)</a>
+    <a href="https://brandmeister.network/?page=device&amp;id=<?php if (isset($configdmrgateway['DMR Network 1']['Id'])) { echo $configdmrgateway['DMR Network 1']['Id']; } else { echo $configmmdvm['General']['Id']; } ?>" target="_new">Hotspot/Repeater Information</a> |
+    <a href="https://brandmeister.network/?page=device-edit&amp;id=<?php if (isset($configdmrgateway['DMR Network 1']['Id'])) { echo $configdmrgateway['DMR Network 1']['Id']; } else { echo $configmmdvm['General']['Id']; } ?>" target="_new">Edit Hotspot/Repeater (BrandMeister Selfcare)</a>
     </td>
     </tr>
+<?php if (!isset($configModem['BrandMeister']['Password'])) { ?>
     <tr>
+    <td align="left"><a href="#" class="tooltip2">Brandmeister Manager:<span><b>Brandmeister Manager</b>BrandMeister Manager API Info</span></a></td>
+    <td align="left" colspan="3" style='word-wrap: break-word;white-space: normal;padding-left: 5px;'>
+       To use the BrandMeister Manager, you need a <a href="https://brandmeister.network/?page=profile-api" target="_new">BM API Key</a>, and then you need to enter it in the <a href="/admin/expert/fulledit_bmapikey.php">BM API Key Editor</a>.
+    </td>
+    <tr>
+<?php } ?>
     <th align="left" colspan="4">DMR+ / FreeDMR / HBlink Network Settings</th>
     </tr>
     <tr>
