@@ -54,7 +54,7 @@ function update_ini_file($data, $filepath) {
     exec('sudo cp /tmp/pJ5m9V5qwnNa5h.tmp /etc/dgidgateway');	// Move the file back
     exec('sudo chmod 644 /etc/dgidgateway');				// Set the correct runtime permissions
     exec('sudo chown root:root /etc/dgidgateway');			// Set the owner
-    exec('sudo sync && sudo sync && sudo sync');				// Make rootfs read-only
+    exec('sudo sync && sudo sync && sudo sync');
     
     // Reload the affected daemon
     exec('sudo systemctl restart dgidgateway.service');		// Reload the daemon
