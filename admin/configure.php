@@ -5059,7 +5059,10 @@ fclose($dmrMasterFile);
     <a href="https://brandmeister.network/?page=device-edit&amp;id=<?php if (isset($configdmrgateway['DMR Network 1']['Id'])) { echo $configdmrgateway['DMR Network 1']['Id']; } else { echo $configmmdvm['General']['Id']; } ?>" target="_new">Edit Hotspot/Repeater (BrandMeister Selfcare)</a>
     </td>
     </tr>
-<?php if (!isset($configModem['BrandMeister']['Password'])) { ?>
+<?php
+$bmAPIkeyFile = '/etc/bmapi.key';
+if (!file_exists($bmAPIkeyFile) && !fopen($bmAPIkeyFile,'r')) {
+?>
     <tr>
     <td align="left"><a href="#" class="tooltip2">Brandmeister Manager:<span><b>Brandmeister Manager</b>BrandMeister Manager API Info</span></a></td>
     <td align="left" colspan="3" style='word-wrap: break-word;white-space: normal;padding-left: 5px;'>
