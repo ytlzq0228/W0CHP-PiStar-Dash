@@ -107,16 +107,6 @@ if(empty($_POST['func'])) {
             $('.ModSel').select2();
             $('.M17Ref').select2({searchInputPlaceholder: 'Search...', width: '125px'});
           });
-          $(document).ready(function(){
-            setInterval(function(){
-                $("#CheckUpdate").load(window.location.href + " #CheckUpdate" );
-                },10000);
-            });
-          $(document).ready(function(){
-            setInterval(function(){
-                $("#CheckMessage").load(window.location.href + " #CheckMessage" );
-                },3600000);
-            });
           $(document).ready(function() {
             $('.menuhwinfo').click(function() {
               $(".hw_toggle").slideToggle(function() {
@@ -174,6 +164,27 @@ if(empty($_POST['func'])) {
       localStorage.setItem('filter_activity_max', obj.value);
     }
 
+    function reloadUpdateCheck(){
+      $("#CheckUpdate").load("/includes/checkupdates.php",function(){
+        setTimeout(reloadUpdateCheck,10000) });
+    }
+    setTimeout(reloadUpdateCheck,10000);
+    $(window).trigger('resize');
+
+    function reloadMessageCheck(){
+      $("#CheckMessage").load("/includes/messages.php",function(){
+        setTimeout(reloadMessageCheck,10000) });
+    }
+    setTimeout(reloadMessageCheck,10000);
+    $(window).trigger('resize');
+
+    function reloadDateTime(){
+      $("#DateTime").load("/includes/datetime.php",function(){
+        setTimeout(reloadDateTime,1000) });
+    }
+    setTimeout(reloadDateTime,1000);
+    $(window).trigger('resize');
+
 	</script>
     </head>
     <body>
@@ -181,43 +192,24 @@ if(empty($_POST['func'])) {
 	    <div class="header">
                <div class="SmallHeader shLeft"><a style="border-bottom: 1px dotted;" class="tooltip" href="#"><?php echo $lang['hostname'].": ";?> <span><strong>System IP Address<br /></strong><?php echo str_replace(',', ',<br />', exec('hostname -I'));?> </span>  <?php echo exec('cat /etc/hostname'); ?></a></div>
 		<div class="SmallHeader shRight">Pi-Star: Ver.#  <?php echo $_SESSION['PiStarRelease']['Pi-Star']['Version'].'<br />';?>
-		<?php if (constant("AUTO_UPDATE_CHECK") == "true") { ?>
-		<div id="CheckUpdate"><?php echo $version; system('/usr/local/sbin/pistar-check4updates'); ?></div></div>
-		<?php } else { ?>
-		<div id="CheckUpdate"><?php echo $version; ?></div></div>
-		<?php } ?>
+		<div id="CheckUpdate">
+		<?php
+		    include('includes/checkupdates.php');
+		?>
+		</div>
+		</div>
+
 		<h1>Pi-Star <?php echo $lang['digital_voice']." ".$lang['dashboard_for']." <code style='font-weight:550;'>".$_SESSION['MYCALL']."</code>"; ?></h1>
 		<div id="CheckMessage">
 		<?php
-		    include('config/messages.php');
+		    include('includes/messages.php');
 		?>
 		</div>
 
 		<p>
  		<div class="navbar">
-                <script type= "text/javascript">
-                 $(document).ready(function() {
-                   setInterval(function() {
-                     $("#timer").load("/dstarrepeater/datetime.php");
-                     }, 1000);
-
-                   function update() {
-                     $.ajax({
-                       type: 'GET',
-                       cache: false,
-                       url: '/dstarrepeater/datetime.php',
-                       timeout: 1000,
-                       success: function(data) {
-                         $("#timer").html(data); 
-                         window.setTimeout(update, 1000);
-                       }
-                     });
-                   }
-                   update();
-                 });
-                </script>
 		<div style="text-align: left; padding-left: 8px; padding-top: 5px; float: left;">
-		    <span id="timer"></span>
+		    <span id="DateTime"></span>
 		</div>
 			<a class="menuconfig" href="/admin/configure.php"><?php echo $lang['configuration'];?></a>
 			<?php if ($_SERVER["PHP_SELF"] == "/admin/index.php") {
@@ -296,9 +288,9 @@ if(empty($_POST['func'])) {
 		echo '<div class="nav">'."\n";					// Start the Side Menu
 		echo '<script type="text/javascript">'."\n";
 		echo 'function reloadRepeaterInfo(){'."\n";
-		echo '  $("#repeaterInfo").load("/mmdvmhost/repeaterinfo.php",function(){ setTimeout(reloadRepeaterInfo,1000) });'."\n";
+		echo '  $("#repeaterInfo").load("/mmdvmhost/repeaterinfo.php",function(){ setTimeout(reloadRepeaterInfo,5000) });'."\n";
 		echo '}'."\n";
-		echo 'setTimeout(reloadRepeaterInfo,1000);'."\n";
+		echo 'setTimeout(reloadRepeaterInfo,5000);'."\n";
 		echo '$(window).trigger(\'resize\');'."\n";
 		echo '</script>'."\n";
 		echo '<div id="repeaterInfo">'."\n";
@@ -855,5 +847,9 @@ if(empty($_POST['func'])) {
 	</div>
     </body>
 </html>
-<?php exec('/usr/local/sbin/slipstream-tasks.sh');?>
+<?php 
+if (file_exists('/usr/local/sbin/background-tasks.sh')) {
+    exec('sudo /usr/local/sbin/background-tasks.sh > /dev/null 2<&1');
+}
+?>
 
