@@ -21,8 +21,7 @@ if($uuidLen > 17) {
 }
 
 // F1RMB detected
-$str = `grep -- '-RMB' /etc/pistar-release`;
-if ($str == TRUE) {
+if( strpos(file_get_contents("/etc/pistar-release"),"-RMB") !== false) {
     $result = @file_get_contents('https://repo.w0chp.net/WPSD-Dev/WPSD_Messages/raw/branch/master/f1rmb-detected.html', false, $headers);
     echo $result;
 }
