@@ -1701,8 +1701,8 @@ function getActualLink($logLines, $mode) {
 
     case "M17":
             if (isProcessRunning("M17Gateway")) {
-		foreach ( array_reverse($logLines) as $logLine ) {
-		    if(preg_match_all('/Linked .* reflector ([A-Z,0-9]{3} [A-Z]{1})/', $logLine, $linx) > 0) {
+		foreach($logLines as $logLine) {
+		    if(preg_match_all('/Linked .* reflector (M17-.{3} [A-Z])/', $logLine, $linx) > 0) {
 			return $linx[1][0];
 		    }
 		    else if (strpos($logLine, "Switched to reflector")) {
