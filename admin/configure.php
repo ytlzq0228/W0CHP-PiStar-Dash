@@ -3813,6 +3813,7 @@ if (!empty($_POST)):
 			exec('sudo mv /tmp/bW1kdm1ob3N0DQo.tmp /etc/mmdvmhost');		// Move the file back
 			exec('sudo chmod 644 /etc/mmdvmhost');					// Set the correct runtime permissions
 			exec('sudo chown root:root /etc/mmdvmhost');				// Set the owner
+			exec('sudo /usr/local/sbin/nextion-driver-helper');			// Run the necxtion driver helper based on selected MMDVMHost display type
 		}
 	}
 
