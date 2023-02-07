@@ -4,6 +4,7 @@ if (!isset($_SESSION) || !is_array($_SESSION)) {
     session_start();
 
     include_once $_SERVER['DOCUMENT_ROOT'].'/config/config.php';          // MMDVMDash Config
+    include_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';         // Version Config
     include_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/tools.php';        // MMDVMDash Tools
     include_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/functions.php';    // MMDVMDash Functions
     include_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';        // Translation Code
@@ -24,9 +25,9 @@ echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 <meta http-equiv="pragma" content="no-cache" />
 <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 <meta http-equiv="Expires" content="0" />
-<link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version=<?php echo $versionCmd; ?>" />
-<link rel="stylesheet" type="text/css" href="/admin/wifi/styles.php?version<?php echo $versionCmd; ?>" />
-<script type="text/Javascript" src="/admin//wifi/functions.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version='.$versionCmd.'" />
+<link rel="stylesheet" type="text/css" href="/admin/wifi/styles.php?version='.$versionCmd.'" />
+<script type="text/Javascript" src="/admin//wifi/functions.js?version='.$versionCmd.'"></script>
 <title>Pi-Star - Digital Voice Dashboard - WiFi Config</title>
 </head>
 <body>'."\n";
@@ -62,7 +63,7 @@ switch($page) {
 			$strHWAddress = $result[1];
 		}
 		if(strpos($strWlan0, "UP") !== false && strpos($strWlan0, "RUNNING") !== false) {
-			$strStatus = '<span style="color:#6f0;background:black;">Interface is up</span>';
+			$strStatus = '<span style="color:#6f0;background:black;">Interface is active</span>';
 				//Cant get these unless we are connected :)
 				if (strpos($strWlan0,'inet addr:') !== false) {
 					preg_match('/inet addr:([0-9.]+)/i',$strWlan0,$result);
@@ -132,7 +133,7 @@ switch($page) {
 				$strWifiChan = ConvertToChannel(str_replace(".", "", $strWifiChan)); }
 		}
 		else {
-			$strStatus = '<span style="color:#EE4B2B;background:black;">Interface is down</span>';
+			$strStatus = '<span style="color:#EE4B2B;background:black;">Interface is inactive</span>';
 		}
 		if(isset($_POST['ifdown_wlan0'])) {
 			exec('ifconfig wlan0 | grep -i running | wc -l',$test);
