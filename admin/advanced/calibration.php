@@ -11,7 +11,7 @@ $configPistarRelease = parse_ini_file($pistarReleaseConfig, true);
 // Load the Version Info
 
 // Sanity Check that this file has been opened correctly
-if ($_SERVER["PHP_SELF"] == "/admin/expert/calibration.php") {
+if ($_SERVER["PHP_SELF"] == "/admin/advanced/calibration.php") {
 
   if (isset($_GET['action'])) {
     if ($_GET['action'] === 'start') {
@@ -147,7 +147,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/calibration.php") {
 
     $(function() {
       $.repeat(1000, function() {
-        $.get('/admin/expert/calibration.php?ajax', function(data) {
+        $.get('/admin/advanced/calibration.php?ajax', function(data) {
          if (data.length > 0) {
 <?php if (isset($_GET['debug'])) { ?>
           var objDiv = document.getElementById("tail");

@@ -21,7 +21,7 @@ if (file_exists('/etc/default/shellinabox')) {
 }
 
 // Sanity Check that this file has been opened correctly
-if ($_SERVER["PHP_SELF"] == "/admin/expert/ssh_access.php") {
+if ($_SERVER["PHP_SELF"] == "/admin/advanced/ssh_access.php") {
 ?>
   <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -58,7 +58,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/ssh_access.php") {
           </a>
           <a class="menubackup" href="/admin/config_backup.php">Backup/Restore
           </a>
-          <a class="menuupgrade" href="/admin/expert/upgrade.php">Upgrade
+          <a class="menuupgrade" href="/admin/advanced/upgrade.php">Upgrade
           </a>
           <a class="menuupdate" href="/admin/update.php">Update
           </a>

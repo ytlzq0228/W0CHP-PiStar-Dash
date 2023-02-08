@@ -214,9 +214,9 @@ if(empty($_POST['func'])) {
 			<a class="menuconfig" href="/admin/configure.php"><?php echo $lang['configuration'];?></a>
 			<?php if ($_SERVER["PHP_SELF"] == "/admin/index.php") {
 			    echo ' <a class="menuupdate" href="/admin/update.php">'.$lang['update'].'</a>'."\n";
-			    echo ' <a class="menuexpert" href="/admin/expert/">Expert</a>'."\n";
+			    echo ' <a class="menuexpert" href="/admin/advanced/">Advanced</a>'."\n";
 			    echo ' <a class="menupower" href="/admin/power.php">'.$lang['power'].'</a>'."\n";
-			    echo ' <a class="menusysinfo" href="/admin/sysinfo.php">System  Details</a>'."\n";
+			    echo ' <a class="menusysinfo" href="/admin/sysinfo.php">System Details</a>'."\n";
 			    echo ' <a class="menulogs" href="/admin/live_modem_log.php">'.$lang['live_logs'].'</a>'."\n";
 			} ?>
 			<a class="menuadmin" href="/admin/"><?php echo $lang['admin'];?></a>
@@ -403,7 +403,7 @@ if(empty($_POST['func'])) {
 			<div>
 			  <table align="center"style="margin: 0px 0px 10px 0px; width: 100%;border-collapse:collapse; table-layout:fixed;white-space: normal!important;">
 			    <tr>
-				<td align="center" valign="top" style="background-color: #ffff90; color: crimson; word-wrap: break-all;padding:20px;">Notice! You do not have a BrandMeister API key defined! Read the announcement on how create one: <a href="https://news.brandmeister.network/introducing-user-api-keys/" target="new" alt="BM API Keys">BM API Key Announcement and Migration Instructions</a>; and then <a href="/admin/expert/fulledit_bmapikey.php">Enter your API Key</a> to enable this page.</td>
+				<td align="center" valign="top" style="background-color: #ffff90; color: crimson; word-wrap: break-all;padding:20px;">Notice! You do not have a BrandMeister API key defined! Read the announcement on how create one: <a href="https://news.brandmeister.network/introducing-user-api-keys/" target="new" alt="BM API Keys">BM API Key Announcement and Migration Instructions</a>; and then <a href="/admin/advanced/fulledit_bmapikey.php">Enter your API Key</a> to enable this page.</td>
 			    </tr>
 			  </table>
 			</div>
@@ -417,7 +417,7 @@ if(empty($_POST['func'])) {
 			<div>
 			  <table align="center"style="margin: 0px 0px 10px 0px; width: 100%;border-collapse:collapse; table-layout:fixed;white-space: normal!important;">
 			    <tr>
-				<td align="center" valign="top" style="background-color: #ffff90; color: crimson; word-wrap: break-all;padding:20px;">Notice! You do not have a BrandMeister API key defined! Read the announcement on how create one: <a href="https://news.brandmeister.network/introducing-user-api-keys/" target="new" alt="BM API Keys">BM API Key Announcement and Migration Instructions</a>; and then <a href="/admin/expert/fulledit_bmapikey.php">Enter your API Key</a>. to enable this page.</td>
+				<td align="center" valign="top" style="background-color: #ffff90; color: crimson; word-wrap: break-all;padding:20px;">Notice! You do not have a BrandMeister API key defined! Read the announcement on how create one: <a href="https://news.brandmeister.network/introducing-user-api-keys/" target="new" alt="BM API Keys">BM API Key Announcement and Migration Instructions</a>; and then <a href="/admin/advanced/fulledit_bmapikey.php">Enter your API Key</a>. to enable this page.</td>
 			    </tr>
 			  </table>
 			</div>
@@ -428,7 +428,7 @@ if(empty($_POST['func'])) {
 			   <div>
 			     <table align="center"style="margin: 0px 0px 10px 0px; width: 100%;border-collapse:collapse; table-layout:fixed;white-space: normal!important;">
 			       <tr>
-			         <td align="center" valign="top" style="background-color: #ffff90; color: #906000; word-wrap: break-all;padding:20px;">Notice! You have a legacy Brandmeister API v1 Key. Read the announcement on how to migrate: <a href="https://news.brandmeister.network/introducing-user-api-keys/" target="new" alt="BM API Keys">BM API Key Announcement and Migration Instructions</a>; and then <a href="/admin/expert/fulledit_bmapikey.php">Update your API Key</a> to delete this message and to ensure BM Manager continues to work properly.</td>
+			         <td align="center" valign="top" style="background-color: #ffff90; color: #906000; word-wrap: break-all;padding:20px;">Notice! You have a legacy Brandmeister API v1 Key. Read the announcement on how to migrate: <a href="https://news.brandmeister.network/introducing-user-api-keys/" target="new" alt="BM API Keys">BM API Key Announcement and Migration Instructions</a>; and then <a href="/admin/advanced/fulledit_bmapikey.php">Update your API Key</a> to delete this message and to ensure BM Manager continues to work properly.</td>
 			       </tr>
 			     </table>
 			   </div>

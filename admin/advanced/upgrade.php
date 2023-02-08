@@ -10,7 +10,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 
 // Sanity Check that this file has been opened correctly
-if ($_SERVER["PHP_SELF"] == "/admin/expert/upgrade.php") {
+if ($_SERVER["PHP_SELF"] == "/admin/advanced/upgrade.php") {
     
     if (!isset($_GET['ajax'])) {
 	system('sudo touch /var/log/pi-star/pi-star_upgrade.log > /dev/null 2>&1 &');
@@ -77,7 +77,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/upgrade.php") {
 	<script type="text/javascript">
 	 $(function() {
 	     $.repeat(1000, function() {
-		 $.get('/admin/expert/upgrade.php?ajax', function(data) {
+		 $.get('/admin/advanced/upgrade.php?ajax', function(data) {
 		     if (data.length < 1) return;
 		     var objDiv = document.getElementById("tail");
 		     var isScrolledToBottom = objDiv.scrollHeight - objDiv.clientHeight <= objDiv.scrollTop + 1;

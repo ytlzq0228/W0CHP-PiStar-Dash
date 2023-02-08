@@ -27,7 +27,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 	<meta http-equiv="pragma" content="no-cache" />
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 	<meta http-equiv="Expires" content="0" />
-	<title>Pi-Star - Digital Voice Dashboard - Expert Editor</title>
+	<title>Pi-Star - Digital Voice Dashboard - Advanced Editor</title>
 	<link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version=<?php echo $versionCmd; ?>" />
     </head>
@@ -35,70 +35,54 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 	<div class="container">
 	    <?php include './header-menu.inc'; ?>
 	    <div class="contentwide">
+		
 		<?php
-		if(isset($_POST['data'])) {
-		    // File Wrangling
-		    exec('sudo cp '.$configfile.' '.$tempfile);
-		    exec('sudo chown www-data:www-data '.$tempfile);
-		    exec('sudo chmod 664 '.$tempfile);
+		//Do some file wrangling...
+		exec('sudo cp '.$configfile.' '.$tempfile);
+		exec('sudo chown www-data:www-data '.$tempfile);
+		exec('sudo chmod 664 '.$tempfile);
+		
+		//ini file to open
+		$filepath = $tempfile;
+		
+		//after the form submit
+		if($_POST) {
+		    $data = $_POST;
 		    
-		    // Open the file and write the data
-		    $filepath = $tempfile;
-		    $fh = fopen($filepath, 'w');
-		    $data = str_replace("\r", "", $_POST['data']);
-
 		    if (function_exists('process_before_saving')) {
 			process_before_saving($data);
 		    }
-		    			
-		    fwrite($fh, $data);;
-		    fclose($fh);
 		    
-		    exec('sudo mount -o remount,rw /');
-		    exec('sudo cp '.$tempfile.' '.$configfile);
-		    exec('sudo chmod 644 '.$configfile);
-		    exec('sudo chown root:root '.$configfile);
-		    
-		    // Reload the affected daemon
-		    if (isset($servicenames) && (count($servicenames) > 0)) {
-			foreach($servicenames as $servicename) {
-			    exec('sudo systemctl restart '.$servicename); // Reload the daemon
-			}
+		    //update ini file, call function
+		    update_ini_file($data, $filepath);
+		}
+
+		//parse the ini file using default parse_ini_file() PHP function
+		$parsed_ini = parse_ini_file($filepath, true);
+		
+		echo '<form action="" method="post">'."\n";
+		foreach($parsed_ini as $section=>$values) {
+		    // keep the section as hidden text so we can update once the form submitted
+		    echo "<input type=\"hidden\" value=\"$section\" name=\"$section\" />\n";
+		    echo "<table>\n";
+		    echo "<tr><th colspan=\"2\">$section</th></tr>\n";
+		    // print all other values as input fields, so can edit. 
+		    // note the name='' attribute it has both section and key
+		    foreach($values as $key=>$value) {
+			echo "<tr><td align=\"right\" width=\"30%\">$key</td><td align=\"left\"><input type=\"text\" name=\"{$section}[$key]\" value=\"$value\" /></td></tr>\n";
 		    }
-		    
-		    // Re-open the file and read it
-		    $fh = fopen($filepath, 'r');
-		    $theData = fread($fh, filesize($filepath));
-		    
+		    echo "</table>\n";
+		    echo '<input type="submit" value="'.$lang['apply'].'" />'."\n";
+		    echo "<br />\n";
 		}
-		else {
-		    // File Wrangling
-		    exec('sudo cp '.$configfile.' '.$tempfile);
-		    exec('sudo chown www-data:www-data '.$tempfile);
-		    exec('sudo chmod 664 '.$tempfile);
-		    
-		    // Open the file and read it
-		    $filepath = $tempfile;
-		    $fh = fopen($filepath, 'r');
-		    $theData = fread($fh, filesize($filepath));
-		}
-		fclose($fh);
-		
+		echo "</form>";
 		?>
-		
-		<form name="test" method="post" action="">
-		    <label for="data" class="header" style="display:block;text-align:center;" ><?php echo $editorname ?></label> 
-		    <textarea id="data" name="data" class="fulledit"><?php echo $theData; ?></textarea><br />
-		    <input type="submit" name="submit" value="<?php echo $lang['apply']; ?>" />
-		</form>
-		
 	    </div>
 	    
 	    <div class="footer">
 		Pi-Star web config, &copy; Andy Taylor (MW0MWZ) 2014-<?php echo date("Y"); ?>.<br />
 		<a href="https://w0chp.net/w0chp-pistar-dash/" style="color: #ffffff; text-decoration:underline;">W0CHP-PiStar-Dash</a> enhancements by W0CHP<br />
 	    </div>
-	    
 	</div>
     </body>
 </html>

@@ -17,7 +17,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/config/config.php';
 
 // Sanity Check that this file has been opened correctly
-if ($_SERVER["PHP_SELF"] == "/admin/expert/log_manager.php") {
+if ($_SERVER["PHP_SELF"] == "/admin/advanced/log_manager.php") {
     // Sanity Check Passed.
     header('Cache-Control: no-cache');
 

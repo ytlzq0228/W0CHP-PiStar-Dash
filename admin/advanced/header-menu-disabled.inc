@@ -6,12 +6,12 @@
     <?php } else { ?>
     <div id="CheckUpdate"><?php echo $version; ?></div></div>
     <?php } ?>    
-    <h1>Pi-Star Digital Voice - Expert</h1>
+    <h1>Pi-Star Digital Voice - Advanced</h1>
     <p>
 	<div class="navbar">
 	    <a class="menuconfig" href="/admin/configure.php"><?php echo $lang['configuration'];?></a>
 	    <a class="menubackup" href="/admin/config_backup.php"><?php echo $lang['backup_restore'];?></a>
-	    <a class="menuupgrade" href="/admin/expert/upgrade.php">Upgrade</a>
+	    <a class="menuupgrade" href="/admin/advanced/upgrade.php">Upgrade</a>
 	    <a class="menuupdate" href="/admin/update.php"><?php echo $lang['update'];?></a>
 	    <a class="menuadmin" href="/admin/"><?php echo $lang['admin'];?></a>
 	    <?php if (file_exists("/etc/dstar-radio.mmdvmhost")) { ?>

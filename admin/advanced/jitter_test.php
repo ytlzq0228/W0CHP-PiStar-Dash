@@ -25,7 +25,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';	      // Translat
 include_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 
 // Sanity Check that this file has been opened correctly
-if ($_SERVER["PHP_SELF"] == "/admin/expert/jitter_test.php") {
+if ($_SERVER["PHP_SELF"] == "/admin/advanced/jitter_test.php") {
 
   if (isset($_POST['group'])) {
     if ($_POST['group'] == "brandmeister") { $target = "BM"; }
@@ -118,7 +118,7 @@ Test Complete.
     <script type="text/javascript">
     $(function() {
       $.repeat(1000, function() {
-        $.get('/admin/expert/jitter_test.php?ajax', function(data) {
+        $.get('/admin/advanced/jitter_test.php?ajax', function(data) {
           if (data.length < 1) return;
           var objDiv = document.getElementById("tail");
           var isScrolledToBottom = objDiv.scrollHeight - objDiv.clientHeight <= objDiv.scrollTop + 1;

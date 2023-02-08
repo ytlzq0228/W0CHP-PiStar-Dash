@@ -27,7 +27,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 	<meta http-equiv="pragma" content="no-cache" />
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 	<meta http-equiv="Expires" content="0" />
-	<title>Pi-Star - Digital Voice Dashboard - Expert Editor</title>
+	<title>Pi-Star - Digital Voice Dashboard - Advanced Editor</title>
 	<script type="text/javascript" src="/js/jquery.min.js?version=<?php echo $versionCmd; ?>"></script>
 	<link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version=<?php echo $versionCmd; ?>" />
@@ -66,7 +66,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 			<?php
 			echo '<script type="text/javascript">'."\n";
 			echo 'function loadServicesExec(optStr){'."\n";
-			echo '  $("#service_result").load("/admin/expert/services_exec.php"+optStr);'."\n";
+			echo '  $("#service_result").load("/admin/advanced/services_exec.php"+optStr);'."\n";
 			echo '}'."\n";
 			echo 'setTimeout(loadServicesExec, 100, "?action='.$action.'");'."\n";
 			echo '$(window).trigger(\'resize\');'."\n";
