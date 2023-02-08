@@ -1,13 +1,6 @@
 <?php
-if (isset($_COOKIE['PHPSESSID']))
-{
-    session_id($_COOKIE['PHPSESSID']); 
-}
-if (session_status() != PHP_SESSION_ACTIVE) {
-    session_start();
-}
 
-if (!isset($_SESSION) || !is_array($_SESSION) || (count($_SESSION, COUNT_RECURSIVE) < 10)) {
+if (!isset($_SESSION) || !is_array($_SESSION)) {
     session_id('pistardashsess');
     session_start();
 }
@@ -23,13 +16,11 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 	<meta name="robots" content="follow" />
 	<meta name="language" content="English" />
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<meta name="Description" content="Pi-Star Expert Editor" />
-	<meta name="KeyWords" content="MMDVMHost,ircDDBGateway,D-Star,ircDDB,DMRGateway,DMR,YSFGateway,YSF,C4FM,NXDNGateway,NXDN,P25Gateway,P25,Pi-Star,DL5DI,DG9VH,MW0MWZ" />
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="pragma" content="no-cache" />
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 	<meta http-equiv="Expires" content="0" />
-	<title>Pi-Star - Digital Voice Dashboard - Expert Editor</title>
+	<title>Pi-Star - Digital Voice Dashboard - Advanced Editor</title>
 	<script type="text/javascript" src="/js/jquery.min.js?version=<?php echo $versionCmd; ?>"></script>
 	<link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version=<?php echo $versionCmd; ?>" />
@@ -38,45 +29,21 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 	<div class="container">
 	    <?php include './header-menu.inc'; ?>
 	    <div class="contentwide">
-		
-		<?php
-		$action = isset($_GET['action']) ? $_GET['action'] : '';
-
-		if (strcmp($action, 'stop') == 0) {
-		    $action_msg = 'Stopping Services';
-		}
-		else if (strcmp($action, 'fullstop') == 0) {
-		    $action_msg = 'Stopping Fully Services';
-		}
-		else if (strcmp($action, 'restart') == 0) {
-		    $action_msg = 'Restarting Services';
-		}
-		else if (strcmp($action, 'status') == 0) {
-		    $action_msg = 'Services Status';
-		}
-		else if (strcmp($action, 'updatehostsfiles') == 0) {
-		    $action_msg = 'Updating The Hosts Files';
-		}
-		else {
-		    $action_msg = 'Unknown Action';
-		}
-		?>
-		
 		<table width="100%">
-		    <tr><th><?php echo $action_msg;?></th></tr>
+		    <tr><th><?php echo "Check and Install Operating System &amp; Security Upgrades";?></th></tr>
 		    <tr><td align="center">
 			<?php
 			echo '<script type="text/javascript">'."\n";
-			echo 'function loadServicesExec(optStr){'."\n";
-			echo '  $("#service_result").load("/admin/expert/services_exec.php"+optStr);'."\n";
+			echo 'function loadSecurityExec(){'."\n";
+			echo '  $("#security_result").load("/admin/advanced/security_upgrades_exec.php");'."\n";
 			echo '}'."\n";
-			echo 'setTimeout(loadServicesExec, 100, "?action='.$action.'");'."\n";
+			echo 'setTimeout(loadSecurityExec, 100);'."\n";
 			echo '$(window).trigger(\'resize\');'."\n";
 			echo '</script>'."\n";
 			?>
-			<div id="service_result">
+			<div id="security_result" class="left">
 			    <br />
-			    Please Wait...<br />
+			    This may take some time...Please Wait...<br />
 			    <br />
 			</div>
 		    </td></tr>

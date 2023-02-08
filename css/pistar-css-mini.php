@@ -411,7 +411,7 @@ input.toggle-round-flat:focus + label {
     background-color: <?php echo $backgroundNavbar; ?>;
 }
 
-/* Expert menus */
+/* Advanced menus */
 .mainnav {
     display: inline-block;
     list-style: none;

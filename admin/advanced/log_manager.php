@@ -17,7 +17,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/config/config.php';
 
 // Sanity Check that this file has been opened correctly
-if ($_SERVER["PHP_SELF"] == "/admin/expert/log_manager.php") {
+if ($_SERVER["PHP_SELF"] == "/admin/advanced/log_manager.php") {
     // Sanity Check Passed.
     header('Cache-Control: no-cache');
 
@@ -37,9 +37,6 @@ $status = exec('systemctl status mmdvm-log-backup.timer | grep masked');
 	    <meta name="robots" content="follow" />
 	    <meta name="language" content="English" />
 	    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	    <meta name="Author" content="Andrew Taylor (MW0MWZ), Chip Cuccio (W0CHP)" />
-	    <meta name="Description" content="Pi-Star Power" />
-	    <meta name="KeyWords" content="MMDVMHost,ircDDBGateway,D-Star,ircDDB,DMRGateway,DMR,YSFGateway,YSF,C4FM,NXDNGateway,NXDN,P25Gateway,P25,Pi-Star,DL5DI,DG9VH,MW0MWZ,W0CHP" />
 	    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	    <meta http-equiv="pragma" content="no-cache" />
 	    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />

@@ -23,14 +23,11 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 	<meta name="robots" content="follow" />
 	<meta name="language" content="English" />
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<meta name="Author" content="Andrew Taylor (MW0MWZ), Chip Cuccio (W0CHP)" />
-	<meta name="Description" content="Pi-Star Expert Editor" />
-	<meta name="KeyWords" content="MMDVMHost,ircDDBGateway,D-Star,ircDDB,DMRGateway,DMR,YSFGateway,YSF,C4FM,NXDNGateway,NXDN,P25Gateway,P25,Pi-Star,DL5DI,DG9VH,MW0MWZ,W0CHP" />
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="pragma" content="no-cache" />
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 	<meta http-equiv="Expires" content="0" />
-	<title>Pi-Star - Digital Voice Dashboard - Expert Editor</title>
+	<title>Pi-Star - Digital Voice Dashboard - Advanced Editor</title>
 	<link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version=<?php echo $versionCmd; ?>" />
     </head>
@@ -40,56 +37,39 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 	    <div class="contentwide">
 		<?php
 		if(isset($_POST['data'])) {
-		    // split and remove DOS EOL
-		    $data = explode("\n", str_replace("\r", "", $_POST['data']));
+		    // File Wrangling
+		    exec('sudo cp '.$configfile.' '.$tempfile);
+		    exec('sudo chown www-data:www-data '.$tempfile);
+		    exec('sudo chmod 664 '.$tempfile);
 		    
-		    // Prepare data and update the configuration file
-		    $content = "";
-		    foreach($data as $line) {
-			if (strpos($line, '=') !== FALSE) {
-			    list($key, $value) = explode('=', $line, 2);
-			    $value = trim(str_replace('"', '', $value));
-			    
- 			    if (isset($key) && !empty($key)) {
-				    if (function_exists('process_before_saving')) {
-					process_before_saving($key, $value);
-				    }
-		  
-				if ($value == '') {
-				    $content .= $key."= \n";
-				}
-				else {
-				    $content .= $key."=".$value."\n";
-				}
-			    }
-			}
-		    }
-
+		    // Open the file and write the data
 		    $filepath = $tempfile;
-		    $wCount = FALSE;
-		    // write it into file
-		    if (($handle = fopen($tempfile, 'w')) != FALSE) {
-			if (($wCount = fwrite($handle, $content)) != FALSE) {
-			    // Updates complete - copy the working file back to the proper location
-			    exec('sudo mount -o remount,rw /');
-			    exec('sudo cp '.$tempfile.' '.$configfile.'');
-			    exec('sudo chmod 644 '.$configfile.'');
-			    exec('sudo chown root:root '.$configfile.'');
-			    
-			    // Reload the affected daemon
-			    if (isset($servicenames) && (count($servicenames) > 0)) {
-				foreach($servicenames as $servicename) {
-				    exec('sudo systemctl restart '.$servicename); // Reload the daemon
-				}
-			    }
+		    $fh = fopen($filepath, 'w');
+		    $data = str_replace("\r", "", $_POST['data']);
+
+		    if (function_exists('process_before_saving')) {
+			process_before_saving($data);
+		    }
+		    			
+		    fwrite($fh, $data);;
+		    fclose($fh);
+		    
+		    exec('sudo mount -o remount,rw /');
+		    exec('sudo cp '.$tempfile.' '.$configfile);
+		    exec('sudo chmod 644 '.$configfile);
+		    exec('sudo chown root:root '.$configfile);
+		    
+		    // Reload the affected daemon
+		    if (isset($servicenames) && (count($servicenames) > 0)) {
+			foreach($servicenames as $servicename) {
+			    exec('sudo systemctl restart '.$servicename); // Reload the daemon
 			}
-			
-			fclose($handle);
 		    }
 		    
 		    // Re-open the file and read it
 		    $fh = fopen($filepath, 'r');
 		    $theData = fread($fh, filesize($filepath));
+		    
 		}
 		else {
 		    // File Wrangling
