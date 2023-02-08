@@ -463,10 +463,6 @@ $MYCALL=strtoupper($callsign);
     <meta name="robots" content="follow" />
     <meta name="language" content="English" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <?php echo "<meta name=\"generator\" content=\"$version\" />\n"; ?>
-    <meta name="Author" content="Andrew Taylor (MW0MWZ), Chip Cuccio (W0CHP)" />
-    <meta name="Description" content="Pi-Star Configuration" />
-    <meta name="KeyWords" content="Pi-Star" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="pragma" content="no-cache" />
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
@@ -609,7 +605,7 @@ if (file_exists($bmAPIkeyFile) && fopen($bmAPIkeyFile,'r')) {
 <div>
   <table align="center"style="margin: 0px 0px 10px 0px; width: 100%;border-collapse:collapse; table-layout:fixed;white-space: normal!important;">
     <tr>
-    <td align="center" valign="top" style="background-color: #ffff90; color: #906000; word-wrap: break-all;padding:20px;">Notice! You have a legacy Brandmeister API v1 Key. Read the announcement on how to migrate: <a href="https://news.brandmeister.network/introducing-user-api-keys/" target="new" alt="BM API Keys">BM API Key Announcement and Migration Instructions</a>; and then <a href="/admin/expert/fulledit_bmapikey.php">Update your API Key</a> to delete this message and to ensure BM Manager continues to work properly..</td>
+    <td align="center" valign="top" style="background-color: #ffff90; color: #906000; word-wrap: break-all;padding:20px;">Notice! You have a legacy Brandmeister API v1 Key. Read the announcement on how to migrate: <a href="https://news.brandmeister.network/introducing-user-api-keys/" target="new" alt="BM API Keys">BM API Key Announcement and Migration Instructions</a>; and then <a href="/admin/advanced/fulledit_bmapikey.php">Update your API Key</a> to delete this message and to ensure BM Manager continues to work properly..</td>
     </tr>
   </table>
 </div>
@@ -653,7 +649,7 @@ if (file_exists($bmAPIkeyFile) && fopen($bmAPIkeyFile,'r')) {
 			<a class="menureset" href="javascript:factoryReset();"><?php echo $lang['factory_reset'];?></a>
 			<a class="menubackup" href="/admin/config_backup.php"><?php echo $lang['backup_restore'];?></a>
 			<a class="menuupdate" href="/admin/update.php"><?php echo $lang['update'];?></a>
-			<a class="menuexpert" href="/admin/expert/">Expert</a>
+			<a class="menuexpert" href="/admin/advanced/">Advanced</a>
 			<a class="menupower" href="/admin/power.php"><?php echo $lang['power'];?></a>
 			<a class="menuadmin" href="/admin/"><?php echo $lang['admin'];?></a>
 			<?php if (file_exists("/etc/dstar-radio.mmdvmhost")) { ?>
@@ -5132,7 +5128,7 @@ if (!file_exists($bmAPIkeyFile) && !fopen($bmAPIkeyFile,'r')) {
     <tr>
     <td align="left"><a href="#" class="tooltip2">Brandmeister Manager:<span><b>Brandmeister Manager</b>BrandMeister Manager API Info</span></a></td>
     <td align="left" colspan="3" style='word-wrap: break-word;white-space: normal;padding-left: 5px;'>
-       To use the BrandMeister Manager, you need a <a href="https://brandmeister.network/?page=profile-api" target="_new">BM API Key</a>, and then you need to enter it in the <a href="/admin/expert/fulledit_bmapikey.php">BM API Key Editor</a>.
+       To use the BrandMeister Manager, you need a <a href="https://brandmeister.network/?page=profile-api" target="_new">BM API Key</a>, and then you need to enter it in the <a href="/admin/advanced/fulledit_bmapikey.php">BM API Key Editor</a>.
     </td>
     <tr>
 <?php } ?>

@@ -341,7 +341,7 @@ if ($use_auth) {
                                         <button type="submit" class="btn btn-success btn-block mt-4" role="button">
                                             <?php echo lng('Login'); ?>
                                         </button>
-                                        <button type="button" class="btn btn-warning btn-block mt-4" role="button" onclick="window.location.href = '/admin/expert';">
+                                        <button type="button" class="btn btn-warning btn-block mt-4" role="button" onclick="window.location.href = '/admin/advanced';">
                                             <?php echo lng('Cancel'); ?>
                                         </button>
                                     </div>
@@ -3224,7 +3224,7 @@ function fm_show_nav_path($path)
                         </div>
                     </li>
                     <li class="nav-item">
-		      	<a title="Back to Expert Dashboard" class="nav-link" href="/admin/expert/"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Expert Dashboard </a>
+		      	<a title="Back to Advanced Dashboard" class="nav-link" href="/admin/advanced/"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Advanced Dashboard </a>
                     </li>
                     <?php if (!FM_READONLY): ?>
                     <li class="nav-item">

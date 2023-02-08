@@ -11,7 +11,7 @@ $configPistarRelease = parse_ini_file($pistarReleaseConfig, true);
 // Load the Version Info
 
 // Sanity Check that this file has been opened correctly
-if ($_SERVER["PHP_SELF"] == "/admin/expert/calibration.php") {
+if ($_SERVER["PHP_SELF"] == "/admin/advanced/calibration.php") {
 
   if (isset($_GET['action'])) {
     if ($_GET['action'] === 'start') {
@@ -91,9 +91,6 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/calibration.php") {
         <meta name="robots" content="follow" />
         <meta name="language" content="English" />
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-        <meta name="Author" content="Andrew Taylor (MW0MWZ), Chip Cuccio (W0CHP)" />
-        <meta name="Description" content="Pi-Star Expert" />
-        <meta name="KeyWords" content="MMDVMHost,ircDDBGateway,D-Star,ircDDB,DMRGateway,DMR,YSFGateway,YSF,C4FM,NXDNGateway,NXDN,P25Gateway,P25,Pi-Star,DL5DI,DG9VH,MW0MWZ,W0CHP" />
         <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
         <meta http-equiv="pragma" content="no-cache" />
         <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
@@ -150,7 +147,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/calibration.php") {
 
     $(function() {
       $.repeat(1000, function() {
-        $.get('/admin/expert/calibration.php?ajax', function(data) {
+        $.get('/admin/advanced/calibration.php?ajax', function(data) {
          if (data.length > 0) {
 <?php if (isset($_GET['debug'])) { ?>
           var objDiv = document.getElementById("tail");

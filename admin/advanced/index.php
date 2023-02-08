@@ -24,14 +24,11 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 	<meta name="robots" content="follow" />
 	<meta name="language" content="English" />
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<meta name="Author" content="Andrew Taylor (MW0MWZ), Chip Cuccio (W0CHP)" />
-	<meta name="Description" content="Pi-Star Expert" />
-	<meta name="KeyWords" content="MMDVMHost,ircDDBGateway,D-Star,ircDDB,DMRGateway,DMR,YSFGateway,YSF,C4FM,NXDNGateway,NXDN,P25Gateway,P25,Pi-Star,DL5DI,DG9VH,MW0MWZ,W0CHP" />
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="pragma" content="no-cache" />
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 	<meta http-equiv="Expires" content="0" />
-	<title>Pi-Star - Digital Voice Dashboard - Expert</title>
+	<title>Pi-Star - Digital Voice Dashboard - Advanced Area</title>
 	<link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version=<?php echo $versionCmd; ?>" />
     </head>
@@ -51,7 +48,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
                 <div class="divTableBody">
                   <div class="divTableRow">
                     <div class="divTableCellSans">
-                    <h2 style="color:inherit;">Expert Editors &amp; Tools</h2>';
+                    <h2 style="color:inherit;">Advanced Editors &amp; Tools</h2>';
                     echo '<h1>IMPORTANT:</h1>';
                     echo '<p><b>One or more modes have been detected to have been "paused" by you</b>:</p>';
                     foreach($paused_modes as $mode) {
@@ -84,10 +81,10 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 		<div class="divTableBody">
 		  <div class="divTableRow">
 		    <div class="divTableCellSans">
-		    <h2 style="color:inherit;">Expert Editors &amp; Tools</h2>
+		    <h2 style="color:inherit;">Advanced Editors &amp; Tools</h2>
 		    <h3>**WARNING**</h3>
             		<p>
-			Pi-Star Expert editors have been created to make editing some of the extra settings in the<br />
+			Advanced  editors &amp; tools have been created to make editing some of the extra settings in the<br />
 			config files more simple, allowing you to update some areas of the config files without the<br />
 			need to login to your Pi over SSH.<br />
 			<br />
@@ -96,8 +93,8 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 			what you are doing editing the files by hand, and that you understand what parts of the files<br />
 			are maintained by the dashboard.<br />
 			<br />
-			With that warning in mind, you are free to make any changes you like by accessing the expert areas
-            in the upper-left-hand menus. <br />
+			With that warning in mind, you are free to make any changes you like by accessing the advanced areas
+			in the upper-left-hand menus. <br />
 			</p>
 		</div>
 	      </div>

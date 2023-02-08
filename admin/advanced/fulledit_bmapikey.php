@@ -23,14 +23,11 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 	<meta name="robots" content="follow" />
 	<meta name="language" content="English" />
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<meta name="Author" content="Andrew Taylor (MW0MWZ), Chip Cuccio (W0CHP)" />
-	<meta name="Description" content="Pi-Star Editor" />
-	<meta name="KeyWords" content="MMDVMHost,ircDDBGateway,D-Star,ircDDB,DMRGateway,DMR,YSFGateway,YSF,C4FM,NXDNGateway,NXDN,P25Gateway,P25,Pi-Star,DL5DI,DG9VH,MW0MWZ,W0CHP" />
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="pragma" content="no-cache" />
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
 	<meta http-equiv="Expires" content="0" />
-	<title>Pi-Star - Digital Voice Dashboard - Expert Editor</title>
+	<title>Pi-Star - Digital Voice Dashboard - Advanced Editor</title>
 	<link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version=<?php echo $versionCmd; ?>" />
     </head>
@@ -41,38 +38,89 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 		
 		<?php
 		//Do some file wrangling...
-		exec('sudo cp '.$configfile.' '.$tempfile);
-		exec('sudo chown www-data:www-data '.$tempfile);
-		exec('sudo chmod 664 '.$tempfile);
+		if (file_exists('/etc/bmapi.key')) {
+		    exec('sudo cp /etc/bmapi.key /tmp/d39fk36sg55433gd.tmp');
+		}
+		else {
+		    exec('sudo touch /tmp/d39fk36sg55433gd.tmp');
+		    exec('sudo echo "[key]" > /tmp/d39fk36sg55433gd.tmp');
+		    exec('sudo echo "apikey=None" >> /tmp/d39fk36sg55433gd.tmp');
+		}
+		exec('sudo chown www-data:www-data /tmp/d39fk36sg55433gd.tmp');
+		exec('sudo chmod 664 /tmp/d39fk36sg55433gd.tmp');
 		
 		//ini file to open
-		$filepath = $tempfile;
+		$filepath = '/tmp/d39fk36sg55433gd.tmp';
 		
 		//after the form submit
 		if($_POST) {
 		    $data = $_POST;
-		    
-		    if (function_exists('process_before_saving')) {
-			process_before_saving($data);
-		    }
-		    
 		    //update ini file, call function
 		    update_ini_file($data, $filepath);
 		}
-
+		
+		//this is the function going to update your ini file
+		function update_ini_file($data, $filepath) {
+		    $content = "";
+		    
+		    //parse the ini file using default parse_ini_file() PHP function
+		    $parsed_ini = parse_ini_file($filepath, true);
+		    
+		    foreach($data as $section=>$values) {
+			// UnBreak special cases
+			$section = str_replace("_", " ", $section);
+			$content .= "[".$section."]\n";
+			//append the values
+			foreach($values as $key=>$value) {
+			    if ($value == '') { 
+				$content .= $key."=none\n";
+			    }
+			    else {
+				$content .= $key."=".$value."\n";
+			    }
+			}
+			$content .= "\n";
+		    }
+		    
+		    //write it into file
+		    if (!$handle = fopen($filepath, 'w')) {
+			return false;
+		    }
+		    
+		    $success = fwrite($handle, $content);
+		    fclose($handle);
+		    
+		    // Updates complete - copy the working file back to the proper location
+		    exec('sudo mount -o remount,rw /');				// Make rootfs writable
+		    exec('sudo cp /tmp/d39fk36sg55433gd.tmp /etc/bmapi.key');	// Move the file back
+		    exec('sudo chmod 644 /etc/bmapi.key');				// Set the correct runtime permissions
+		    exec('sudo chown root:root /etc/bmapi.key');			// Set the owner
+		    
+		    return $success;
+		}
+		
 		//parse the ini file using default parse_ini_file() PHP function
 		$parsed_ini = parse_ini_file($filepath, true);
+		if (!isset($parsed_ini['key']['apikey'])) { $parsed_ini['key']['apikey'] = ""; }
 		
 		echo '<form action="" method="post">'."\n";
 		foreach($parsed_ini as $section=>$values) {
 		    // keep the section as hidden text so we can update once the form submitted
 		    echo "<input type=\"hidden\" value=\"$section\" name=\"$section\" />\n";
 		    echo "<table>\n";
-		    echo "<tr><th colspan=\"2\">$section</th></tr>\n";
+		    echo "<tr><th colspan=\"2\">Enter Your BrandMeister API $section:</th></tr>\n";
 		    // print all other values as input fields, so can edit. 
 		    // note the name='' attribute it has both section and key
 		    foreach($values as $key=>$value) {
-			echo "<tr><td align=\"right\" width=\"30%\">$key</td><td align=\"left\"><input type=\"text\" name=\"{$section}[$key]\" value=\"$value\" /></td></tr>\n";
+			if (($key == "Options") || ($value)) {
+			    echo "<tr><td align=\"right\" width=\"30%\">$key</td><td align=\"left\"><textarea name=\"{$section}[$key]\" cols=\"80\" rows=\"8\">$value</textarea></td></tr>\n";
+			}
+			else if (($key == "Display") && ($value == '')) {
+			    echo "<tr><td align=\"right\" width=\"30%\">$key</td><td align=\"left\"><textarea name=\"{$section}[$key]\" cols=\"80\" rows=\"8\">$value</textarea></td></tr>\n";
+			}
+			else {
+			    echo "<tr><td align=\"right\" width=\"30%\">$key</td><td align=\"left\"><textarea name=\"{$section}[$key]\" cols=\"80\" rows=\"8\">$value</textarea></td></tr>\n";			
+			}
 		    }
 		    echo "</table>\n";
 		    echo '<input type="submit" value="'.$lang['apply'].'" />'."\n";
@@ -86,6 +134,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 		Pi-Star web config, &copy; Andy Taylor (MW0MWZ) 2014-<?php echo date("Y"); ?>.<br />
 		<a href="https://w0chp.net/w0chp-pistar-dash/" style="color: #ffffff; text-decoration:underline;">W0CHP-PiStar-Dash</a> enhancements by W0CHP<br />
 	    </div>
+	    
 	</div>
-    </body>
+  </body>
 </html>
