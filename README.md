@@ -208,7 +208,7 @@ sudo WPSD-Installer -rd
 6. If you had customized CSS settings before installing the `W0CHP` dashboard, they will be restored when
   using the `-rd` option.
 
-7. You can at any time start over and reset to the "normal" Pi-Star colors, by performing a CSS Factory Reset (`Configuration -> Expert -> Tools -> CSS Tool`).
+7. You can at any time start over and reset to the "normal" Pi-Star colors, by performing a CSS Factory Reset (`Configuration -> Advanced -> Tools -> CSS Tool`).
 
 8. If you'd like to start over with the custom `W0CHP` colors/CSS, you can copy/paste [the following values](https://repo.w0chp.net/Chipster/W0CHP-PiStar-Installer/src/branch/master/supporting-files/pistar-css-W0CHP.ini) into your `/etc/pistar-css.ini`.
 

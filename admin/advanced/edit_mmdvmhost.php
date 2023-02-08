@@ -23,14 +23,11 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
     <meta name="robots" content="follow" />
     <meta name="language" content="English" />
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-    <meta name="Author" content="Andrew Taylor (MW0MWZ), Chip Cuccio (W0CHP)" />
-    <meta name="Description" content="Pi-Star Expert Editor" />
-    <meta name="KeyWords" content="MMDVMHost,ircDDBGateway,D-Star,ircDDB,DMRGateway,DMR,YSFGateway,YSF,C4FM,NXDNGateway,NXDN,P25Gateway,P25,Pi-Star,DL5DI,DG9VH,MW0MWZ,W0CHP" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="pragma" content="no-cache" />
 <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
     <meta http-equiv="Expires" content="0" />
-    <title>Pi-Star - Digital Voice Dashboard - Expert Editor</title>
+    <title>Pi-Star - Digital Voice Dashboard - Advanced Editor</title>
     <link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version=<?php echo $versionCmd; ?>" />
   </head>
@@ -40,52 +37,53 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
   <div class="contentwide">
 
 <?php
-// Do some file wrangling...
-exec('sudo cp /etc/starnetserver /tmp/c3Rhcm5ldHNlcnZlcg.tmp');
-exec('sudo chown www-data:www-data /tmp/c3Rhcm5ldHNlcnZlcg.tmp');
-exec('sudo chmod 664 /tmp/c3Rhcm5ldHNlcnZlcg.tmp');
+//Do some file wrangling...
+exec('sudo cp /etc/mmdvmhost /tmp/bW1kdm1ob3N0DQo.tmp');
+exec('sudo chown www-data:www-data /tmp/bW1kdm1ob3N0DQo.tmp');
+exec('sudo chmod 664 /tmp/bW1kdm1ob3N0DQo.tmp');
 
-// ini file to open
-$filepath = '/tmp/c3Rhcm5ldHNlcnZlcg.tmp';
+//ini file to open
+$filepath = '/tmp/bW1kdm1ob3N0DQo.tmp';
 
-// Mangle the input
-$file_content = "[starnetserver]\n".file_get_contents($filepath);
-file_put_contents($filepath, $file_content);
-
-// after the form submit
+//after the form submit
 if($_POST) {
 	$data = $_POST;
 	//update ini file, call function
 	update_ini_file($data, $filepath);
 }
 
-// this is the function going to update your ini file
+//this is the function going to update your ini file
 	function update_ini_file($data, $filepath) {
 		$content = "";
 
-		// parse the ini file to get the sections
-		// parse the ini file using default parse_ini_file() PHP function
+		//parse the ini file to get the sections
+		//parse the ini file using default parse_ini_file() PHP function
 		$parsed_ini = parse_ini_file($filepath, true);
 
 		foreach($data as $section=>$values) {
 			// UnBreak special cases
 			$section = str_replace("_", " ", $section);
 			$content .= "[".$section."]\n";
-                        //append the values
-                        foreach($values as $key=>$value) {
-                                if ($value == '') { 
-                                        $content .= $key."=".$value." \n"; 
-                                        }
-				else if (strstr($key, 'Password')) {
+			//append the values
+			foreach($values as $key=>$value) {
+				if ($section == "DMR Network" && ($key == "Options" || $key == "Password") && $value) {
+					$value = str_replace('"', "", $value);
 					$content .= $key."=\"".$value."\"\n";
-					}
-                                else {
-                                        $content .= $key."=".$value."\n";
+				}
+				elseif ($section == "DMR Network" && $key == "Options" && !$value) {
+					$content .= $key."= \n";
+				}
+				elseif ($value == '') { 
+                                        $content .= $key."=none\n";
                                         }
-                        }
+				else {
+					$content .= $key."=".$value."\n";
+				}
+			}
+			$content .= "\n";
 		}
 
-		// write it into file
+		//write it into file
 		if (!$handle = fopen($filepath, 'w')) {
 			return false;
 		}
@@ -94,18 +92,17 @@ if($_POST) {
 		fclose($handle);
 
 		// Updates complete - copy the working file back to the proper location
-		exec('sudo mount -o remount,rw /');					// Make rootfs writable
-		exec('sudo cp /tmp/c3Rhcm5ldHNlcnZlcg.tmp /etc/starnetserver');		// Move the file back
-		exec('sudo sed -i \'/\\[starnetserver\\]/d\' /etc/starnetserver');	// Clean up file mangling
-		exec('sudo chmod 644 /etc/starnetserver');				// Set the correct runtime permissions
-		exec('sudo chown root:root /etc/starnetserver');			// Set the owner
+		exec('sudo mount -o remount,rw /');				// Make rootfs writable
+		exec('sudo cp /tmp/bW1kdm1ob3N0DQo.tmp /etc/mmdvmhost');	// Move the file back
+		exec('sudo chmod 644 /etc/mmdvmhost');				// Set the correct runtime permissions
+		exec('sudo chown root:root /etc/mmdvmhost');			// Set the owner
 
 		// Reload the affected daemon
-		//exec('sudo systemctl restart starnetserver.service');		// Reload the daemon
+		exec('sudo systemctl restart mmdvmhost.service');		// Reload the daemon
 		return $success;
 	}
 
-// parse the ini file using default parse_ini_file() PHP function
+//parse the ini file using default parse_ini_file() PHP function
 $parsed_ini = parse_ini_file($filepath, true);
 
 echo '<form action="" method="post">'."\n";
@@ -117,7 +114,15 @@ echo '<form action="" method="post">'."\n";
 		// print all other values as input fields, so can edit. 
 		// note the name='' attribute it has both section and key
 		foreach($values as $key=>$value) {
-			echo "<tr><td align=\"right\" width=\"30%\">$key</td><td align=\"left\"><input type=\"text\" name=\"{$section}[$key]\" value=\"$value\" /></td></tr>\n";
+			if (($key == "Options") || ($value)) {
+				echo "<tr><td align=\"right\" width=\"30%\">$key</td><td align=\"left\"><input type=\"text\" name=\"{$section}[$key]\" value=\"$value\" /></td></tr>\n";
+			}
+			elseif (($key == "Display") && ($value == '')) {
+				echo "<tr><td align=\"right\" width=\"30%\">$key</td><td align=\"left\"><input type=\"text\" name=\"{$section}[$key]\" value=\"None\" /></td></tr>\n";
+			}
+			else {
+				echo "<tr><td align=\"right\" width=\"30%\">$key</td><td align=\"left\"><input type=\"text\" name=\"{$section}[$key]\" value=\"0\" /></td></tr>\n";			
+			}
 		}
 		echo "</table>\n";
 		echo '<input type="submit" value="'.$lang['apply'].'" />'."\n";

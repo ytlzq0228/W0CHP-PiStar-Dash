@@ -10,7 +10,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 
 // Sanity Check that this file has been opened correctly
-if ($_SERVER["PHP_SELF"] == "/admin/expert/upgrade.php") {
+if ($_SERVER["PHP_SELF"] == "/admin/advanced/upgrade.php") {
     
     if (!isset($_GET['ajax'])) {
 	system('sudo touch /var/log/pi-star/pi-star_upgrade.log > /dev/null 2>&1 &');
@@ -64,9 +64,6 @@ if ($_SERVER["PHP_SELF"] == "/admin/expert/upgrade.php") {
 	<meta name="robots" content="follow" />
 	<meta name="language" content="English" />
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-	<meta name="Author" content="Andrew Taylor (MW0MWZ), Chip Cuccio (W0CHP)" />
-	<meta name="Description" content="Pi-Star Upgrade" />
-e	<meta name="KeyWords" content="MMDVMHost,ircDDBGateway,D-Star,ircDDB,DMRGateway,DMR,YSFGateway,YSF,C4FM,NXDNGateway,NXDN,P25Gateway,P25,Pi-Star,DL5DI,DG9VH,MW0MWZ,W0CHP" />
 	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="pragma" content="no-cache" />
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
@@ -80,7 +77,7 @@ e	<meta name="KeyWords" content="MMDVMHost,ircDDBGateway,D-Star,ircDDB,DMRGatewa
 	<script type="text/javascript">
 	 $(function() {
 	     $.repeat(1000, function() {
-		 $.get('/admin/expert/upgrade.php?ajax', function(data) {
+		 $.get('/admin/advanced/upgrade.php?ajax', function(data) {
 		     if (data.length < 1) return;
 		     var objDiv = document.getElementById("tail");
 		     var isScrolledToBottom = objDiv.scrollHeight - objDiv.clientHeight <= objDiv.scrollTop + 1;
