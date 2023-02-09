@@ -210,7 +210,7 @@ sudo WPSD-Installer -rd
 
 7. You can at any time start over and reset to the "normal" Pi-Star colors, by performing a CSS Factory Reset (`Configuration -> Advanced -> Tools -> CSS Tool`).
 
-8. If you'd like to start over with the custom `W0CHP` colors/CSS, you can copy/paste [the following values](https://repo.w0chp.net/Chipster/W0CHP-PiStar-Installer/src/branch/master/supporting-files/pistar-css-W0CHP.ini) into your `/etc/pistar-css.ini`.
+8. If you'd like to start over with the custom `W0CHP` colors/CSS, you can copy/paste [the following values](https://repo.w0chp.net/WPSD-Dev/W0CHP-PiStar-Installer/src/branch/master/supporting-files/pistar-css-W0CHP.ini) into your `/etc/pistar-css.ini`.
 
 ## Notes about M17 Protocol Support {#m17-notes}
 
@@ -309,7 +309,7 @@ and gifts to the ham community.
 
 [^2]: Piping to `bash`/shells/etc. from an online source is controversial (do
       a google search about it). However it's convenient, and one can [view & inspect
-      the full & actual source code of the installer](https://repo.w0chp.net/Chipster/W0CHP-PiStar-Installer/src/branch/master/WPSD-Installer)
+      the full & actual source code of the installer](https://repo.w0chp.net/WPSD-Dev/W0CHP-PiStar-Installer/src/branch/master/WPSD-Installer)
       prior to piping to `bash` or installing.
 
 [^3]: `W0CHP-PiStar-Dash` occasionally queries the git repository server in
