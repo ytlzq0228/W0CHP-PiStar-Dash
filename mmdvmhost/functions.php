@@ -1805,9 +1805,9 @@ function tgLookup($mode, $target) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
-		    	$target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
+		    	$target = "TG $target <span style='float:right;' class='noMob'>(TGIF: $target_lookup)</span>";
 		    } else {
-		    	$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    	$target = "TG $target <span class='noMob'>(TGIF: $target_lookup)</span>";
 		    }
 		} else {
 		    $target = "TG $target";
@@ -1816,9 +1816,9 @@ function tgLookup($mode, $target) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeStarIPSC.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
-		    	$target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
+		    	$target = "TG $target <span style='float:right;' class='noMob'>(FreeSTAR: $target_lookup)</span>";
 		    } else {
-		    	$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    	$target = "TG $target <span class='noMob'>(FreeSTAR: $target_lookup)</span>";
 		    }
 		} else {
 		    $target = "TG $target";
@@ -1827,9 +1827,9 @@ function tgLookup($mode, $target) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_SystemX.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
-		    	$target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
+		    	$target = "TG $target <span style='float:right;' class='noMob'>(SystemX: $target_lookup)</span>";
 		    } else {
-		    	$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    	$target = "TG $target <span class='noMob'>(SystemX: $target_lookup)</span>";
 		    }
 		} else {
 		    $target = "TG $target";
@@ -1838,9 +1838,9 @@ function tgLookup($mode, $target) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_FreeDMR_.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
-		    	$target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
+		    	$target = "TG $target <span style='float:right;' class='noMob'>(FreeDMR: $target_lookup)</span>";
 		    } else {
-		    	$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    	$target = "TG $target <span class='noMob'>(FreeDMR: $target_lookup)</span>";
 		    }
 		} else {
 		    $target = "TG $target";
@@ -1849,9 +1849,9 @@ function tgLookup($mode, $target) {
 		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_DMRp.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
-		    	$target = "TG $target <span style='float:right;' class='noMob'>($target_lookup)</span>";
+		    	$target = "TG $target <span style='float:right;' class='noMob'>(DMR+: $target_lookup)</span>";
 		    } else {
-		    	$target = "TG $target <span class='noMob'>($target_lookup)</span>";
+		    	$target = "TG $target <span class='noMob'>(DMR+: $target_lookup)</span>";
 		    }
 		} else {
 		    $target = "TG $target";
@@ -1877,9 +1877,9 @@ function tgLookup($mode, $target) {
 		    $stupid_bm = ['/ - 10 Minute Limit/', '/ NOT A CALL CHANNEL/', '/ NO NETS(.*?)/', '/!/'];
 		    $target = preg_replace($stupid_bm, "", $target); // strip comments from BM TG names..
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
-		    	$target = str_replace(": ", " <span style='float:right;' class='noMob'>(", $target.")</span>");
+		    	$target = str_replace(": ", " <span style='float:right;' class='noMob'>(BM: ", $target.")</span>");
 		    } else {
-		    	$target = str_replace(": ", " <span class='noMob'>(", $target.")</span>");
+		    	$target = str_replace(": ", " <span class='noMob'>(BM: ", $target.")</span>");
 		    }
 		    $target = "TG $target";
 		} else {
