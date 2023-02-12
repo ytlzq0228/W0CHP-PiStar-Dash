@@ -826,7 +826,7 @@ select {
 }
 
 .menucaller:before {
-    content: "\f130";
+    content: "\f2bb";
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;

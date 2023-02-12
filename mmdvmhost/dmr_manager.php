@@ -251,7 +251,7 @@ if ($_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled'] == "1") {
 	</td>
     <?php }
 if(getDMRnetStatus("xlx") == "disabled") {
-    $target = "User Disabled";
+    $target = "<span class='paused-mode-span title='User Disabled'>User Disabled</span>";
 } else {
     $target = exec('cd /var/log/pi-star; /usr/local/bin/RemoteCommand ' .$_SESSION['DMRGatewayConfigs']['Remote Control']['Port']. ' hosts | sed "s/ /\n/g" | egrep -oh "XLX(.*)" | sed "s/\"//g" | sed "s/_/ Module /g"'); 
 }
