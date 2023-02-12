@@ -82,6 +82,15 @@ function formatSize( $bytes ) {
     for( $i = 0; $bytes >= 1024 && $i < ( count( $types ) -1 ); $bytes /= 1024, $i++ );
     return( round( $bytes, 2 ) . " " . $types[$i] );
 }
+
+function timesyncdProc() {
+    $cmd = exec('systemctl status systemd-timesyncd.service | grep -o running');
+    if (strpos($cmd, "running") !== false) {
+	return 1;
+    } else {
+	return 0;
+    }
+}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -135,14 +144,14 @@ function formatSize( $bytes ) {
               <script type= "text/javascript">
                $(document).ready(function() {
                  setInterval(function() {
-                   $("#timer").load("/dstarrepeater/datetime.php");
+                   $("#timer").load("/includes/datetime.php");
                    }, 1000);
 
                  function update() {
                    $.ajax({
                      type: 'GET',
                      cache: false,
-                     url: '/dstarrepeater/datetime.php',
+                     url: '/includes/datetime.php',
                      timeout: 1000,
                      success: function(data) {
                        $("#timer").html(data); 
@@ -281,6 +290,23 @@ function formatSize( $bytes ) {
                         $NEXTIONDRIVER_Ver = exec('/usr/local/bin/NextionDriver -V | head -n 2 | cut -d\' \' -f 3');
                         echo "  <tr>";getStatusClass(isProcessRunning("NextionDriver"), true); echo "NextionDriver</td><td align=\"left\">".$NEXTIONDRIVER_Ver."</td></tr>\n";
                     }
+		    // time sync status
+		    echo "<tr><th colspan='2' align='left'>Time Synchronizaion Status</th></tr>";
+		    echo "<tr>";
+		    if (timesyncdProc() == "1") {
+			echo "<td align='left' colspan='2'>";
+			echo "<pre>";
+			system("timedatectl | sed -e 's/^[ \t]*/  /' | sed '/RTC/d'");
+			echo "</pre>";
+			echo "<pre>";
+			system("timedatectl timesync-status | sed -e 's/^[ \t]*/  /'");
+			echo "</pre>";
+			echo "</td>";
+		    } else {
+			echo "<td align='left' class='inactive-service-cell' colspan='2'>TimeSync Deamon not running!</td>";
+		    }
+		    echo "</tr>";
+
 		    ?>
 		</table>
 	    </div>
