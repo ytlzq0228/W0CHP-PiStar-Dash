@@ -69,14 +69,14 @@ function purgeLogs() {
               <script type= "text/javascript">
                $(document).ready(function() {
                  setInterval(function() {
-                   $("#timer").load("/dstarrepeater/datetime.php");
+                   $("#timer").load("/includes/datetime.php");
                    }, 1000);
 
                  function update() {
                    $.ajax({
                      type: 'GET',
                      cache: false,
-                     url: '/dstarrepeater/datetime.php',
+                     url: '/includes/datetime.php',
                      timeout: 1000,
                      success: function(data) {
                        $("#timer").html(data); 
