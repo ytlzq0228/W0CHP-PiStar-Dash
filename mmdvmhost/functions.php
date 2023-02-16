@@ -1802,7 +1802,7 @@ function tgLookup($mode, $target) {
     if (strlen($target) >= 2) {
 	if (strpos($mode, 'DMR') !== false) {
 	    if ($_SESSION['DMRGatewayConfigs']['DMR Network 4']['Enabled'] == "1" && strlen($target) >= 7 && substr( $target, 0, 1 ) === "5" && $_SESSION['DMRGatewayConfigs']['DMR Network 4']['Name'] == "TGIF_Network") {
-		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_TGIF.txt | awk -F, '{print $2}' | head -1 | tr -d '\"'");
+		$target_lookup = exec("grep -w \"$target\" /usr/local/etc/TGList_TGIF.txt | awk -F';' '{print $2}' | head -1 | tr -d '\"'");
 		if (!empty($target_lookup)) {
 		    if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
 		    	$target = "TG $target <span style='float:right;' class='noMob'>(TGIF: $target_lookup)</span>";
