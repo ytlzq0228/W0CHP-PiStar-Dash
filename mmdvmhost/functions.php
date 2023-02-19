@@ -1714,7 +1714,7 @@ function getActualLink($logLines, $mode) {
 		    else if (strpos($logLine, "Relinked from")) {
 			return (substr($logLine, 51, 9));
 		    }
-		    else if (strpos($logLine, "Relinking to")) {
+		    else if (strpos($logLine, "Relinking to reflector")) {
 			return (substr($logLine, 47, 9));
 		    }
 		    else if (strpos($logLine,"is starting") || strpos($logLine,"Unlinking") || strpos($logLine,"Unlinked")) {
