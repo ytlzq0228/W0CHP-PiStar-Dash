@@ -79,7 +79,7 @@ The Bullseye disk image is ready-to-go; with Pi-Star 4.1.6 and `W0CHP-PiStar-Das
 **Notes: This disk image is for Raspberry Pi-based platforms. You will need an
 SD card of at least 4GB to install this disk image.**
 
-* Disk Image Download: [<code>**WPSD_Latest.img.xz**</code>](https://w0chp.net/WPSD_Latest.img.xz) (775MB compressed; 2.6GB decompressed)
+* Disk Image Download: [<code>**WPSD_Latest.img.xz**</code>](https://w0chp.net/WPSD_Latest.img.xz) (804MB compressed; 2.7GB decompressed)
 * MD5 Checksums: [<code>**WPSD_Latest_MD5.txt**</code>](https://w0chp.net/WPSD_Latest_MD5.txt)
 
 **HINTS:**
