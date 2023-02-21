@@ -2,6 +2,8 @@
 include_once('css-base.php');
 ?>
 
+@import url('/css/fonts.css');
+
 .container {
     width: 100%;
     text-align: left;
