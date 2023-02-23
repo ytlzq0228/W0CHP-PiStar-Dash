@@ -385,7 +385,7 @@ if ( $testMMDVModeDMR == 1 ) {
 			echo '      <input type="button" disabled value="Re-Add All Previous  Static TGs" id="tgStaticReAdd" name="tgStaticReAdd"/></td>'."\n";
 		    }
 		    echo '    <td><b>Enter Talkgroups:</b><br /><small>(max. 10)</small><p><textarea style="vertical-align: middle; resize: none;" rows="5" cols="20" name="massTGlist" placeholder="One per line."></textarea></p></td>'."\n";
-		    echo '    <td><b>Timelot:</b><br /><br />';
+		    echo '    <td><b>Timeslot:</b><br /><br />';
 		    if (getConfigItem("DMR Network", "Slot1", $_SESSION['MMDVMHostConfigs']) == "1") {
 		        echo '    <input type="radio" id="massts1" name="massTGslotSelected" value="1"/><label for="massts1"/>TS1</label>&nbsp;';
 		    } else {
