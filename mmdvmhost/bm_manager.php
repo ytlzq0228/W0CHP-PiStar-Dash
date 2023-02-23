@@ -399,7 +399,7 @@ if ( $testMMDVModeDMR == 1 ) {
 		    echo '    <td colspan="3" style="white-space:normal;padding: 3px;">This function mass/bulk-adds or deletes up to 10 static talkgroups. Enter one talkgroup per line.'."\n";
 		    echo '  </tr>'."\n";
 		    echo '  <tr>'."\n";
-		    echo '    <td colspan="4" style="white-space:normal;padding: 3px;">(Note: Give all mass/bulk static talkgroup management functions some time to process, due to the nature of BrandMeister not natively supporting mass-management functions for static takgroups.)'."\n";
+		    echo '    <td colspan="4" style="white-space:normal;padding: 3px;">(Note: Give all mass/bulk static talkgroup management functions some time to process, due to the nature of BrandMeister not natively supporting mass-management functions for static talkgroups.)'."\n";
 		    echo '  </tr>'."\n";
 		    echo '</table>'."\n";
 		    echo '</form>'."\n";
