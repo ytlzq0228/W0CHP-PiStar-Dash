@@ -70,7 +70,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/advanced/upgrade.php") {
 	<meta http-equiv="Expires" content="0" />
 	<title>Pi-Star - <?php echo $lang['digital_voice']." ".$lang['dashboard']." - ".$lang['update'];?></title>
 	<link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
-	<link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version=<?php echo $versionCmd; ?>" />
+<?php include_once $_SERVER['DOCUMENT_ROOT'].'/config/browserdetect.php'; ?>
 	<link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
 	<script type="text/javascript" src="/js/jquery.min.js?version=<?php echo $versionCmd; ?>"></script>
 	<script type="text/javascript" src="/js/jquery-timing.min.js?version=<?php echo $versionCmd; ?>"></script>

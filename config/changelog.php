@@ -33,7 +33,7 @@ if ($_SERVER["PHP_SELF"] == "/config/changelog.php") {
 	    <meta http-equiv="Expires" content="0" />
 	    <title>W0CHP-PiStar Dash ChangeLog</title>
 	    <link rel="stylesheet" type="text/css" href="/css/font-awesome-4.7.0/css/font-awesome.min.css" />
-	    <link rel="stylesheet" type="text/css" href="/css/pistar-css.php?version=<?php echo $versionCmd; ?>" />
+<?php include_once $_SERVER['DOCUMENT_ROOT'].'/config/browserdetect.php'; ?>
         <script type="text/javascript" src="/js/jquery.min.js?version=<?php echo $versionCmd; ?>"></script>
         <script type="text/javascript" src="/js/functions.js?version=<?php echo $versionCmd; ?>"></script>
         <script type="text/javascript">
