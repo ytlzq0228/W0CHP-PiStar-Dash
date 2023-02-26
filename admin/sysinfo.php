@@ -300,7 +300,7 @@ function timesyncdProc() {
 		<table id="synctable" width="100%" border="0">
 <?php
 		    // time sync status
-		    echo "<tr><th colspan='2' align='left'>Time Synchronizaion Status</th></tr>";
+		    echo "<tr><th colspan='2' align='left'>Time Synchronization Status</th></tr>";
 		    echo "<tr>";
 		    if (timesyncdProc() == "1") {
 			echo "<td align='left' colspan='2'>";
