@@ -25,12 +25,12 @@ function checkSessionValidity() {
 	global $callsign;
 	
 	if (empty($callsign)) {
-           include $_SERVER['DOCUMENT_ROOT'].'/config/ircddblocal.php';
-           $_SESSION['MYCALL'] = strtoupper($callsign);
-       }
-       else {
-           $_SESSION['MYCALL'] = strtoupper($callsign);
-	   }
+	    include $_SERVER['DOCUMENT_ROOT'].'/config/ircddblocal.php';
+	    $_SESSION['MYCALL'] = strtoupper($callsign);
+	}
+	else {
+	    $_SESSION['MYCALL'] = strtoupper($callsign);
+	}
     }
 
     if ( ! isset( $_SESSION['BMAPIKey'] ) || ( is_countable( $_SESSION['BMAPIKey'] ) && count( $_SESSION['BMAPIKey'], COUNT_RECURSIVE) < 1 ) && file_exists( '/etc/bmapi.key' ) ) {
