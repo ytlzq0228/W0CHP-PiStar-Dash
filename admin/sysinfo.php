@@ -130,8 +130,12 @@ function timesyncdProc() {
 	 function refreshTable () {
 	     $("#infotable").load(" #infotable > *");
 	 }
+	 var timer = setInterval(function(){refreshTable()}, 5000);
 
-	 var timer = setInterval(function(){refreshTable()}, 15000);
+	 function refreshTS () {
+	     $("#synctable").load(" #synctable > *");
+	 }
+	 var timer = setInterval(function(){refreshTS()}, 2000);
 	</script>
     </head>
     <body>
@@ -290,6 +294,11 @@ function timesyncdProc() {
                         $NEXTIONDRIVER_Ver = exec('/usr/local/bin/NextionDriver -V | head -n 2 | cut -d\' \' -f 3');
                         echo "  <tr>";getStatusClass(isProcessRunning("NextionDriver"), true); echo "NextionDriver</td><td align=\"left\">".$NEXTIONDRIVER_Ver."</td></tr>\n";
                     }
+?>
+		</table>
+		<br />
+		<table id="synctable" width="100%" border="0">
+<?php
 		    // time sync status
 		    echo "<tr><th colspan='2' align='left'>Time Synchronizaion Status</th></tr>";
 		    echo "<tr>";
