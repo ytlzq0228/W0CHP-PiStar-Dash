@@ -68,6 +68,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/index.php") { // Stop this working outside o
 		    echo "<table>\n<tr><th>Command Output</th></tr>\n<tr><td><p>";
 		    echo exec($remoteCommand);
 		    echo "<br />Page reloading...</p></td></tr>\n</table>\n";
+		    unset($_POST);
 		    echo '<script type="text/javascript">setTimeout(function() { window.location=window.location;},2000);</script>';
 		}
 	    }
