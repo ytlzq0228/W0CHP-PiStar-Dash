@@ -738,7 +738,7 @@ select {
     visibility: hidden;
 }
 
-.menuhwinfo .menuconfig .menuadmin .menudashboard .menucaller .menulive .menuupdate .menuupgrade .menupower .menulogs .menubackup .menuexpert .menureset .menusysinfo .menuradioinfo {
+.menuhwinfo .menuconfig .menuadmin .menudashboard .menusimple, .menucaller .menulive .menuupdate .menuupgrade .menupower .menulogs .menubackup .menuexpert .menureset .menusysinfo .menuradioinfo {
     position: relative;
 }
 
@@ -814,6 +814,15 @@ select {
     padding-right: 0.2em;
 }
 
+.menusimple:before {
+    content: "\f0ce";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    padding-right: 0.2em;
+}
+
 .menulive:before {
     content: "\f21e";
     font-family: FontAwesome;
@@ -881,7 +890,7 @@ input.filter-activity-max {
 }
 
 .menuhwinfo:before {
-    content: "\f0ce";
+    content: "\f03a";
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
@@ -917,7 +926,7 @@ input.filter-activity-max {
 }
 
 .menusysinfo:before {
-    content: "\f05a";
+    content: "\f0a0";
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
