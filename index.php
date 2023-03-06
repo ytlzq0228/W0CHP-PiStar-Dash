@@ -223,7 +223,8 @@ if(empty($_POST['func'])) {
 			<?php if (file_exists("/etc/dstar-radio.mmdvmhost")) { ?>
 			<a class="menulive" href="/live/">Live Caller</a>
 			<?php } ?>
-			<a class="menuhwinfo" href='#'>Toggle SysInfo</a>
+			<a class="menuhwinfo" href='#'>SysInfo</a>
+			<a class="menusimple" href="/simple/">Simple View</a>
 			<a class="menudashboard" href="/"><?php echo $lang['dashboard'];?></a>
 		    </div> 
 		</p>

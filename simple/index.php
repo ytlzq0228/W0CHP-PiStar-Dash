@@ -171,7 +171,7 @@ if(empty($_POST['func'])) {
 		<div style="text-align: left; padding-left: 8px; padding-top: 5px; float: left;">
 		    <span id="timer"></span>
 		</div>
-			<a class="menuradioinfo" href='#'>Toggle Radio Info</a>
+			<a class="menuradioinfo" href='#'>Radio Info</a>
 			<?php if (file_exists("/etc/dstar-radio.mmdvmhost")) { ?>
 			<a class="menulive" href="/live/">Live Caller</a>
 			<?php } ?>
