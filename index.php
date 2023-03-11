@@ -217,7 +217,7 @@ if(empty($_POST['func'])) {
 			    echo ' <a class="menuexpert" href="/admin/advanced/">Advanced</a>'."\n";
 			    echo ' <a class="menupower" href="/admin/power.php">'.$lang['power'].'</a>'."\n";
 			    echo ' <a class="menusysinfo" href="/admin/sysinfo.php">System Details</a>'."\n";
-			    echo ' <a class="menulogs" href="/admin/live_modem_log.php">'.$lang['live_logs'].'</a>'."\n";
+			    echo ' <a class="menulogs" href="/admin/live_log.php">'.$lang['live_logs'].'</a>'."\n";
 			} ?>
 			<a class="menuadmin" href="/admin/"><?php echo $lang['admin'];?></a>
 			<?php if (file_exists("/etc/dstar-radio.mmdvmhost")) { ?>

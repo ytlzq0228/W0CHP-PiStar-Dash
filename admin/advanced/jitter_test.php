@@ -150,7 +150,7 @@ Test Complete.
     <input type="submit" name="sumbit" value="Start Test" />
   </p>
   </form>
-  </td</tr>
+  </td></tr>
   <tr><td><p><b>Please select a network above.</b></p></td></tr>
   </table>
   </div>
@@ -177,7 +177,7 @@ Test Complete.
     <input type="submit" name="sumbit" value="Start Test" />
   </p>
   </form>
-  </td</tr>
+  </td></tr>
   <tr><td><b>Test Results:</b></td></tr>
   <tr><td align="left"><div id="tail">Starting test...<br /></div></td></tr>
   </table>
