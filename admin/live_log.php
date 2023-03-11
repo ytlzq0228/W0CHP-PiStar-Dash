@@ -80,7 +80,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/live_log.php") {
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="pragma" content="no-cache" />
-<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
     <meta http-equiv="Expires" content="0" />
     <title>Pi-Star - <?php echo $lang['digital_voice']." ".$lang['dashboard']." - ".$lang['live_logs'];?></title>
 <?php include_once $_SERVER['DOCUMENT_ROOT'].'/config/browserdetect.php'; ?>
@@ -215,7 +215,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/live_log.php") {
 			print "<p><b>File `$logfile` not found!</b></p>";
 		    } else {
 		    ?>
-		  <tr><td colspan="2" align="left"><div id="tail">Starting logging, please wait...<br />
+		  <tr><td colspan="2" align="left"><div id="tail">Log viewer will populate once there is modem/network/RF activity. Please wait...<br />
 		  </div></td></tr>
 		    <?php } ?>
 	      </table>
