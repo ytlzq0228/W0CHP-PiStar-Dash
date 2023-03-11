@@ -1,22 +1,11 @@
 <?php
 
-if (!isset($_SESSION) || !is_array($_SESSION)) {
-    session_id('pistardashsess');
-    session_start();
-    
-    include_once $_SERVER['DOCUMENT_ROOT'].'/config/config.php';          // MMDVMDash Config
-    include_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/tools.php';        // MMDVMDash Tools
-    include_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/functions.php';    // MMDVMDash Functions
-    include_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';        // Translation Code
-    checkSessionValidity();
-}
-
-// Load the language support
 require_once $_SERVER['DOCUMENT_ROOT'].'/config/language.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/mmdvmhost/tools.php';        // MMDVMDash Tools
 require_once $_SERVER['DOCUMENT_ROOT'].'/config/version.php';
 
 // Sanity Check that this file has been opened correctly
-if ($_SERVER["PHP_SELF"] == "/admin/live_modem_log.php") {
+if ($_SERVER["PHP_SELF"] == "/admin/live_log.php") {
     
     // Sanity Check Passed.
     header('Cache-Control: no-cache');
@@ -25,20 +14,40 @@ if ($_SERVER["PHP_SELF"] == "/admin/live_modem_log.php") {
 	unset($_SESSION['offset']);
 	//$_SESSION['offset'] = 0;
     }
+
+   $log = $_GET['log'];
+
+    switch ($log) {
+	case "MMDVMHost":
+	    $logfile = "/var/log/pi-star/MMDVM-".gmdate('Y-m-d').".log";
+	    break;
+	case "DStarRepeater":
+	    $logfile = "/var/log/pi-star/DStarRepeater-".gmdate('Y-m-d').".log";
+	    break;
+	case "DMRGateway":
+	    $logfile = "/var/log/pi-star/DMRGateway-".gmdate('Y-m-d').".log";
+	    break;
+	case "YSFGateway":
+	    $logfile = "/var/log/pi-star/YSFGateway-".gmdate('Y-m-d').".log";
+	    break;
+	case "ircDDBGateway":
+	    $logfile = "/var/log/pi-star/ircDDBGateway-".gmdate('Y-m-d').".log";
+	    break;
+	case "P25Gateway":
+	    $logfile = "/var/log/pi-star/P25Gateway-".gmdate('Y-m-d').".log";
+	    break;
+	case "NXDNGateway":
+	    $logfile = "/var/log/pi-star/NXDNGateway-".gmdate('Y-m-d').".log";
+	    break;
+	case "M17Gateway":
+	    $logfile = "/var/log/pi-star/M17Gateway-".gmdate('Y-m-d').".log";
+	    break;
+	case "DAPNETGateway":
+	    $logfile = "/var/log/pi-star/DAPNETGateway-".gmdate('Y-m-d').".log";
+	    break;
+    }
     
     if (isset($_GET['ajax'])) {
-	if (file_exists('/etc/dstar-radio.mmdvmhost')) {
-	    $logfile = "/var/log/pi-star/MMDVM-".gmdate('Y-m-d').".log";
-	}
-	else if (file_exists('/etc/dstar-radio.dstarrepeater')) {
-	    if (file_exists("/var/log/pi-star/DStarRepeater-".gmdate('Y-m-d').".log")) {
-		$logfile = "/var/log/pi-star/DStarRepeater-".gmdate('Y-m-d').".log";
-	    }
-	    else if (file_exists("/var/log/pi-star/dstarrepeaterd-".gmdate('Y-m-d').".log")) {
-		$logfile = "/var/log/pi-star/dstarrepeaterd-".gmdate('Y-m-d').".log";
-	    }
-	}
-	
 	if (empty($logfile) || !file_exists($logfile)) {
 	    exit();
 	}
@@ -50,6 +59,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/live_modem_log.php") {
 		$_SESSION['offset'] = 0; //continue at beginning of the new log
 	    }
 	    $data = stream_get_contents($handle, -1, $_SESSION['offset']);
+	    $data = wordwrap($data, "200", "\n");
 	    $_SESSION['offset'] += strlen($data);
 	    echo nl2br($data);
 	}
@@ -80,7 +90,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/live_modem_log.php") {
     <script type="text/javascript">
     $(function() {
       $.repeat(1000, function() {
-        $.get('/admin/live_modem_log.php?ajax', function(data) {
+        $.get('/admin/live_log.php?log=<?php echo "$log";?>&ajax', function(data) {
           if (data.length < 1) return;
           var objDiv = document.getElementById("tail");
           var isScrolledToBottom = objDiv.scrollHeight - objDiv.clientHeight <= objDiv.scrollTop + 1;
@@ -141,12 +151,73 @@ if ($_SERVER["PHP_SELF"] == "/admin/live_modem_log.php") {
 	  </div>
 	  <div class="contentwide">
 	      <table width="100%">
-		  <tr><th><?php echo $lang['live_logs'];?></th></tr>
-		  <tr><td align="left"><div id="tail">Starting logging, please wait...<br /></div></td></tr>
-		  <tr><th align="right">
-		      <button class="button" onclick="location.href='/admin/download_modem_log.php'" style="margin:2px 5px;">Download This Log</button>
-		      <button class="button" onclick="location.href='/admin/download_all_logs.php'" style="margin:2px 5px;">Download All Logs</button>
-		  </th></tr>
+
+  <?php if (!isset($_GET['log'])) { ?>
+  <tr><th colspan="2"><?php echo $lang['live_logs'];?></th></tr>
+  <tr><td>
+  <form method="get">
+   <b>Select a log to view:</b>
+    <select name="log" value="log">
+	<option name="MMDVMHost">MMDVMHost</option>
+	<option name="DStarRepeater">DStarRepeater</option>
+	<option name="ircDDBGateway">ircDDBGateway</option>
+	<option name="DMRGateway">DMRGateway</option>
+	<option name="YSFGateway">YSFGateway</option>
+	<option name="P25Gateway">P25Gateway</option>
+	<option name="NXDNGateway">NXDNGateway</option>
+	<option name="M17Gateway">M17Gateway</option>
+	<option name="DAPNETGateway">DAPNETGateway</option>
+    </select>
+    <input type="submit" name="sumbit" value="Select" />
+  </form>
+  </td>
+   <td>
+    <button class="button" onclick="location.href='/admin/download_all_logs.php'" style="margin:2px 5px;">Download All Logs</button>
+  </td>
+  </tr>
+  </table>
+  </div>
+  <div class="footer">
+  Pi-Star web config, &copy; Andy Taylor (MW0MWZ) 2014-<?php echo date("Y"); ?>.<br />
+  <a href="https://w0chp.net/w0chp-pistar-dash/" style="color: #ffffff; text-decoration:underline;">W0CHP-PiStar-Dash</a> enhancements by W0CHP
+  <br />
+  </div>
+  </div>
+  </body>
+  <?php } else { ?>
+  <tr><th colspan=2"><?php echo $lang['live_logs']; echo " - $log";?></th></tr>
+  <tr><td>
+  <form method="get">
+  <b>Select a log to view:</b>
+    <select name="log" value="log">
+	<option name="MMDVMHost" <?php if ($log == "MMDVMHost") { echo "selected='selected'"; } ?>>MMDVMHost</option>
+	<option name="DStarRepeater" <?php if ($log == "DStarRepeater") { echo "selected='selected'"; } ?>>DStarRepeater</option>
+        <option name="ircDDBGateway" <?php if ($log == "ircDDBGateway") { echo "selected='selected'"; } ?>>ircDDBGateway</option>
+        <option name="DMRGateway" <?php if ($log == "DMRGateway") { echo "selected='selected'"; } ?>>DMRGateway</option>
+        <option name="YSFGateway" <?php if ($log == "YSFGateway") { echo "selected='selected'"; } ?>>YSFGateway</option>
+        <option name="P25Gateway" <?php if ($log == "P25Gateway") { echo "selected='selected'"; } ?>>P25Gateway</option>
+        <option name="NXDNGateway" <?php if ($log == "NXDNGateway") { echo "selected='selected'"; } ?>>NXDNGateway</option>
+        <option name="M17Gateway" <?php if ($log == "M17Gateway") { echo "selected='selected'"; } ?>>M17Gateway</option>
+        <option name="DAPNETGateway" <?php if ($log == "DAPNETGateway") { echo "selected='selected'"; } ?>>DAPNETGateway</option>
+    </select>
+    <input type="submit" name="sumbit" value="Select" />
+  </form>
+  </td>
+  <td>
+    <button class="button" onclick="location.href='/admin/download_log.php?log=<?php echo $log;?>'" style="margin:2px 5px;">Download This Log</button>
+   <button class="button" onclick="location.href='/admin/download_all_logs.php'" style="margin:2px 5px;">Download All Logs</button>
+  </td>
+  </tr>
+
+		    <?php
+		    if (!file_exists($logfile)) {
+			print '<tr><td colspan="2"><div id="tail">';
+			print "<p><b>File `$logfile` not found!</b></p>";
+		    } else {
+		    ?>
+		  <tr><td colspan="2" align="left"><div id="tail">Starting logging, please wait...<br />
+		  </div></td></tr>
+		    <?php } ?>
 	      </table>
 	  </div>
 	  <div class="footer">
@@ -158,5 +229,6 @@ if ($_SERVER["PHP_SELF"] == "/admin/live_modem_log.php") {
   </html>
 
 <?php
+    }
 }
 ?>
