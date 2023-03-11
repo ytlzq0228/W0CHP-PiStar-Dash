@@ -204,7 +204,9 @@ if ($_SERVER["PHP_SELF"] == "/admin/live_log.php") {
   </form>
   </td>
   <td>
-    <button class="button" onclick="location.href='/admin/download_log.php?log=<?php echo $log;?>'" style="margin:2px 5px;">Download This Log</button>
+   <?php if (file_exists($logfile)) { ?>
+   <button class="button" onclick="location.href='/admin/download_log.php?log=<?php echo $log;?>'" style="margin:2px 5px;">Download This Log</button>
+   <?php } ?>
    <button class="button" onclick="location.href='/admin/download_all_logs.php'" style="margin:2px 5px;">Download All Logs</button>
   </td>
   </tr>
