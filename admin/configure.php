@@ -595,6 +595,19 @@ if ( (file_exists('/etc/dstar-radio.mmdvmhost') && $configmmdvm['DMR']['Enable']
 }
 ?>
 <?php
+$config_dir = "/etc/WPSD_config_mgr";
+if (!is_dir($config_dir) || count(glob("$config_dir/*")) < 1) {
+?>
+<div>
+  <table align="center"style="margin: 0px 0px 10px 0px; width: 100%;border-collapse:collapse; table-layout:fixed;white-space: normal!important;">
+    <tr>
+    <td align="center" valign="top" style="background-color: #ffff90; color: #906000; word-wrap: break-all;padding:20px;">Notice! You do not have any saved configuration / profiles.<br /><br />
+    It is recommended that you <b><a href="/admin/advanced/config_manager.php">save your configuration / profile before making any changes</a>.</b></td>
+    </tr>
+  </table>
+</div>
+<?php } ?>
+<?php
 $bmAPIkeyFile = '/etc/bmapi.key';
 if (file_exists($bmAPIkeyFile) && fopen($bmAPIkeyFile,'r')) {
   $configBMapi = parse_ini_file($bmAPIkeyFile, true);
@@ -4701,45 +4714,45 @@ else:
       <div style="display:block;text-align:left;">
         <div style="display:block;">
           <div style="display:block;">
-          <label for="aprsgw-service-selection" style="display: inline-block;">Send APRS Data for Mode(s):</label>
+          <label for="aprsgw-service-selection" style="display: inline-block;">Publish APRS Data for Mode(s):</label>
           <br>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="DMRGatewayAPRS" id="aprsgw-service-selection-0" value="DMRGatewayAPRS" type="checkbox"
                 <?php if($DMRGatewayAPRS == '1' && $configmmdvm['DMR Network']['Enable'] == "1") { echo(' checked="checked"'); }
-                if ($configaprsgateway['Enabled']['Enabled'] !== "1" || $configmmdvm['DMR Network']['Enable'] !== "1")  { echo(' disabled="disabled"'); }?> >
+                if ($configmmdvm['DMR Network']['Enable'] !== "1")  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-0">DMR</label>
             </div>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="YSFGatewayAPRS" id="aprsgw-service-selection-1" value="YSFGatewayAPRS" type="checkbox"
-                <?php if(($YSFGatewayAPRS == "1" && $configmmdvm['System Fusion Network']['Enable'] == "1") || ($configaprsgateway['Enabled']['Enabled'] == "1" && $configdmr2ysf['Enabled']['Enabled'] == "1")) { echo(' checked="checked"'); }
-                if (($configaprsgateway['Enabled']['Enabled'] !== "1" && $configmmdvm['System Fusion Network']['Enable'] !== "1") || ($configaprsgateway['Enabled']['Enabled'] !== "1" && $configdmr2ysf['Enabled']['Enabled'] !== "1"))  { echo(' disabled="disabled"'); }?> >
+                <?php if(($YSFGatewayAPRS == "1" && $configmmdvm['System Fusion Network']['Enable'] == "1") || ($YSFGatewayAPRS == "1" && $configdmr2ysf['Enabled']['Enabled'] == "1")) { echo(' checked="checked"'); }
+                if ($configmmdvm['System Fusion Network']['Enable'] !== "1" && $configdmr2ysf['Enabled']['Enabled'] !== "1")  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-1">YSF</label>
             </div>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="DGIdGatewayAPRS" id="aprsgw-service-selection-2" value="DGIdGatewayAPRS" type="checkbox"
                 <?php if($DGIdGatewayAPRS == "1" && $configaprsgateway['Enabled']['Enabled'] == "1") { echo(' checked="checked"'); }
-                if ($configaprsgateway['Enabled']['Enabled'] !== "1" ||  $configdgidgateway['Enabled']['Enabled'] !== "1")  { echo(' disabled="disabled"'); }?> >
+                if ($configdgidgateway['Enabled']['Enabled'] !== "1")  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-2">DGId</label>
             </div>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="NXDNGatewayAPRS"  id="aprsgw-service-selection-3" value="NXDNGatewayAPRS" type="checkbox"
                 <?php if($NXDNGatewayAPRS == "1" && $configmmdvm['NXDN Network']['Enable'] == "1") { echo(' checked="checked"'); }
-                if ($configaprsgateway['Enabled']['Enabled'] !== "1" || $configmmdvm['NXDN Network']['Enable'] !== "1")  { echo(' disabled="disabled"'); }?> >
+                if ($configmmdvm['NXDN Network']['Enable'] !== "1")  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-3">NXDN</label>
             </div>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="M17GatewayAPRS" id="aprsgw-service-selection-4" value="M17GatewayAPRS" type="checkbox"
                 <?php if($M17GatewayAPRS == "1" && $configmmdvm['M17 Network']['Enable'] == "1") { echo(' checked="checked"'); }
-                if ($configaprsgateway['Enabled']['Enabled'] !== "1" || $configmmdvm['M17 Network']['Enable'] !== "1")  { echo(' disabled="disabled"'); }?> >
+                if ($configmmdvm['M17 Network']['Enable'] !== "1")  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-4">M17</label>
             </div>
             <div style="display: inline-block;vertical-align: middle;">
                 <input name="IRCDDBGatewayAPRS" id="aprsgw-service-selection-5" value="IRCDDBGatewayAPRS" type="checkbox"
                 <?php if($IRCDDBGatewayAPRS == "1" && $configs['ircddbEnabled'] == "1" && $configmmdvm['D-Star Network']['Enable'] == "1") { echo(' checked="checked"'); }
-                if ($configaprsgateway['Enabled']['Enabled'] !== "1" || $configs['ircddbEnabled'] !== "1" || $configmmdvm['D-Star Network']['Enable'] !== "1")  { echo(' disabled="disabled"'); }?> >
+                if ($configs['ircddbEnabled'] !== "1" || $configmmdvm['D-Star Network']['Enable'] !== "1")  { echo(' disabled="disabled"'); }?> >
                 <label for="aprsgw-service-selection-5">ircDDB</label>
             </div>
-            <br /><em><small>(Note: Both APRS Gateway and the Radio/MMDVM Mode must be enabled in order to be selected.)</em>
+            <br /><em><small>(Note: Radio/MMDVM Mode must be enabled to select APRS mode publishing.)</small></em>
           </div>
         </div>
        </div>
