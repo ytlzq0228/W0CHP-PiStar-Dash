@@ -57,6 +57,14 @@ for ($i = 0; $i < $TXListLim; $i++) {
                             } else {
                                 $local_time = $dt->format('h:i:s A M j');
                             }
+			    if (preg_match('/[\s-]/', $listElem[2])) { // handle and display calls with certain suffixes:	
+				if ($listElem[1] == "M17") {  // M17 supports two suffix types: "-n" and a "/n". MMDVMHost uses multiple, spaces instead of a "/". Let's parse those suffixes...
+				    $listElem[2] = preg_replace('!\s+.*!', ' ', $listElem[2]);
+				    $listElem[2] = preg_replace('/-/', ' ', $listElem[2]);
+				} else { // all other modes with dash and/or single space
+				    $listElem[2] = preg_replace('/[\s+-]/', ' ', $listElem[2]);
+				}
+			    }
 			echo"<tr>";
 			echo"<td align=\"left\">$local_time</td>";
 			if (is_numeric($listElem[2]) !== FALSE) {
