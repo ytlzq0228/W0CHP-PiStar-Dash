@@ -284,6 +284,7 @@ for ($i = 0;  ($i <= $lastHeardRows - 1); $i++) {
 			else { echo "<td class='noMob'><span style='color:$backgroundModeCellInactiveColor;font-weight:bold;'>$listElem[7]</span></td>"; }
 
 			// Colour the BER Field
+			if ($listElem[5] !== "RF" && $listElem[1] == "M17") { $listElem[8] = "---"; } // M17 only shoes BER on RF side...fill with "---" on Net side.
 			if (floatval($listElem[8]) == 0) { echo "<td>$listElem[8]</td>"; }
 			elseif (floatval($listElem[8]) >= 0.0 && floatval($listElem[8]) <= 1.9) { echo "<td><span style='color:$backgroundModeCellActiveColor;font-weight:bold'>$listElem[8]</span></td>"; }
 			elseif (floatval($listElem[8]) >= 2.0 && floatval($listElem[8]) <= 4.9) { echo "<td><span style='color:$backgroundModeCellPausedColor;font-weight:bold'>$listElem[8]</span></td>"; }
