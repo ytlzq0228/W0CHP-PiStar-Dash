@@ -1915,6 +1915,13 @@ function tgLookup($mode, $target) {
 	} else { // nothing found in any mode - return TG # only
 	    $target = $target;
 	}
+    } else if (strpos($mode, 'DMR') !== false && substr( $target, 0, 1 ) === "6" && $_SESSION['DMRGatewayConfigs']['XLX Network']['Enabled'] == "1") { // XLX exception   
+        $XLXref = "XLX-".$_SESSION['DMRGatewayConfigs']['XLX Network']['Startup'];
+        if (strpos($_SERVER["PHP_SELF"], 'lh.php') || strpos($_SERVER["PHP_SELF"], 'localtx.php') !== false) {
+            $target = "TG $target <span style='float:right;' class='noMob'>($XLXref)</span>";
+        } else {
+            $target = "TG $target <span class='noMob'>($XLXref)</span>";
+        }
     } else {  // ID is <= 2 digits; no lookups - return TG # only
 	$modeArray = array('DMR', 'NXDN', 'P25');
 	if (strpos($mode, $modeArray[0]) !== false) {
