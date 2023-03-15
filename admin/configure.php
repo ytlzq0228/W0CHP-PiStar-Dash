@@ -595,8 +595,10 @@ if ( (file_exists('/etc/dstar-radio.mmdvmhost') && $configmmdvm['DMR']['Enable']
 }
 ?>
 <?php
+// warn to backup configs, only if this is not a new installation.
 $config_dir = "/etc/WPSD_config_mgr";
-if (!is_dir($config_dir) || count(glob("$config_dir/*")) < 1) {
+if (!is_dir($config_dir) || count(glob("$config_dir/*")) < 1) { // no saved configs
+    if (file_exists('/etc/dstar-radio.mmdvmhost') || file_exists('/etc/dstar-radio.dstarrepeater')) { // NOT a new installaion
 ?>
 <div>
   <table align="center"style="margin: 0px 0px 10px 0px; width: 100%;border-collapse:collapse; table-layout:fixed;white-space: normal!important;">
@@ -606,7 +608,10 @@ if (!is_dir($config_dir) || count(glob("$config_dir/*")) < 1) {
     </tr>
   </table>
 </div>
-<?php } ?>
+<?php
+    }
+}
+?>
 <?php
 $bmAPIkeyFile = '/etc/bmapi.key';
 if (file_exists($bmAPIkeyFile) && fopen($bmAPIkeyFile,'r')) {
