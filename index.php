@@ -844,9 +844,8 @@ if(empty($_POST['func'])) {
 	<div class="footer">
 	   <?php 
 		echo 'Pi-Star / Pi-Star Dashboard, &copy; Andy Taylor (MW0MWZ) 2014-'.date("Y").'<br />'."\n";
-		echo '<a href="https://w0chp.net/w0chp-pistar-dash/" style="color: #ffffff; text-decoration:underline;">W0CHP-PiStar-Dash</a> enhancements by W0CHP';
+		echo '<a href="https://w0chp.net/w0chp-pistar-dash/" style="color: #ffffff; text-decoration:underline;">W0CHP-PiStar-Dash</a> by W0CHP';
 	   ?>
-	  <br />USA Callsign/Name Lookups Provided by <a href="https://callook.info/" style="color: #ffffff; text-decoration:underline;">Callook.Info</a>
 	</div>
 	
 	</div>

@@ -82,7 +82,7 @@ if ($_SERVER["PHP_SELF"] == "/admin/advanced/ssh_access.php") {
   <?php if (isset($shellPort)) { echo "<p><a href=\"//".$_SERVER['HTTP_HOST'].":".$shellPort."\" style=\"text-decoration:underline;color:inherit;\">Click here for full-screen SSH client</a></p>\n"; } ?>
   <div class="footer">
   Pi-Star web config, &copy; Andy Taylor (MW0MWZ) 2014-<?php echo date("Y"); ?>.<br />
-  <a href="https://w0chp.net/w0chp-pistar-dash/" style="color: #ffffff; text-decoration:underline;">W0CHP-PiStar-Dash</a> enhancements by W0CHP
+  <a href="https://w0chp.net/w0chp-pistar-dash/" style="color: #ffffff; text-decoration:underline;">W0CHP-PiStar-Dash</a> by W0CHP
   <br />
   </div>
   </body>
